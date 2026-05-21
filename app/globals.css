@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-paper: #ffffff;
+  --color-cream: #faf8f5;
+  --color-rule: #e7e5e2;
+  --color-rule-strong: #c8c6c2;
+  --color-mute: #6b6b6b;
+  --color-mute-light: #9c9a96;
+  --color-red: #cc0000;
+  --color-red-deep: #a30000;
+  --color-red-tint: #fff5f2;
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    background: var(--color-red);
+    color: var(--color-paper);
+  }
+
+  /* subtle paper grain on the body */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+  }
+
+  main, header, footer {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); font-feature-settings: "ss01", "ss02"; }
+  .font-sans    { font-family: var(--font-sans); }
+  .font-mono    { font-family: var(--font-mono); }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+
+  .hairline-b { border-bottom: 1px solid var(--color-rule); }
+  .hairline-t { border-top: 1px solid var(--color-rule); }
+
+  /* Hero entrance — single page-load stagger */
+  .stagger > * { opacity: 0; transform: translateY(8px); animation: rise 600ms cubic-bezier(.2,.7,.2,1) forwards; }
+  .stagger > *:nth-child(1) { animation-delay: 40ms; }
+  .stagger > *:nth-child(2) { animation-delay: 120ms; }
+  .stagger > *:nth-child(3) { animation-delay: 200ms; }
+  .stagger > *:nth-child(4) { animation-delay: 280ms; }
+  .stagger > *:nth-child(5) { animation-delay: 360ms; }
+  .stagger > *:nth-child(6) { animation-delay: 440ms; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Animated underline for nav + body links */
+  .link-underline {
+    background-image: linear-gradient(var(--color-red), var(--color-red));
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    transition: background-size 220ms cubic-bezier(.2,.7,.2,1), color 180ms;
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+    color: var(--color-red);
+  }
+  .link-underline-active {
+    background-size: 100% 1px;
+    color: var(--color-ink);
+  }
+}

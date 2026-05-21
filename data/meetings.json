@@ -1,0 +1,62 @@
+[
+  {
+    "id": "m-2026-05-22",
+    "date": "2026-05-22T16:00:00-04:00",
+    "presenter": "Edward Feng",
+    "topic": "Flamingo: a visual language model for few-shot learning",
+    "paperUrl": "https://arxiv.org/abs/2204.14198",
+    "location": "EB-II 1230",
+    "zoomUrl": "",
+    "parentGroup": "ai",
+    "subgroupSlug": "vision-language-models"
+  },
+  {
+    "id": "m-2026-06-05",
+    "date": "2026-06-05T16:00:00-04:00",
+    "presenter": "Hadi Kanawati",
+    "topic": "MoveIt 2 architecture deep-dive + arm planning demo",
+    "location": "EB-II 1230",
+    "zoomUrl": "",
+    "parentGroup": "mechatronics",
+    "subgroupSlug": "robotic-arm-6dof"
+  },
+  {
+    "id": "m-2026-06-19",
+    "date": "2026-06-19T16:00:00-04:00",
+    "presenter": "Disha Athani",
+    "topic": "Constitutional AI and RLHF — what's actually inside Claude / GPT alignment",
+    "location": "EB-II 1230",
+    "zoomUrl": "",
+    "parentGroup": "ai",
+    "subgroupSlug": "llms-transformers"
+  },
+  {
+    "id": "m-2026-05-08",
+    "date": "2026-05-08T16:00:00-04:00",
+    "presenter": "Samarth Shah",
+    "topic": "Attention Is All You Need — re-reading after 8 years",
+    "paperUrl": "https://arxiv.org/abs/1706.03762",
+    "location": "EB-II 1230",
+    "parentGroup": "ai",
+    "subgroupSlug": "llms-transformers"
+  },
+  {
+    "id": "m-2026-04-24",
+    "date": "2026-04-24T16:00:00-04:00",
+    "presenter": "Moaad Benkaraache",
+    "topic": "Beamforming fundamentals and a 4-element ULA demo",
+    "location": "EB-II 1230",
+    "parentGroup": "mechatronics",
+    "subgroupSlug": "antenna-arrays"
+  },
+  {
+    "id": "m-2026-04-10",
+    "date": "2026-04-10T16:00:00-04:00",
+    "presenter": "Vaishvi Patel",
+    "topic": "CLIP and what changed in vision-language pretraining",
+    "paperUrl": "https://arxiv.org/abs/2103.00020",
+    "location": "EB-II 1230",
+    "parentGroup": "ai",
+    "subgroupSlug": "vision-language-models"
+  }
+]

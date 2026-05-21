@@ -1,0 +1,113 @@
+[
+  {
+    "slug": "llms-transformers",
+    "parentGroup": "ai",
+    "name": "Large Language Models / Transformers",
+    "description": "Decoder-only and encoder-decoder transformers, pretraining and fine-tuning techniques, agentic systems, and reading the foundational papers behind modern LLMs.",
+    "discordChannel": "#ai-llms",
+    "projects": [
+      { "name": "LLM evaluation harness", "blurb": "Lightweight benchmark runner for comparing local checkpoints on reasoning tasks." },
+      { "name": "Paper digest bot", "blurb": "Weekly summary of arXiv cs.CL highlights, posted to Discord." }
+    ]
+  },
+  {
+    "slug": "vision-language-models",
+    "parentGroup": "ai",
+    "name": "Vision Language Models",
+    "description": "Multimodal encoders, contrastive learning, VQA, and grounding language in images and video.",
+    "discordChannel": "#ai-vlms",
+    "projects": [
+      { "name": "Lab-VQA demo", "blurb": "Ask questions about images from the mechatronics lab in natural language." }
+    ]
+  },
+  {
+    "slug": "cnc",
+    "parentGroup": "mechatronics",
+    "name": "CNC",
+    "description": "Tool-path generation, machining tolerances, and producing precision parts for the rest of the lab.",
+    "discordChannel": "#mech-cnc",
+    "projects": [
+      { "name": "Aluminum mounting plates", "blurb": "Standard mounts for the Robotic Arm and Drone subgroups." }
+    ]
+  },
+  {
+    "slug": "space-mouse",
+    "parentGroup": "mechatronics",
+    "name": "Space Mouse",
+    "description": "6-DoF input device design — magnetic sensing, mechanical compliance, and host-side driver work.",
+    "discordChannel": "#mech-spacemouse",
+    "projects": [
+      { "name": "Prototype v2", "blurb": "Hall-effect sensor array with USB-HID firmware." }
+    ]
+  },
+  {
+    "slug": "rc-car",
+    "parentGroup": "mechatronics",
+    "name": "RC Car",
+    "description": "1/10-scale autonomous platform for testing perception and controls on a small, safe vehicle.",
+    "discordChannel": "#mech-rccar",
+    "projects": [
+      { "name": "F1Tenth lap timing", "blurb": "Closed-loop time-trial runs in the lab hallway." }
+    ]
+  },
+  {
+    "slug": "drone",
+    "parentGroup": "mechatronics",
+    "name": "Drone",
+    "description": "Quadrotor build-up, PX4/ArduPilot tuning, and indoor navigation experiments.",
+    "discordChannel": "#mech-drone",
+    "projects": [
+      { "name": "Indoor waypoint flight", "blurb": "Vicon-aided autonomous flight in the netted enclosure." }
+    ]
+  },
+  {
+    "slug": "hoverboard",
+    "parentGroup": "mechatronics",
+    "name": "Self-balancing Hoverboard",
+    "description": "Two-wheel inverted-pendulum platform — IMU sensor fusion, motor drivers, and balance controllers.",
+    "discordChannel": "#mech-hoverboard",
+    "projects": [
+      { "name": "LQR stand-up", "blurb": "Tuning state-feedback controller for stable upright balance." }
+    ]
+  },
+  {
+    "slug": "go-kart",
+    "parentGroup": "mechatronics",
+    "name": "Go-Kart",
+    "description": "Drive-by-wire conversion of a recreational kart for autonomous-driving experiments at higher speeds.",
+    "discordChannel": "#mech-gokart",
+    "projects": [
+      { "name": "Steering actuator", "blurb": "Designing the steer-by-wire assembly and CAN bus electronics." }
+    ]
+  },
+  {
+    "slug": "robotic-arm-6dof",
+    "parentGroup": "mechatronics",
+    "name": "Robotic Arm 6DoF",
+    "description": "Six-degree-of-freedom manipulator — kinematics, motion planning, and gripper design.",
+    "discordChannel": "#mech-arm",
+    "projects": [
+      { "name": "Pick and place demo", "blurb": "ROS 2 + MoveIt pipeline for sorting small objects on a table." }
+    ]
+  },
+  {
+    "slug": "antenna-arrays",
+    "parentGroup": "mechatronics",
+    "name": "Antenna Arrays for Obstacle Detection",
+    "description": "RF beamforming and array signal processing as an alternative to lidar for short-range obstacle sensing.",
+    "discordChannel": "#mech-antennas",
+    "projects": [
+      { "name": "MUSIC angle-of-arrival", "blurb": "Lab-bench DoA estimation with a 4-element ULA." }
+    ]
+  },
+  {
+    "slug": "localization",
+    "parentGroup": "mechatronics",
+    "name": "Localization",
+    "description": "Indoor positioning from multiple laser and radio beams — sensor fusion, calibration, and live tracking.",
+    "discordChannel": "#mech-localization",
+    "projects": [
+      { "name": "UWB anchor grid", "blurb": "Eight-anchor ultra-wideband setup in the lab for centimeter-accuracy tracking." }
+    ]
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "id": "r-001",
+    "title": "Attention Is All You Need",
+    "type": "Paper",
+    "url": "https://arxiv.org/abs/1706.03762",
+    "description": "The transformer paper. Start here before anything else in the LLMs subgroup.",
+    "tags": ["foundational", "transformer", "attention"],
+    "recommendedBy": "Samarth Shah",
+    "dateAdded": "2026-02-14",
+    "subgroupSlug": "llms-transformers",
+    "beginnerFriendly": true
+  },
+  {
+    "id": "r-002",
+    "title": "GPT-4 Technical Report",
+    "type": "Paper",
+    "url": "https://arxiv.org/abs/2303.08774",
+    "description": "OpenAI's writeup on scaling, capabilities, and limitations of GPT-4.",
+    "tags": ["LLM", "scaling", "evaluation"],
+    "recommendedBy": "Rishitha Ramesh",
+    "dateAdded": "2026-03-02",
+    "subgroupSlug": "llms-transformers"
+  },
+  {
+    "id": "r-003",
+    "title": "CLIP: Learning Transferable Visual Models",
+    "type": "Paper",
+    "url": "https://arxiv.org/abs/2103.00020",
+    "description": "Contrastive vision-language pretraining. The starting point for modern VLMs.",
+    "tags": ["VLM", "contrastive", "pretraining"],
+    "recommendedBy": "Vaishvi Patel",
+    "dateAdded": "2026-02-21",
+    "subgroupSlug": "vision-language-models",
+    "beginnerFriendly": true
+  },
+  {
+    "id": "r-004",
+    "title": "Flamingo: A Visual Language Model for Few-Shot Learning",
+    "type": "Paper",
+    "url": "https://arxiv.org/abs/2204.14198",
+    "description": "DeepMind's perceiver-resampler approach to multimodal in-context learning.",
+    "tags": ["VLM", "few-shot", "multimodal"],
+    "recommendedBy": "Edward Feng",
+    "dateAdded": "2026-03-15",
+    "subgroupSlug": "vision-language-models"
+  },
+  {
+    "id": "r-005",
+    "title": "FreeCAD CNC tutorial series",
+    "type": "Video",
+    "url": "https://wiki.freecad.org/Path_Workbench",
+    "description": "End-to-end intro to generating G-code from CAD using the Path workbench.",
+    "tags": ["CAD", "G-code", "tutorial"],
+    "recommendedBy": "Arturo Serdan",
+    "dateAdded": "2026-01-30",
+    "subgroupSlug": "cnc",
+    "beginnerFriendly": true
+  },
+  {
+    "id": "r-006",
+    "title": "F1TENTH Autonomous Racing Course",
+    "type": "Tutorial",
+    "url": "https://f1tenth.org/learn.html",
+    "description": "Free university course on perception, planning, and control for 1/10-scale racecars.",
+    "tags": ["autonomous-driving", "ROS 2", "course"],
+    "recommendedBy": "Saicharan Valisekkagari",
+    "dateAdded": "2026-03-08",
+    "subgroupSlug": "rc-car",
+    "beginnerFriendly": true
+  },
+  {
+    "id": "r-007",
+    "title": "PX4 User Guide",
+    "type": "Tutorial",
+    "url": "https://docs.px4.io/",
+    "description": "Reference manual for PX4 autopilot — setup, tuning, and SITL.",
+    "tags": ["PX4", "flight-controller", "reference"],
+    "recommendedBy": "David Madein",
+    "dateAdded": "2026-02-05",
+    "subgroupSlug": "drone"
+  },
+  {
+    "id": "r-008",
+    "title": "MoveIt 2 tutorials",
+    "type": "Tutorial",
+    "url": "https://moveit.picknik.ai/main/index.html",
+    "description": "Motion planning, kinematics, and execution for ROS 2 manipulators.",
+    "tags": ["ROS 2", "manipulation", "planning"],
+    "recommendedBy": "Hadi Kanawati",
+    "dateAdded": "2026-02-18",
+    "subgroupSlug": "robotic-arm-6dof",
+    "beginnerFriendly": true
+  },
+  {
+    "id": "r-009",
+    "title": "DW1000 IEEE 802.15.4-2011 UWB module",
+    "type": "Dataset",
+    "url": "https://www.qorvo.com/products/p/DW1000",
+    "description": "Datasheet for the UWB transceiver used in our anchor grid.",
+    "tags": ["UWB", "hardware", "datasheet"],
+    "recommendedBy": "Keta Suthar",
+    "dateAdded": "2026-03-21",
+    "subgroupSlug": "localization"
+  },
+  {
+    "id": "r-010",
+    "title": "Optimum Array Processing (Van Trees)",
+    "type": "Paper",
+    "url": "https://onlinelibrary.wiley.com/doi/book/10.1002/0471221104",
+    "description": "Standard text on beamforming and DoA estimation — chapters 8–10 are the priority.",
+    "tags": ["beamforming", "DoA", "textbook"],
+    "recommendedBy": "Moaad Benkaraache",
+    "dateAdded": "2026-04-04",
+    "subgroupSlug": "antenna-arrays"
+  },
+  {
+    "id": "r-011",
+    "title": "Modern Robotics (Lynch & Park)",
+    "type": "Tutorial",
+    "url": "http://hades.mech.northwestern.edu/index.php/Modern_Robotics",
+    "description": "Free textbook + Coursera specialization. The standard introduction to kinematics, dynamics, and motion planning.",
+    "tags": ["textbook", "kinematics", "course"],
+    "recommendedBy": "Praneetha Koppala",
+    "dateAdded": "2026-01-12",
+    "subgroupSlug": "robotic-arm-6dof",
+    "beginnerFriendly": true
+  },
+  {
+    "id": "r-012",
+    "title": "Space-mouse open-hardware repo",
+    "type": "Project",
+    "url": "https://github.com/AndunHH/spacemouse",
+    "description": "Reference implementation of a Hall-effect 6-DoF controller — schematics, firmware, and prints.",
+    "tags": ["open-hardware", "USB-HID", "Hall-effect"],
+    "recommendedBy": "Supraj Gijre",
+    "dateAdded": "2026-04-12",
+    "subgroupSlug": "space-mouse"
+  },
+  {
+    "id": "r-013",
+    "title": "LQR for inverted pendulum (MIT 6.832 notes)",
+    "type": "Paper",
+    "url": "https://underactuated.mit.edu/lqr.html",
+    "description": "Linear-quadratic regulator derivation worked through on the canonical balance problem.",
+    "tags": ["controls", "LQR", "notes"],
+    "recommendedBy": "Narasimhareddy Irala",
+    "dateAdded": "2026-04-18",
+    "subgroupSlug": "hoverboard"
+  },
+  {
+    "id": "r-014",
+    "title": "Autoware / Tier IV driving stack",
+    "type": "Project",
+    "url": "https://github.com/autowarefoundation/autoware",
+    "description": "Open-source full-stack autonomous-driving software, useful as a reference for the Go-Kart project.",
+    "tags": ["autonomous-driving", "ROS 2", "stack"],
+    "recommendedBy": "Emmanuel Ojo",
+    "dateAdded": "2026-04-25",
+    "subgroupSlug": "go-kart"
+  }
+]

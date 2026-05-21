@@ -1,0 +1,81 @@
+export type GroupSlug = "ai" | "mechatronics";
+
+export interface Lab {
+  name: string;
+  shortName: string;
+  mission: string;
+  institution: string;
+  meetingCadence: string;
+  discordInviteUrl: string;
+  calendarEmbedUrl: string;
+  formUrls: {
+    join: string;
+    contact: string;
+  };
+}
+
+export interface Group {
+  slug: GroupSlug;
+  name: string;
+  shortName: string;
+  description: string;
+}
+
+export interface Subgroup {
+  slug: string;
+  parentGroup: GroupSlug;
+  name: string;
+  description: string;
+  discordChannel: string;
+  projects: { name: string; blurb: string }[];
+}
+
+export interface Member {
+  slug: string;
+  name: string;
+  groups: GroupSlug[];
+  subgroups: string[];
+  interests: string[];
+  links?: {
+    website?: string;
+    linkedin?: string;
+    github?: string;
+  };
+  isAdmin?: boolean;
+  adminRole?: string;
+}
+
+export type ResourceType = "Paper" | "Video" | "Project" | "Tutorial" | "Dataset";
+
+export interface Resource {
+  id: string;
+  title: string;
+  type: ResourceType;
+  url: string;
+  description: string;
+  tags: string[];
+  recommendedBy: string;
+  dateAdded: string;
+  subgroupSlug: string;
+  beginnerFriendly?: boolean;
+}
+
+export interface Meeting {
+  id: string;
+  date: string;
+  presenter: string;
+  topic: string;
+  paperUrl?: string;
+  location: string;
+  zoomUrl?: string;
+  parentGroup: GroupSlug;
+  subgroupSlug?: string;
+  slidesUrl?: string;
+  recordingUrl?: string;
+}
+
+export interface Admin {
+  memberSlug: string;
+  role: string;
+  discordHandle?: string;
+}

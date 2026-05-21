@@ -1,0 +1,150 @@
+[
+  {
+    "slug": "samarth-shah",
+    "name": "Samarth Shah",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["llms-transformers", "robotic-arm-6dof"],
+    "interests": ["LLMs", "ROS 2", "Manipulation"],
+    "isAdmin": true,
+    "adminRole": "Lab coordinator"
+  },
+  {
+    "slug": "vaishvi-patel",
+    "name": "Vaishvi Patel",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["vision-language-models", "drone"],
+    "interests": ["VLMs", "Perception", "Flight controls"],
+    "isAdmin": true,
+    "adminRole": "Programs & onboarding"
+  },
+  {
+    "slug": "praneetha-koppala",
+    "name": "Praneetha Koppala",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["vision-language-models", "antenna-arrays"],
+    "interests": ["Multimodal models", "RF / DSP"],
+    "isAdmin": true,
+    "adminRole": "Resources & curation"
+  },
+  {
+    "slug": "edward-feng",
+    "name": "Edward Feng",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["vision-language-models", "localization"],
+    "interests": ["VLMs", "UWB", "Sensor fusion"],
+    "isAdmin": true,
+    "adminRole": "Schedule & meetings"
+  },
+  {
+    "slug": "archit-kulkarni",
+    "name": "Archit Kulkarni",
+    "groups": ["ai"],
+    "subgroups": ["llms-transformers"],
+    "interests": ["LLMs", "Pretraining"]
+  },
+  {
+    "slug": "atharva-waingankar",
+    "name": "Atharva Waingankar",
+    "groups": ["ai"],
+    "subgroups": ["vision-language-models"],
+    "interests": ["VLMs", "Computer vision"]
+  },
+  {
+    "slug": "rishitha-ramesh",
+    "name": "Rishitha Ramesh",
+    "groups": ["ai"],
+    "subgroups": ["llms-transformers"],
+    "interests": ["Transformers", "Reasoning"]
+  },
+  {
+    "slug": "sandhiya-shunmugavel",
+    "name": "Sandhiya Shunmugavel",
+    "groups": ["ai"],
+    "subgroups": ["vision-language-models"],
+    "interests": ["VLMs", "Datasets"]
+  },
+  {
+    "slug": "disha-athani",
+    "name": "Disha Athani",
+    "groups": ["ai"],
+    "subgroups": ["llms-transformers"],
+    "interests": ["LLMs", "Fine-tuning"]
+  },
+  {
+    "slug": "sai-manvija-cherukuri",
+    "name": "Sai Manvija Cherukuri",
+    "groups": ["ai"],
+    "subgroups": ["vision-language-models"],
+    "interests": ["VLMs", "Grounding"]
+  },
+  {
+    "slug": "david-madein",
+    "name": "David Madein",
+    "groups": ["mechatronics"],
+    "subgroups": ["drone"],
+    "interests": ["Flight controllers", "PX4"]
+  },
+  {
+    "slug": "hadi-kanawati",
+    "name": "Hadi Kanawati",
+    "groups": ["mechatronics"],
+    "subgroups": ["robotic-arm-6dof"],
+    "interests": ["Kinematics", "MoveIt"]
+  },
+  {
+    "slug": "arturo-serdan",
+    "name": "Arturo Serdan",
+    "groups": ["mechatronics"],
+    "subgroups": ["cnc"],
+    "interests": ["CNC", "Fusion 360"]
+  },
+  {
+    "slug": "emmanuel-ojo",
+    "name": "Emmanuel Ojo",
+    "groups": ["mechatronics"],
+    "subgroups": ["go-kart"],
+    "interests": ["Drive-by-wire", "CAN"]
+  },
+  {
+    "slug": "keta-suthar",
+    "name": "Keta Suthar",
+    "groups": ["mechatronics"],
+    "subgroups": ["localization"],
+    "interests": ["Localization", "Kalman filtering"]
+  },
+  {
+    "slug": "moaad-benkaraache",
+    "name": "Moaad Benkaraache",
+    "groups": ["mechatronics"],
+    "subgroups": ["antenna-arrays"],
+    "interests": ["RF", "Beamforming"]
+  },
+  {
+    "slug": "saicharan-valisekkagari",
+    "name": "Saicharan Valisekkagari",
+    "groups": ["mechatronics"],
+    "subgroups": ["rc-car"],
+    "interests": ["F1Tenth", "ROS 2"]
+  },
+  {
+    "slug": "narasimhareddy-irala",
+    "name": "Narasimhareddy Irala",
+    "groups": ["mechatronics"],
+    "subgroups": ["hoverboard"],
+    "interests": ["Balance control", "Embedded"]
+  },
+  {
+    "slug": "rakshita-woodi",
+    "name": "Rakshita Woodi",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["llms-transformers", "rc-car"],
+    "interests": ["LLMs", "Autonomous driving"]
+  },
+  {
+    "slug": "supraj-gijre",
+    "name": "Supraj Gijre",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["llms-transformers", "space-mouse"],
+    "interests": ["NLP", "HID design"]
+  }
+]

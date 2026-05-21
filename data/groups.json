@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "ai",
+    "name": "AI Group",
+    "shortName": "AI",
+    "description": "Reading group and projects spanning language models, transformers, and vision-language systems."
+  },
+  {
+    "slug": "mechatronics",
+    "name": "Mechatronics Group",
+    "shortName": "Mechatronics",
+    "description": "Hands-on robotics — controls, CAD, embedded, perception, and locomotion across nine active subgroups."
+  }
+]

@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Robotics Lab — Site Webflow</title>
+<style>
+  :root, body {
+    /* dark (default) */
+    --bg-page:   #0d1117;
+    --bg-card:   #161b22;
+    --bg-svg:    #0d1117;
+    --text:      #e6edf3;
+    --text-dim:  #8b949e;
+    --border:    #30363d;
+    --edge:      #6e7681;
+    --dashed:    #d2a8ff;
+    --home-bg:   #3d2c14; --home-st:   #d4a017;
+    --nav-bg:    #0e2a47; --nav-st:    #58a6ff;
+    --ai-bg:     #2d1b4e; --ai-st:     #bc8cff;
+    --mech-bg:   #3d1d0e; --mech-st:   #ff8a65;
+    --acc-bg:    #0e3d3a; --acc-st:    #56d4cc;
+    --admin-bg:  #21262d; --admin-st:  #8b949e;
+    --res-bg:    #0f3d1c; --res-st:    #56d364;
+    --btn-bg:    #21262d; --btn-bg-hov:#30363d;
+  }
+  body[data-theme="light"] {
+    --bg-page:   #f6f7f9;
+    --bg-card:   #ffffff;
+    --bg-svg:    #ffffff;
+    --text:      #1a1a1a;
+    --text-dim:  #666666;
+    --border:    #e3e5e8;
+    --edge:      #8c8c8c;
+    --dashed:    #722ed1;
+    --home-bg:   #fff7e6; --home-st:   #d48806;
+    --nav-bg:    #e6f4ff; --nav-st:    #1677ff;
+    --ai-bg:     #f4e8ff; --ai-st:     #722ed1;
+    --mech-bg:   #fff1e6; --mech-st:   #d4380d;
+    --acc-bg:    #e6fffb; --acc-st:    #08979c;
+    --admin-bg:  #f0f0f0; --admin-st:  #595959;
+    --res-bg:    #f6ffed; --res-st:    #389e0d;
+    --btn-bg:    #f0f0f0; --btn-bg-hov:#e0e0e0;
+  }
+
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         background: var(--bg-page); color: var(--text); transition: background-color .2s, color .2s; }
+  header { padding: 18px 32px; background: var(--bg-card); border-bottom: 1px solid var(--border);
+           display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  header h1 { margin: 0; font-size: 20px; font-weight: 600; color: var(--text); }
+  header p { margin: 4px 0 0; color: var(--text-dim); font-size: 13px; }
+  #theme-toggle {
+    background: var(--btn-bg); color: var(--text); border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+  }
+  #theme-toggle:hover { background: var(--btn-bg-hov); }
+
+  .legend-row { display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 32px;
+                background: var(--bg-card); border-bottom: 1px solid var(--border);
+                font-size: 12px; color: var(--text); }
+  .chip { display: inline-flex; align-items: center; gap: 8px; }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid; }
+  .sw-home { background: var(--home-bg); border-color: var(--home-st); }
+  .sw-nav  { background: var(--nav-bg);  border-color: var(--nav-st); }
+  .sw-ai   { background: var(--ai-bg);   border-color: var(--ai-st); }
+  .sw-mech { background: var(--mech-bg); border-color: var(--mech-st); }
+  .sw-acc  { background: var(--acc-bg);  border-color: var(--acc-st); }
+  .sw-admin{ background: var(--admin-bg);border-color: var(--admin-st); }
+  .sw-res  { background: var(--res-bg);  border-color: var(--res-st); }
+  .edge-key{ display: inline-flex; align-items: center; gap: 6px; color: var(--text-dim); }
+  .edge-key::before { content: ""; width: 26px; height: 0; border-top: 1.5px solid var(--edge); }
+  .edge-key.dashed::before { border-top-style: dashed; border-color: var(--dashed); }
+
+  .wrap { padding: 24px; overflow-x: auto; background: var(--bg-page); }
+  svg { display: block; background: var(--bg-svg); border: 1px solid var(--border); border-radius: 8px;
+        transition: background-color .2s; }
+
+  .node rect    { stroke-width: 1.5; }
+  .node text    { font-size: 13px; font-weight: 500; fill: var(--text); pointer-events: none; }
+  .node .sub    { font-size: 11px; font-weight: 400; fill: var(--text-dim); }
+  .home rect    { fill: var(--home-bg);  stroke: var(--home-st); }
+  .nav rect     { fill: var(--nav-bg);   stroke: var(--nav-st); }
+  .ai rect      { fill: var(--ai-bg);    stroke: var(--ai-st); }
+  .mech rect    { fill: var(--mech-bg);  stroke: var(--mech-st); }
+  .account rect { fill: var(--acc-bg);   stroke: var(--acc-st); }
+  .admin rect   { fill: var(--admin-bg); stroke: var(--admin-st); }
+  .resource rect{ fill: var(--res-bg);   stroke: var(--res-st); }
+
+  .edge        { stroke: var(--edge);   stroke-width: 1.2; fill: none; }
+  .edge-dashed { stroke: var(--dashed); stroke-dasharray: 5 4; stroke-width: 1.4; fill: none;
+                 stroke-linejoin: round; stroke-linecap: round; }
+  #arrow path        { fill: var(--edge); }
+  #arrow-dashed path { fill: var(--dashed); }
+
+  .note    { fill: var(--dashed); }
+  .caption { fill: var(--text-dim); }
+  .panel rect { fill: var(--bg-card); stroke: var(--border); }
+  .panel .label { fill: var(--text); }
+  .panel .body  { fill: var(--text-dim); }
+  .notes-title  { fill: var(--text); }
+  .notes-body   { fill: var(--text-dim); }
+  .notes-key    { fill: var(--text); font-weight: 600; }
+</style>
+</head>
+<body data-theme="dark">
+
+<header>
+  <div>
+    <h1>Robotics Lab — Website Webflow</h1>
+    <p>Draft sitemap. Boxes = pages/sections. Solid = navigation. Dashed = cross-page action.</p>
+  </div>
+  <button id="theme-toggle" type="button">Light theme</button>
+</header>
+
+<div class="legend-row">
+  <span class="chip"><span class="swatch sw-home"></span>Home / landing</span>
+  <span class="chip"><span class="swatch sw-nav"></span>Top-level page</span>
+  <span class="chip"><span class="swatch sw-ai"></span>AI section</span>
+  <span class="chip"><span class="swatch sw-mech"></span>Mechatronics section</span>
+  <span class="chip"><span class="swatch sw-acc"></span>Member / account</span>
+  <span class="chip"><span class="swatch sw-res"></span>Resources</span>
+  <span class="chip"><span class="swatch sw-admin"></span>Admin / contact</span>
+  <span class="edge-key">navigation</span>
+  <span class="edge-key dashed">cross-page action</span>
+</div>
+
+<div class="wrap">
+<svg viewBox="0 0 1780 1320" width="1780" height="1320" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z"/>
+    </marker>
+    <marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z"/>
+    </marker>
+  </defs>
+
+  <!-- HOME -->
+  <g class="node home">
+    <rect x="800" y="30" width="200" height="64" rx="10"/>
+    <text x="900" y="58" text-anchor="middle">Home</text>
+    <text x="900" y="78" text-anchor="middle" class="sub">Mission · Next meeting · CTAs</text>
+  </g>
+
+  <!-- TIER 1
+       column centers: 170 (Members), 455 (Groups), 750 (Resources),
+                       1020 (Schedule), 1290 (Join), 1560 (Contact) -->
+  <g class="node nav">
+    <rect x="60"   y="170" width="220" height="54" rx="6"/><text x="170"  y="202" text-anchor="middle">Members</text>
+    <rect x="345"  y="170" width="220" height="54" rx="6"/><text x="455"  y="202" text-anchor="middle">Groups / Subgroups</text>
+    <rect x="640"  y="170" width="220" height="54" rx="6"/><text x="750"  y="202" text-anchor="middle">Resources</text>
+    <rect x="910"  y="170" width="220" height="54" rx="6"/><text x="1020" y="202" text-anchor="middle">Schedule</text>
+    <rect x="1180" y="170" width="220" height="54" rx="6"/><text x="1290" y="202" text-anchor="middle">Join / Manage</text>
+    <rect x="1450" y="170" width="220" height="54" rx="6"/><text x="1560" y="202" text-anchor="middle">Contact / Admins</text>
+  </g>
+
+  <!-- Home -> tier 1 -->
+  <path class="edge" d="M 830 94  Q 170 130, 170 168" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 855 94  Q 455 130, 455 168" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 880 94  Q 750 130, 750 168" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 920 94  Q 1020 130, 1020 168" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 945 94  Q 1290 130, 1290 168" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 970 94  Q 1560 130, 1560 168" marker-end="url(#arrow)"/>
+
+  <!-- MEMBERS column (center 170) -->
+  <g class="node ai">
+    <rect x="60" y="270" width="220" height="52" rx="6"/>
+    <text x="170" y="292" text-anchor="middle">AI Group members</text>
+    <text x="170" y="310" text-anchor="middle" class="sub">name · email* · links · interests</text>
+  </g>
+  <g class="node mech">
+    <rect x="60" y="338" width="220" height="52" rx="6"/>
+    <text x="170" y="360" text-anchor="middle">Mechatronics members</text>
+    <text x="170" y="378" text-anchor="middle" class="sub">name · email* · links · interests</text>
+  </g>
+  <g class="node account">
+    <rect x="60" y="406" width="220" height="52" rx="6"/>
+    <text x="170" y="428" text-anchor="middle">Members in both groups</text>
+    <text x="170" y="446" text-anchor="middle" class="sub">cross-listed, not duplicated</text>
+  </g>
+  <text x="170" y="478" text-anchor="middle" font-size="11" class="caption">*emails internal only by default</text>
+
+  <path class="edge" d="M 170 224 L 170 270" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 170 322 L 170 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 170 390 L 170 406" marker-end="url(#arrow)"/>
+
+  <!-- GROUPS column (center 455, WIDE: x 310..600, w 290) -->
+  <g class="node ai">
+    <rect x="310" y="270" width="290" height="52" rx="6"/>
+    <text x="455" y="292" text-anchor="middle">AI Group</text>
+    <text x="455" y="310" text-anchor="middle" class="sub">overview · members · papers</text>
+  </g>
+  <!-- AI subgroups: 2 wide chips, 140 each + 10 gap = 290 -->
+  <g class="node ai">
+    <rect x="310" y="338" width="140" height="36" rx="5"/>
+    <text x="380" y="360" text-anchor="middle" font-size="11">LLMs / Transformers</text>
+    <rect x="460" y="338" width="140" height="36" rx="5"/>
+    <text x="530" y="360" text-anchor="middle" font-size="11">Vision-Language</text>
+  </g>
+
+  <g class="node mech">
+    <rect x="310" y="400" width="290" height="52" rx="6"/>
+    <text x="455" y="422" text-anchor="middle">Mechatronics Group</text>
+    <text x="455" y="440" text-anchor="middle" class="sub">overview · members · projects</text>
+  </g>
+  <!-- Mech subgroups: 2-col grid, 140 wide each -->
+  <g class="node mech">
+    <rect x="310" y="468" width="140" height="34" rx="5"/><text x="380" y="489" text-anchor="middle" font-size="11">CNC</text>
+    <rect x="460" y="468" width="140" height="34" rx="5"/><text x="530" y="489" text-anchor="middle" font-size="11">Space Mouse</text>
+    <rect x="310" y="508" width="140" height="34" rx="5"/><text x="380" y="529" text-anchor="middle" font-size="11">RC Car</text>
+    <rect x="460" y="508" width="140" height="34" rx="5"/><text x="530" y="529" text-anchor="middle" font-size="11">Drone</text>
+    <rect x="310" y="548" width="140" height="34" rx="5"/><text x="380" y="569" text-anchor="middle" font-size="11">Hoverboard</text>
+    <rect x="460" y="548" width="140" height="34" rx="5"/><text x="530" y="569" text-anchor="middle" font-size="11">Go-Kart</text>
+    <rect x="310" y="588" width="140" height="34" rx="5"/><text x="380" y="609" text-anchor="middle" font-size="11">Robotic Arm 6DoF</text>
+    <rect x="460" y="588" width="140" height="34" rx="5"/><text x="530" y="609" text-anchor="middle" font-size="11">Antenna Arrays</text>
+    <rect x="310" y="628" width="290" height="34" rx="5"/><text x="455" y="649" text-anchor="middle" font-size="11">Localization (laser / radio)</text>
+  </g>
+
+  <text x="455" y="684" text-anchor="middle" font-size="11" class="caption">Each subgroup page: description · members · papers · projects · Discord · join</text>
+
+  <path class="edge" d="M 455 224 L 455 270" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 420 322 L 380 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 490 322 L 530 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 455 374 L 455 400" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 420 452 L 380 468" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 490 452 L 530 468" marker-end="url(#arrow)"/>
+
+  <!-- RESOURCES column (center 750) -->
+  <g class="node resource">
+    <rect x="640" y="270" width="220" height="52" rx="6"/>
+    <text x="750" y="292" text-anchor="middle">Resources library</text>
+    <text x="750" y="310" text-anchor="middle" class="sub">papers · videos · projects · datasets</text>
+  </g>
+  <g class="node ai">
+    <rect x="640" y="338" width="220" height="34" rx="5"/>
+    <text x="750" y="359" text-anchor="middle" font-size="12">AI resources</text>
+  </g>
+  <!-- AI sub-resources: stacked vertically so full labels fit at the column width -->
+  <g class="node ai">
+    <rect x="640" y="378" width="220" height="32" rx="5"/>
+    <text x="750" y="398" text-anchor="middle" font-size="11">LLMs / Transformers</text>
+    <rect x="640" y="414" width="220" height="32" rx="5"/>
+    <text x="750" y="434" text-anchor="middle" font-size="11">Vision-Language</text>
+  </g>
+  <g class="node mech">
+    <rect x="640" y="454" width="220" height="34" rx="5"/>
+    <text x="750" y="475" text-anchor="middle" font-size="12">Mechatronics resources</text>
+  </g>
+  <g class="node mech">
+    <rect x="640" y="494" width="105" height="32" rx="5"/><text x="692" y="514" text-anchor="middle" font-size="11">CNC</text>
+    <rect x="755" y="494" width="105" height="32" rx="5"/><text x="807" y="514" text-anchor="middle" font-size="11">Drone</text>
+    <rect x="640" y="534" width="105" height="32" rx="5"/><text x="692" y="554" text-anchor="middle" font-size="11">RC Car</text>
+    <rect x="755" y="534" width="105" height="32" rx="5"/><text x="807" y="554" text-anchor="middle" font-size="11">Robotic Arm</text>
+    <rect x="640" y="574" width="105" height="32" rx="5"/><text x="692" y="594" text-anchor="middle" font-size="11">Localization</text>
+    <rect x="755" y="574" width="105" height="32" rx="5"/><text x="807" y="594" text-anchor="middle" font-size="11">…</text>
+  </g>
+  <g class="node resource">
+    <rect x="640" y="618" width="220" height="48" rx="5"/>
+    <text x="750" y="638" text-anchor="middle" font-size="12">Resource card</text>
+    <text x="750" y="656" text-anchor="middle" class="sub">title · type · link · tags · recommender</text>
+  </g>
+  <g class="node resource">
+    <rect x="665" y="680" width="170" height="32" rx="5"/>
+    <text x="750" y="700" text-anchor="middle" font-size="11">"Beginner friendly" filter</text>
+  </g>
+
+  <path class="edge" d="M 750 224 L 750 270" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 750 322 L 750 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 750 372 L 750 378" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 750 446 L 750 454" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 750 488 L 750 618" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 750 666 L 750 680" marker-end="url(#arrow)"/>
+
+  <!-- SCHEDULE column (center 1020) -->
+  <g class="node nav">
+    <rect x="910" y="270" width="220" height="52" rx="6"/>
+    <text x="1020" y="292" text-anchor="middle">Upcoming meetings</text>
+    <text x="1020" y="310" text-anchor="middle" class="sub">Fridays 4pm · biweekly</text>
+  </g>
+  <g class="node nav">
+    <rect x="910" y="338" width="220" height="42" rx="5"/>
+    <text x="1020" y="364" text-anchor="middle" font-size="12">Paper presentation slot</text>
+  </g>
+  <g class="node nav">
+    <rect x="910" y="396" width="220" height="42" rx="5"/>
+    <text x="1020" y="422" text-anchor="middle" font-size="12">Embedded Google Calendar</text>
+  </g>
+  <g class="node nav">
+    <rect x="910" y="454" width="220" height="42" rx="5"/>
+    <text x="1020" y="480" text-anchor="middle" font-size="12">Past meetings archive</text>
+  </g>
+  <g class="node nav">
+    <rect x="910" y="512" width="220" height="42" rx="5"/>
+    <text x="1020" y="538" text-anchor="middle" font-size="12">Zoom / Discord link</text>
+  </g>
+
+  <path class="edge" d="M 1020 224 L 1020 270" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1020 322 L 1020 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1020 380 L 1020 396" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1020 438 L 1020 454" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1020 496 L 1020 512" marker-end="url(#arrow)"/>
+
+  <!-- JOIN / MANAGE column (center 1290) -->
+  <g class="node account">
+    <rect x="1180" y="270" width="220" height="52" rx="6"/>
+    <text x="1290" y="292" text-anchor="middle">Join / Manage prefs</text>
+    <text x="1290" y="310" text-anchor="middle" class="sub">MVP: Google Form → sheet</text>
+  </g>
+  <g class="node account">
+    <rect x="1180" y="338" width="220" height="36" rx="5"/><text x="1290" y="360" text-anchor="middle" font-size="12">Subscribe to mailing list</text>
+    <rect x="1180" y="380" width="220" height="36" rx="5"/><text x="1290" y="402" text-anchor="middle" font-size="12">Unsubscribe</text>
+    <rect x="1180" y="422" width="220" height="36" rx="5"/><text x="1290" y="444" text-anchor="middle" font-size="12">Join AI / Mech / both</text>
+    <rect x="1180" y="464" width="220" height="36" rx="5"/><text x="1290" y="486" text-anchor="middle" font-size="12">Join any subgroup</text>
+    <rect x="1180" y="506" width="220" height="36" rx="5"/><text x="1290" y="528" text-anchor="middle" font-size="12">Switch groups</text>
+    <rect x="1180" y="548" width="220" height="36" rx="5"/><text x="1290" y="570" text-anchor="middle" font-size="12">Update interests</text>
+    <rect x="1180" y="590" width="220" height="36" rx="5"/><text x="1290" y="612" text-anchor="middle" font-size="12">Request Discord access</text>
+  </g>
+  <g class="node account">
+    <rect x="1180" y="644" width="220" height="48" rx="5"/>
+    <text x="1290" y="664" text-anchor="middle" font-size="12">Future: Supabase auth</text>
+    <text x="1290" y="682" text-anchor="middle" class="sub">profile page · self-serve</text>
+  </g>
+
+  <path class="edge" d="M 1290 224 L 1290 270" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1290 322 L 1290 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1290 626 L 1290 644" marker-end="url(#arrow)"/>
+
+  <!-- CONTACT column (center 1560) -->
+  <g class="node admin">
+    <rect x="1450" y="270" width="220" height="52" rx="6"/>
+    <text x="1560" y="292" text-anchor="middle">Contact / Admins</text>
+    <text x="1560" y="310" text-anchor="middle" class="sub">routing hub</text>
+  </g>
+  <g class="node admin">
+    <rect x="1450" y="338" width="220" height="36" rx="5"/><text x="1560" y="360" text-anchor="middle" font-size="12">Contact form</text>
+    <rect x="1450" y="380" width="220" height="36" rx="5"/><text x="1560" y="402" text-anchor="middle" font-size="12">Admin emails</text>
+    <rect x="1450" y="422" width="220" height="36" rx="5"/><text x="1560" y="444" text-anchor="middle" font-size="12">Discord admin contacts</text>
+  </g>
+  <text x="1560" y="482" text-anchor="middle" font-size="11" class="caption">Form categories</text>
+  <g class="node admin">
+    <rect x="1450" y="496" width="220" height="32" rx="5"/><text x="1560" y="516" text-anchor="middle" font-size="11">Join the group</text>
+    <rect x="1450" y="532" width="220" height="32" rx="5"/><text x="1560" y="552" text-anchor="middle" font-size="11">Update group / subgroup</text>
+    <rect x="1450" y="568" width="220" height="32" rx="5"/><text x="1560" y="588" text-anchor="middle" font-size="11">Submit a resource</text>
+    <rect x="1450" y="604" width="220" height="32" rx="5"/><text x="1560" y="624" text-anchor="middle" font-size="11">Submit a project</text>
+    <rect x="1450" y="640" width="220" height="32" rx="5"/><text x="1560" y="660" text-anchor="middle" font-size="11">Ask an admin</text>
+    <rect x="1450" y="676" width="220" height="32" rx="5"/><text x="1560" y="696" text-anchor="middle" font-size="11">Report website issue</text>
+  </g>
+
+  <path class="edge" d="M 1560 224 L 1560 270" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1560 322 L 1560 338" marker-end="url(#arrow)"/>
+  <path class="edge" d="M 1560 458 L 1560 496" marker-end="url(#arrow)"/>
+
+  <!-- CROSS-PAGE ACTIONS — orthogonal routing through bus channel at y=720..780,
+       running in the gaps between columns so they never cross box content. -->
+
+  <!-- 1. Any subgroup "Join" button -> Join/Manage page (Join any subgroup) -->
+  <path class="edge-dashed"
+        d="M 600 525 L 620 525 L 620 730 L 1165 730 L 1165 482 L 1178 482"
+        marker-end="url(#arrow-dashed)"/>
+  <text x="892" y="722" font-size="10.5" text-anchor="middle" class="note">
+    Subgroup "Join" → Join/Manage
+  </text>
+
+  <!-- 2. "Submit a resource" button -> Contact form (Submit a resource category) -->
+  <path class="edge-dashed"
+        d="M 860 642 L 885 642 L 885 760 L 1435 760 L 1435 584 L 1448 584"
+        marker-end="url(#arrow-dashed)"/>
+  <text x="1160" y="752" font-size="10.5" text-anchor="middle" class="note">
+    "Submit a resource" → Contact
+  </text>
+
+  <!-- USER FLOWS PANEL -->
+  <g class="panel" transform="translate(60, 800)">
+    <rect x="0" y="0" width="1660" height="170" rx="8"/>
+    <text x="20" y="30" font-size="14" font-weight="600" class="label">Primary user flows</text>
+
+    <text x="20"  y="62" font-size="12" font-weight="600" class="label">New visitor:</text>
+    <text x="140" y="62" font-size="12" class="body">Home → Groups → (read subgroup) → Join/Manage → submit form → admin review → Discord invite</text>
+
+    <text x="20"  y="90" font-size="12" font-weight="600" class="label">Existing member:</text>
+    <text x="140" y="90" font-size="12" class="body">Home → Schedule (next meeting) · or · Resources (find paper) · or · Join/Manage (switch subgroup)</text>
+
+    <text x="20"  y="118" font-size="12" font-weight="600" class="label">Contributor:</text>
+    <text x="140" y="118" font-size="12" class="body">Home → Resources → "Submit a resource" → Contact form → admin approves → resource appears in library</text>
+
+    <text x="20"  y="146" font-size="12" font-weight="600" class="label">Admin:</text>
+    <text x="140" y="146" font-size="12" class="body">Contact inbox → form responses sheet → mailing list / Discord roles · Schedule edits via Google Calendar</text>
+  </g>
+
+  <!-- PAGE NOTES -->
+  <g transform="translate(60, 1000)">
+    <text font-size="14" font-weight="600" class="notes-title">Notes per page</text>
+    <text y="28"  font-size="12" class="notes-body">•  <tspan class="notes-key">Home:</tspan>  lab name, one-line mission, two tracks, next-meeting card, Join CTA, Discord CTA, Contact CTA.</text>
+    <text y="52"  font-size="12" class="notes-body">•  <tspan class="notes-key">Members:</tspan>  three buckets (AI, Mech, Both). Each person appears once with both tags — do not duplicate.</text>
+    <text y="76"  font-size="12" class="notes-body">•  <tspan class="notes-key">Groups:</tspan>  two top groups, each expanding to its subgroups. Subgroup page = description · members · papers · projects · Discord · join button.</text>
+    <text y="100" font-size="12" class="notes-body">•  <tspan class="notes-key">Resources:</tspan>  mirrors group taxonomy. Card schema: title · type · link · description · tags · recommended-by · date · "beginner friendly" flag.</text>
+    <text y="124" font-size="12" class="notes-body">•  <tspan class="notes-key">Schedule:</tspan>  embed Google Calendar for MVP. Show next meeting + presenter + topic. Archive past meetings.</text>
+    <text y="148" font-size="12" class="notes-body">•  <tspan class="notes-key">Join/Manage:</tspan>  MVP = Google Form → spreadsheet. Design UI as if logged-in self-serve exists; back it with a form for now.</text>
+    <text y="172" font-size="12" class="notes-body">•  <tspan class="notes-key">Contact:</tspan>  single form with category dropdown that routes to the right admin queue.</text>
+  </g>
+
+</svg>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('theme-toggle');
+    var body = document.body;
+    var stored = localStorage.getItem('webflow-theme');
+    if (stored === 'light' || stored === 'dark') body.setAttribute('data-theme', stored);
+    function sync() {
+      btn.textContent = body.getAttribute('data-theme') === 'light' ? 'Dark theme' : 'Light theme';
+    }
+    sync();
+    btn.addEventListener('click', function () {
+      var next = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      body.setAttribute('data-theme', next);
+      localStorage.setItem('webflow-theme', next);
+      sync();
+    });
+  })();
+</script>
+
+</body>
+</html>
