@@ -13,10 +13,14 @@ Goal: clean, professor-ready site, shareable in days.
 
 **Features**
 - AI + Mechatronics member directories (cross-listed for dual-group members), with interest tags on each card
+- Member cards show: name, email (mailto link), photo (or initials fallback), interests, links, status tag (Graduated / High School)
 - Subgroup pages: description · members · current projects (basic list) · resources · Discord link
 - Resources organized by interest area (mirrors the Groups taxonomy 1:1 — one section per subgroup)
 - Home: next-meeting card + Discord invite + Join / Contact CTAs
-- Meeting schedule via Google Calendar embed
+- Schedule page: § 01 Google Calendar embed · § 02 Upcoming meetings from JSON (visible before calendar is live) · § 03 Past meetings archive
+- Join page: unsubscribe quick-action banner at the top; Google Form for all membership actions
+- Contact page: admin name, role, email (clickable mailto), Discord handle
+- Mobile hamburger nav — all six nav links in a slide-down menu on small screens
 - Google Form / Airtable for: mailing list subscribe-unsubscribe, AI/Mech/subgroup join, contact admins
 
 **Tech**

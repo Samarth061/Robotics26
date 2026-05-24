@@ -1,13 +1,14 @@
 import { PageHeader } from "@/components/PageHeader";
 import { FormEmbed } from "@/components/FormEmbed";
 import { Tag } from "@/components/Tag";
+import { Button } from "@/components/Button";
 import { lab } from "@/lib/data";
 
 export const metadata = { title: "Join / Manage" };
 
 const ACTIONS = [
   "Subscribe to the mailing list",
-  "Unsubscribe",
+  "Unsubscribe from the mailing list",
   "Join AI · Mechatronics · or both",
   "Join any subgroup",
   "Switch groups",
@@ -32,6 +33,25 @@ export default function JoinPage() {
       />
 
       <div className="mx-auto max-w-[1240px] px-6 md:px-10 py-12 md:py-16">
+        {/* ── Unsubscribe callout ── */}
+        <div className="mb-12 p-5 border border-rule-strong bg-cream flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
+              Quick action
+            </p>
+            <p className="mt-1 font-display text-[18px] tracking-tight">
+              Unsubscribe from the mailing list
+            </p>
+            <p className="mt-1 text-[13.5px] text-mute leading-relaxed">
+              Use the form below and select &ldquo;Unsubscribe from the mailing list&rdquo; — or email an admin directly from the{" "}
+              <a href="/contact" className="link-underline">Contact page</a>.
+            </p>
+          </div>
+          <div className="shrink-0">
+            <Button href="/contact" variant="outline">Email an admin →</Button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <aside className="lg:col-span-4">
             <p className="kicker">Use this form to…</p>
@@ -68,7 +88,7 @@ export default function JoinPage() {
               src={lab.formUrls.join}
               title="Lab join / manage form"
               fallbackTitle="Join form coming online."
-              fallbackBody="Once the Google Form is wired into data/lab.json (formUrls.join), the iframe replaces this card. For now, drop a note via the contact form."
+              fallbackBody="Once the Google Form is wired into data/lab.json (formUrls.join), the iframe replaces this card. For now, drop a note via the contact form or email an admin directly."
             />
           </div>
         </div>

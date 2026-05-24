@@ -50,7 +50,13 @@ export function resourcesForSubgroup(slug: string): Resource[] {
     .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
 }
 
-const NOW_ISO = "2026-05-21T12:00:00-04:00";
+// In production the cutoff tracks real time; in dev it stays fixed so test
+// data splits predictably. Remove the ternary once you no longer need the
+// dev override.
+const NOW_ISO =
+  process.env.NODE_ENV === "production"
+    ? new Date().toISOString()
+    : "2026-05-21T12:00:00-04:00";
 
 export function upcomingMeetings(): Meeting[] {
   const now = new Date(NOW_ISO).getTime();

@@ -27,7 +27,7 @@ export default function ContactPage() {
           <>
             One form with a category dropdown — your message lands in the right
             inbox. For things that need a same-day reply, ping the relevant
-            admin on Discord.
+            admin on Discord or email directly.
           </>
         }
       />
@@ -83,18 +83,26 @@ export default function ContactPage() {
               {admins.map(({ admin, member }) => (
                 <li
                   key={admin.memberSlug}
-                  className="grid grid-cols-[1fr_auto] gap-4 py-4 hairline-b items-baseline"
+                  className="py-4 hairline-b"
                 >
-                  <div>
+                  <div className="flex items-baseline justify-between gap-4">
                     <p className="font-display text-[20px] tracking-tight">
                       {member.name}
                     </p>
-                    <p className="mt-1 font-mono text-[11px] text-mute uppercase tracking-[0.1em]">
-                      {admin.role}
-                    </p>
+                    {admin.discordHandle ? (
+                      <Tag variant="default">{admin.discordHandle}</Tag>
+                    ) : null}
                   </div>
-                  {admin.discordHandle ? (
-                    <Tag variant="default">{admin.discordHandle}</Tag>
+                  <p className="mt-1 font-mono text-[11px] text-mute uppercase tracking-[0.1em]">
+                    {admin.role}
+                  </p>
+                  {admin.email ? (
+                    <a
+                      href={`mailto:${admin.email}`}
+                      className="mt-1.5 inline-block font-mono text-[11.5px] text-mute link-underline tracking-[0.02em]"
+                    >
+                      {admin.email}
+                    </a>
                   ) : null}
                 </li>
               ))}

@@ -33,6 +33,9 @@ export interface Subgroup {
 export interface Member {
   slug: string;
   name: string;
+  email?: string;
+  photo?: string;
+  status?: "active" | "graduated" | "high-school";
   groups: GroupSlug[];
   subgroups: string[];
   interests: string[];
@@ -77,5 +80,6 @@ export interface Meeting {
 export interface Admin {
   memberSlug: string;
   role: string;
+  email?: string;
   discordHandle?: string;
 }
