@@ -26,7 +26,7 @@ const jetBrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: `${lab.name} — Phase 1`,
+    default: lab.name,
     template: `%s · ${lab.shortName}`,
   },
   description: lab.mission,

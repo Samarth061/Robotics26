@@ -27,9 +27,9 @@ Three buckets:
 - Mechatronics Group
 - Members in both groups (cross-listed, **not duplicated**)
 
-Each card: name · picture placeholder · interest/subgroup tags · optional personal site, LinkedIn, GitHub.
+Each card: name · photo (or initials placeholder) · email (mailto link) · interest/subgroup tags · optional personal site, LinkedIn, GitHub · optional status tag (Graduated / High School).
 
-Email policy: keep emails internal-only by default. Public visitors go through the contact form.
+Email policy: emails are shown on member cards to make it easy to reach people. Emails are not collected from visitors — outbound contact goes through the contact form.
 
 ### Groups & Subgroups — what each group does
 Two top groups, each with subgroup pages.
@@ -59,10 +59,14 @@ Each resource card:
 ### Schedule — meetings and presentations
 **Embed Google Calendar.** Do not hand-roll an events system.
 
-Show:
-- Upcoming meetings (cadence: Friday 4:00 PM, biweekly)
-- Per meeting: presenter · paper/topic · group/subgroup · location or Zoom/Discord link
-- Archive of past meetings
+Three sections on the Schedule page:
+- **§ 01 Calendar** — Google Calendar embed (placeholder shown until URL is set in `data/lab.json`)
+- **§ 02 Upcoming meetings** — rendered from `data/meetings.json`; always visible even before the calendar is live
+- **§ 03 Past meetings archive** — rendered from `data/meetings.json`
+
+Per meeting row: date · presenter · paper/topic · subgroup · location or Zoom link
+
+Cadence: Friday 4:00 PM, biweekly.
 
 ### Join / Manage Preferences — actions
 One page, multiple actions:
@@ -71,6 +75,8 @@ One page, multiple actions:
 - Join any subgroup
 - Switch groups · update interests
 - Request Discord channel access
+
+A **"Unsubscribe from the mailing list" quick-action banner** sits at the top of the page so it is immediately visible without reading the form action list. It links directly to the Contact page for emailing an admin.
 
 **MVP:** back this with a Google Form or Airtable form. Responses → spreadsheet → admins review. Design the page as if member self-serve already exists.
 
@@ -83,7 +89,7 @@ Single contact form with a category dropdown:
 - Ask an admin question
 - Report a website issue
 
-Also list: admin emails · Discord admin handles.
+Also list: admin name · role · email (shown as clickable mailto link) · Discord handle.
 
 ---
 
@@ -110,8 +116,8 @@ Also list: admin emails · Discord admin handles.
 Internal lab portal, not a marketing site.
 
 - Clean · academic · functional · scannable
-- Minimal animations
+- Minimal animations (stagger on hero load, animated underlines on links)
 - Cards and tables where useful
-- Mobile friendly
+- Mobile friendly — hamburger nav on small screens (all six nav links in a slide-down menu)
 - Homepage routes people quickly — does not decorate
 - Search / filter on Members and Resources arrives in Phase 2; Phase 1 ships with simple grouped listings

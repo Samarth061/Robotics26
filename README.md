@@ -65,7 +65,7 @@ rb-page/
 │   ├── members/          Directory
 │   ├── groups/           Groups index + [slug] subgroup detail
 │   ├── resources/        Curated library
-│   ├── schedule/         Calendar embed + past meetings
+│   ├── schedule/         Calendar embed + upcoming + past meetings
 │   ├── join/             Form-backed Join / Manage
 │   ├── contact/          Form-backed Contact / Admins
 │   ├── layout.tsx        Header / Footer / fonts
@@ -86,13 +86,13 @@ rb-page/
 All site content lives in `data/*.json`. No code changes needed for routine updates.
 
 ### Add a member
-Append a record to `data/members.json`. Required fields: `slug` (kebab-case), `name`, `groups` (`["ai"]`, `["mechatronics"]`, or both), `subgroups` (slugs from `data/subgroups.json`), `interests`. Optional: `links.{website,linkedin,github}`, `isAdmin`, `adminRole`.
+Append a record to `data/members.json`. Required fields: `slug` (kebab-case), `name`, `groups` (`["ai"]`, `["mechatronics"]`, or both), `subgroups` (slugs from `data/subgroups.json`), `interests`. Optional: `email` (shown as a mailto link on the member card), `photo` (absolute URL — LinkedIn headshot, GitHub avatar, etc.; initials box shown when absent), `status` (`"graduated"` or `"high-school"` — renders a subtle tag), `links.{website,linkedin,github}`, `isAdmin`, `adminRole`.
 
 ### Add a resource
 Append to `data/resources.json`. Set `subgroupSlug` to a valid slug — it then auto-appears on `/resources` (subgroup-grouped, newest first) **and** on `/groups/[that-slug]`. Flip `beginnerFriendly: true` to render the red "Beginner" tag.
 
 ### Add or move a meeting
-`data/meetings.json`. The list auto-splits into "Upcoming" (Schedule page) and "Past meetings archive" based on a fixed "now" of `2026-05-21` set in `lib/data.ts` as `NOW_ISO`. **When the site goes live, replace `NOW_ISO` with `new Date()` in `lib/data.ts`** so the cutoff tracks real time.
+`data/meetings.json`. The list auto-splits into three Schedule page sections: § 01 Google Calendar embed · § 02 Upcoming (from JSON) · § 03 Past archive. The cutoff is controlled by `NOW_ISO` in `lib/data.ts`. **`NOW_ISO` is already environment-aware** — it uses `new Date()` automatically in production and keeps the fixed dev date locally. No manual edit needed before going live.
 
 ### Rename a subgroup
 Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `data/members.json` records). The `slug` is used in URLs (`/groups/<slug>`) — if you change a slug, prior links break, so prefer renaming the `name` only.
@@ -110,9 +110,9 @@ Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `
 | `formUrls.join`         | Google Form embed URL for the Join / Manage page      |
 | `formUrls.contact`      | Google Form embed URL for the multi-category Contact  |
 
-While any of these are empty, `FormEmbed` and `CalendarEmbed` render a styled placeholder card so the layout doesn't break. Swap in the URL and the iframe replaces the placeholder — no rebuild logic to change.
+While any of these are empty, `FormEmbed` and `CalendarEmbed` render a styled placeholder card so the layout doesn't break. Swap in the URL and the iframe replaces the placeholder — no rebuild or code change needed.
 
-Also: flip `NOW_ISO` in `lib/data.ts` to `new Date()` (see *Add or move a meeting* above).
+`NOW_ISO` in `lib/data.ts` is already environment-aware — no manual edit needed.
 
 ---
 
@@ -144,6 +144,7 @@ The site has four docs that describe what *should* exist: `phase.md`, `pages.md`
 | Website-vs-Discord split                      | `pages.md` "Core principle" + responsibility table                              |
 | Meeting cadence, mission, institution name    | `data/lab.json` and any restatement in `pages.md`                               |
 | New data field on Member / Resource / etc.    | `types/index.ts` + the matching component + a one-line note in `README.md` *Editing content* |
+| Mobile nav changes                            | `components/Header.tsx` + note in `README.md` if the pattern changes                        |
 
 Rule of thumb: **if you'd answer a question differently after your change than before, find the doc that gave the old answer and update it.**
 

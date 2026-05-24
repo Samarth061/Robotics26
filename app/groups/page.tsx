@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/PageHeader";
 import { SubgroupCard } from "@/components/SubgroupCard";
-import { groups, subgroupsByGroup } from "@/lib/data";
+import { groups, subgroupsByGroup, subgroups } from "@/lib/data";
 
 export const metadata = { title: "Groups & Subgroups" };
 
@@ -9,7 +9,7 @@ export default function GroupsPage() {
     <>
       <PageHeader
         eyebrow="N° 03 · Groups"
-        number={`${groups.length} tracks · 11 subgroups`}
+        number={`${groups.length} tracks · ${subgroups.length} subgroups`}
         title={<>What we're <span className="italic">working on</span>.</>}
         lead={
           <>

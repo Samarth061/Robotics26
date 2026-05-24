@@ -2,6 +2,7 @@
   {
     "slug": "samarth-shah",
     "name": "Samarth Shah",
+    "email": "sdshah5@ncsu.edu",
     "groups": ["ai", "mechatronics"],
     "subgroups": ["llms-transformers", "robotic-arm-6dof"],
     "interests": ["LLMs", "ROS 2", "Manipulation"],
@@ -11,6 +12,7 @@
   {
     "slug": "vaishvi-patel",
     "name": "Vaishvi Patel",
+    "email": "vpatel34@ncsu.edu",
     "groups": ["ai", "mechatronics"],
     "subgroups": ["vision-language-models", "drone"],
     "interests": ["VLMs", "Perception", "Flight controls"],
@@ -20,6 +22,7 @@
   {
     "slug": "praneetha-koppala",
     "name": "Praneetha Koppala",
+    "email": "pkoppal@ncsu.edu",
     "groups": ["ai", "mechatronics"],
     "subgroups": ["vision-language-models", "antenna-arrays"],
     "interests": ["Multimodal models", "RF / DSP"],
@@ -29,6 +32,7 @@
   {
     "slug": "edward-feng",
     "name": "Edward Feng",
+    "email": "sfeng9@ncsu.edu",
     "groups": ["ai", "mechatronics"],
     "subgroups": ["vision-language-models", "localization"],
     "interests": ["VLMs", "UWB", "Sensor fusion"],
@@ -38,13 +42,15 @@
   {
     "slug": "archit-kulkarni",
     "name": "Archit Kulkarni",
-    "groups": ["ai"],
-    "subgroups": ["llms-transformers"],
-    "interests": ["LLMs", "Pretraining"]
+    "email": "aakulka2@ncsu.edu",
+    "groups": ["mechatronics"],
+    "subgroups": ["cnc"],
+    "interests": ["CNC", "CAD", "Machining"]
   },
   {
     "slug": "atharva-waingankar",
     "name": "Atharva Waingankar",
+    "email": "awainga@ncsu.edu",
     "groups": ["ai"],
     "subgroups": ["vision-language-models"],
     "interests": ["VLMs", "Computer vision"]
@@ -52,6 +58,7 @@
   {
     "slug": "rishitha-ramesh",
     "name": "Rishitha Ramesh",
+    "email": "rsramesh@ncsu.edu",
     "groups": ["ai"],
     "subgroups": ["llms-transformers"],
     "interests": ["Transformers", "Reasoning"]
@@ -59,20 +66,23 @@
   {
     "slug": "sandhiya-shunmugavel",
     "name": "Sandhiya Shunmugavel",
-    "groups": ["ai"],
-    "subgroups": ["vision-language-models"],
-    "interests": ["VLMs", "Datasets"]
+    "email": "sshunmu2@ncsu.edu",
+    "groups": ["mechatronics"],
+    "subgroups": ["localization"],
+    "interests": ["Sensor fusion", "Localization"]
   },
   {
     "slug": "disha-athani",
     "name": "Disha Athani",
-    "groups": ["ai"],
-    "subgroups": ["llms-transformers"],
-    "interests": ["LLMs", "Fine-tuning"]
+    "email": "dathani@ncsu.edu",
+    "groups": ["ai", "mechatronics"],
+    "subgroups": ["llms-transformers", "rc-car"],
+    "interests": ["LLMs", "Fine-tuning", "Autonomous driving"]
   },
   {
     "slug": "sai-manvija-cherukuri",
     "name": "Sai Manvija Cherukuri",
+    "email": "scheruk5@ncsu.edu",
     "groups": ["ai"],
     "subgroups": ["vision-language-models"],
     "interests": ["VLMs", "Grounding"]
@@ -80,20 +90,23 @@
   {
     "slug": "david-madein",
     "name": "David Madein",
-    "groups": ["mechatronics"],
+    "email": "dtmadein@ncsu.edu",
+    "groups": ["ai", "mechatronics"],
     "subgroups": ["drone"],
     "interests": ["Flight controllers", "PX4"]
   },
   {
     "slug": "hadi-kanawati",
     "name": "Hadi Kanawati",
-    "groups": ["mechatronics"],
+    "email": "hkanawa@ncsu.edu",
+    "groups": ["ai", "mechatronics"],
     "subgroups": ["robotic-arm-6dof"],
     "interests": ["Kinematics", "MoveIt"]
   },
   {
     "slug": "arturo-serdan",
     "name": "Arturo Serdan",
+    "email": "aaserdan@ncsu.edu",
     "groups": ["mechatronics"],
     "subgroups": ["cnc"],
     "interests": ["CNC", "Fusion 360"]
@@ -101,13 +114,16 @@
   {
     "slug": "emmanuel-ojo",
     "name": "Emmanuel Ojo",
-    "groups": ["mechatronics"],
+    "email": "eoojo@ncsu.edu",
+    "groups": ["ai", "mechatronics"],
     "subgroups": ["go-kart"],
     "interests": ["Drive-by-wire", "CAN"]
   },
   {
     "slug": "keta-suthar",
     "name": "Keta Suthar",
+    "email": "ksuthar@ncsu.edu",
+    "status": "graduated",
     "groups": ["mechatronics"],
     "subgroups": ["localization"],
     "interests": ["Localization", "Kalman filtering"]
@@ -115,27 +131,32 @@
   {
     "slug": "moaad-benkaraache",
     "name": "Moaad Benkaraache",
-    "groups": ["mechatronics"],
+    "email": "mbenkar@ncsu.edu",
+    "groups": ["ai", "mechatronics"],
     "subgroups": ["antenna-arrays"],
     "interests": ["RF", "Beamforming"]
   },
   {
     "slug": "saicharan-valisekkagari",
     "name": "Saicharan Valisekkagari",
-    "groups": ["mechatronics"],
+    "email": "saicharanvalisekkagari@gmail.com",
+    "status": "high-school",
+    "groups": ["ai", "mechatronics"],
     "subgroups": ["rc-car"],
     "interests": ["F1Tenth", "ROS 2"]
   },
   {
     "slug": "narasimhareddy-irala",
     "name": "Narasimhareddy Irala",
-    "groups": ["mechatronics"],
+    "email": "nirala@ncsu.edu",
+    "groups": ["ai", "mechatronics"],
     "subgroups": ["hoverboard"],
     "interests": ["Balance control", "Embedded"]
   },
   {
     "slug": "rakshita-woodi",
     "name": "Rakshita Woodi",
+    "email": "rwoodi@ncsu.edu",
     "groups": ["ai", "mechatronics"],
     "subgroups": ["llms-transformers", "rc-car"],
     "interests": ["LLMs", "Autonomous driving"]
@@ -143,6 +164,7 @@
   {
     "slug": "supraj-gijre",
     "name": "Supraj Gijre",
+    "email": "sgijre@ncsu.edu",
     "groups": ["ai", "mechatronics"],
     "subgroups": ["llms-transformers", "space-mouse"],
     "interests": ["NLP", "HID design"]
