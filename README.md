@@ -20,7 +20,7 @@ If you only have time for one, read **`pages.md`**. It encodes the canonical nam
 ### The plan in one screen
 
 **Phase 1 — Static functional draft (this codebase).**
-Goal: shareable site in days, no backend. Pages: Home · Members · Groups & Subgroups · Resources · Schedule · Join / Manage · Contact. Data lives in `data/*.json`. Submissions are Google Forms; meetings are a Google Calendar embed. No auth, no admin dashboard, no search/filter.
+Goal: shareable site in days, no backend. Pages: Home · Members · Groups & Subgroups · Resources · Schedule · Join / Manage · Contact. Data lives in `data/*.json`. Submissions are Google Forms; meetings are a Google Calendar embed. No search/filter, no member-facing auth, no admin dashboard — with one narrow exception: a single password-gated admin tool, the group mailer at `/admin/email` (see `admin.md`).
 
 **Phase 2 — Active internal hub.**
 Adds: full Projects section with status / help-wanted cards, standalone resource submission form, paper presentation archive, beginner onboarding page, and search/filter across Members / Resources / Projects / Subgroups. Still no auth.
@@ -40,6 +40,7 @@ Adds: Supabase (Postgres + auth + storage), member profiles, admin dashboard, ma
 | The visual sitemap                    | `webflow.html`                   |
 | What field a JSON file expects        | `types/index.ts`                 |
 | The data accessors (used by every page) | `lib/data.ts`                  |
+| The admin area (auth, deploy, mailer) | `admin.md`                       |
 
 ---
 
@@ -54,26 +55,15 @@ npm start            # serve the built site (after npm run build)
 
 Requires Node 20+.
 
-### Admin area credentials
+### Admin area
 
-The gated `/admin/*` section (currently the professor group-mailer at `/admin/email`) is
-protected by HTTP Basic Auth in `proxy.ts` (Next.js 16's middleware convention). Copy
-`.env.example` to `.env.local` and set:
+There is a gated `/admin/*` section (currently the group mailer at `/admin/email`), protected
+by HTTP Basic Auth in `proxy.ts` and run from `ADMIN_USER` / `ADMIN_PASS` env vars. To use it
+locally, copy `.env.example` to `.env.local` and set those two values, then `npm run dev`.
 
-```
-ADMIN_USER=...
-ADMIN_PASS=...
-```
-
-If either is unset, `/admin/*` returns `503` (locked), never public. Because this needs
-middleware, the admin area requires running as a Node server (`next start` / Vercel) — it
-does not work under a static export.
-
-**Sending mechanism.** No mail is sent server-side. `lib/mailto.ts` (pure URL builders) and
-`components/ComposeLinks.tsx` (the Gmail / mail-app / copy buttons) are the shared compose
-primitives — they open a pre-filled draft in the sender's own client so the message comes
-from a real `@ncsu.edu` account. Any future mailer (e.g. mail-to-admins, wherever it lands)
-should reuse these rather than re-implement; pass it a recipient array.
+See **`admin.md`** for the full picture: the auth model, Vercel deploy steps, how the mailer
+resolves audiences, and the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx` compose
+layer that any future mailer should build on.
 
 ---
 
@@ -89,12 +79,17 @@ rb-page/
 │   ├── schedule/         Calendar embed + upcoming + past meetings
 │   ├── join/             Form-backed Join / Manage
 │   ├── contact/          Form-backed Contact / Admins
+│   ├── admin/email/      Gated group mailer (not in nav)
 │   ├── layout.tsx        Header / Footer / fonts
 │   └── globals.css       Tailwind + CSS variables (design tokens)
-├── components/           Header, Footer, PageHeader, cards, embeds
+├── components/           Header, Footer, PageHeader, cards, embeds, ComposeLinks
 ├── data/                 Single source of truth (JSON, edit by PR)
 ├── lib/data.ts           Typed accessors
+├── lib/mailto.ts         Compose-link builders (mailto / Gmail)
+├── proxy.ts              Basic Auth gate over /admin/*
 ├── types/index.ts        Member, Group, Subgroup, Resource, Meeting…
+├── .env.example          Admin credentials template (copy to .env.local)
+├── admin.md              Admin area: auth, deploy, mailer, compose layer
 ├── phase.md              Three-phase build plan
 ├── pages.md              Per-page spec + website/Discord split
 └── webflow.html          Visual sitemap (open in browser)
@@ -167,12 +162,15 @@ The site has four docs that describe what *should* exist: `phase.md`, `pages.md`
 | Meeting cadence, mission, institution name    | `data/lab.json` and any restatement in `pages.md`                               |
 | New data field on Member / Resource / etc.    | `types/index.ts` + the matching component + a one-line note in `README.md` *Editing content* |
 | Mobile nav changes                            | `components/Header.tsx` + note in `README.md` if the pattern changes                        |
+| Admin area: auth gate, env vars, compose layer | `admin.md` (+ the `README.md` pointer); reflect a new gated page in `webflow.html` |
 
 Rule of thumb: **if you'd answer a question differently after your change than before, find the doc that gave the old answer and update it.**
 
 ## Out of scope for Phase 1
 
-Auth · profile editing · admin dashboard · custom backend · search / filter UI · full Projects section with status cards · beginner onboarding page · paper presentation archive. Those are Phase 2 or Phase 3 — see `phase.md` and **resist building them now**, even if a member asks.
+Member-facing auth · profile editing · admin dashboard · custom backend · search / filter UI · full Projects section with status cards · beginner onboarding page · paper presentation archive. Those are Phase 2 or Phase 3 — see `phase.md` and **resist building them now**, even if a member asks.
+
+The one deliberate exception is the **gated group mailer** (`/admin/email`): a shared-password Basic Auth gate over a single admin tool, documented in `admin.md`. That is intentionally minimal — it is *not* the full per-user auth or admin dashboard, which remain out of scope.
 
 ---
 

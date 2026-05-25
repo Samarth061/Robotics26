@@ -2,6 +2,11 @@
 
 Three phases. Ship Phase 1 before starting Phase 2.
 
+> **Note (out of phase).** A narrow, password-gated admin email tool (`/admin/email`) was
+> added ahead of the original phase boundaries — Phase 2/3 are being redefined, so this does
+> not belong to a fixed phase yet. Its auth is intentionally minimal (a single shared password
+> via HTTP Basic Auth), distinct from the full per-user auth planned for Phase 3. See `admin.md`.
+
 ---
 
 ## Phase 1 — Static functional draft
@@ -29,7 +34,8 @@ Goal: clean, professor-ready site, shareable in days.
 - Google Forms or Airtable for all submissions
 
 **Out of scope**
-- Auth, admin dashboard, profile editing, custom mailing-list backend, chat
+- Member-facing auth, admin dashboard, profile editing, custom mailing-list backend, chat
+  (the lone exception is the shared-password gate over `/admin/email` — see the note above)
 
 ---
 

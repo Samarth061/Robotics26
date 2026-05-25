@@ -97,7 +97,8 @@ linked from the header. Lets the faculty lead pick an audience (entire org · a 
 single subgroup) and open a **pre-filled draft** in their own mail app or Gmail, recipients
 in Bcc. The site sends nothing itself; the message goes out from the sender's real `@ncsu.edu`
 account. Built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx` primitives, so
-any future mailer (e.g. mail-to-admins) can reuse the same compose buttons.
+any future mailer (e.g. mail-to-admins) can reuse the same compose buttons. Full details —
+auth model, deploy, security caveats — live in `admin.md`.
 
 ---
 

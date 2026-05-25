@@ -14,14 +14,17 @@ When the task touches structure, content, or design decisions, read these before
 2. **`phase.md`** — three-phase rollout. Tells you whether a feature belongs to Phase 1 (now), Phase 2 (later), or Phase 3 (much later).
 3. **`webflow.html`** — visual sitemap. Open in a browser to see how pages connect; has a light/dark toggle.
 4. **`README.md`** — how to run, where to drop real Google Form / Calendar URLs, repo layout.
+5. **`admin.md`** — only when the task touches the gated `/admin/*` area: the Basic Auth gate (`proxy.ts`), env vars, Vercel deploy, the group mailer, and the reusable compose layer.
 
-If the task is a one-line content edit (e.g. add a member), you can skip 2–4 and go straight to `data/*.json`.
+If the task is a one-line content edit (e.g. add a member), you can skip 2–5 and go straight to `data/*.json`.
 
 ## Current stage
 
 - **Phase 1 — shipped.** All 7 pages live, 20 routes statically generated, `npm run build` clean. Form / Calendar embeds render styled placeholders until URLs are filled into `data/lab.json`.
 - **Phase 2 — not started.** Adds the full Projects section with status / help-wanted, paper presentation archive, beginner onboarding page, search/filter across Members and Resources, standalone resource submission form.
 - **Phase 3 — not started.** Adds Supabase (auth + Postgres), member self-serve profile, admin dashboard, Discord role sync.
+
+- **Admin area (out of phase).** A gated group mailer lives at `/admin/email`, behind a shared-password Basic Auth gate (`proxy.ts`, `ADMIN_USER`/`ADMIN_PASS`). It is not linked in nav and is built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx` compose layer. This is a deliberate narrow exception to the "no auth in Phase 1" rule — full per-user auth and an admin dashboard remain unbuilt. See `admin.md`.
 
 Before building a new feature, check `phase.md` to confirm which phase it belongs to. Do not silently pull Phase 2/3 work into the codebase — flag it to the user and ask.
 
