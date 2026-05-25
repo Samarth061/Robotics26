@@ -4,6 +4,10 @@
   "mission": "Bridging artificial intelligence and mechatronics research through papers, projects, and biweekly meetings.",
   "institution": "NC State University · Raleigh, NC",
   "meetingCadence": "Fridays, 4:00 PM · biweekly",
+  "professor": {
+    "name": "Khaled Abdel Harfoush",
+    "email": "kaharfou@ncsu.edu"
+  },
   "discordInviteUrl": "",
   "calendarEmbedUrl": "",
   "formUrls": {

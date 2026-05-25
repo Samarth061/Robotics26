@@ -18,18 +18,19 @@ Goal: clean, professor-ready site, shareable in days.
 - Resources organized by interest area (mirrors the Groups taxonomy 1:1 — one section per subgroup)
 - Home: next-meeting card + Discord invite + Join / Contact CTAs
 - Schedule page: § 01 Google Calendar embed · § 02 Upcoming meetings from JSON (visible before calendar is live) · § 03 Past meetings archive
-- Join page: unsubscribe quick-action banner at the top; Google Form for all membership actions
+- Join page: mailing list subscribe/unsubscribe via a live `MailingListForm` — opens a pre-filled draft in the student's own email (To: professor, Bcc: admins); unsubscribe quick-action banner anchored at top of page
 - Contact page: admin name, role, email (clickable mailto), Discord handle
 - Mobile hamburger nav — all six nav links in a slide-down menu on small screens
-- Google Form / Airtable for: mailing list subscribe-unsubscribe, AI/Mech/subgroup join, contact admins
 
 **Tech**
 - Next.js + Tailwind
 - JSON files for member/group/resource data (no DB)
-- Google Forms or Airtable for all submissions
+- Mailing list: `mailto:` / Gmail compose links via `lib/mailto.ts` + `components/ComposeLinks.tsx` (shared with admin group-mailer)
+- `data/lab.json → professor.email` and `data/admins.json → email[]` drive the compose recipients — no hardcoded addresses in code
 
-**Out of scope**
-- Auth, admin dashboard, profile editing, custom mailing-list backend, chat
+**Out of scope for Phase 1**
+- Auth, admin dashboard, profile editing, server-side mail sending (Resend/SES), chat
+- Self-serve group/subgroup join (routed to Contact page for now — Phase 3)
 
 ---
 

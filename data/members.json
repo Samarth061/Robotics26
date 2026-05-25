@@ -168,5 +168,13 @@
     "groups": ["ai", "mechatronics"],
     "subgroups": ["llms-transformers", "space-mouse"],
     "interests": ["NLP", "HID design"]
+  },
+  {
+    "slug": "arnav-mejari",
+    "name": "Arnav Mejari",
+    "email": "amejari@ncsu.edu",
+    "groups": ["ai"],
+    "subgroups": [],
+    "interests": []
   }
 ]

@@ -69,16 +69,17 @@ Per meeting row: date · presenter · paper/topic · subgroup · location or Zoo
 Cadence: Friday 4:00 PM, biweekly.
 
 ### Join / Manage Preferences — actions
-One page, multiple actions:
-- Subscribe / unsubscribe to mailing list
-- Join AI / Mechatronics / both
-- Join any subgroup
-- Switch groups · update interests
-- Request Discord channel access
+Primary action: **mailing list subscribe / unsubscribe** via a live form.
 
-A **"Unsubscribe from the mailing list" quick-action banner** sits at the top of the page so it is immediately visible without reading the form action list. It links directly to the Contact page for emailing an admin.
+The form collects: action (Subscribe / Unsubscribe) · full name · email · group interest (for subscribe) · optional note. On submit, clicking "Open in Gmail" or "Open in mail app" opens a pre-filled draft in the student's own email client:
+- **To:** professor (`data/lab.json → professor.email`)
+- **Bcc:** all admins with an email in `data/admins.json`
 
-**MVP:** back this with a Google Form or Airtable form. Responses → spreadsheet → admins review. Design the page as if member self-serve already exists.
+The site never sends mail itself. The student reviews the pre-filled draft and hits Send from their own `@ncsu.edu` account.
+
+A **"Unsubscribe from the mailing list" quick-action banner** sits at the top of the page, anchored to the form, so it is immediately visible.
+
+Other membership actions (join a group, switch groups, request Discord access) are listed in the sidebar and route to the Contact page for now. Phase 3 replaces this with a self-serve profile.
 
 ### Contact / Admins — routing hub
 Single contact form with a category dropdown:

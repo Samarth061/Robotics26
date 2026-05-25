@@ -20,7 +20,7 @@ If you only have time for one, read **`pages.md`**. It encodes the canonical nam
 ### The plan in one screen
 
 **Phase 1 — Static functional draft (this codebase).**
-Goal: shareable site in days, no backend. Pages: Home · Members · Groups & Subgroups · Resources · Schedule · Join / Manage · Contact. Data lives in `data/*.json`. Submissions are Google Forms; meetings are a Google Calendar embed. No auth, no admin dashboard, no search/filter.
+Goal: shareable site in days, no backend. Pages: Home · Members · Groups & Subgroups · Resources · Schedule · Join / Manage · Contact. Data lives in `data/*.json`. Mailing list subscribe/unsubscribe uses a `mailto:` compose link (no third-party service — the sender's own email client sends). Meetings are a Google Calendar embed. No auth, no admin dashboard, no search/filter.
 
 **Phase 2 — Active internal hub.**
 Adds: full Projects section with status / help-wanted cards, standalone resource submission form, paper presentation archive, beginner onboarding page, and search/filter across Members / Resources / Projects / Subgroups. Still no auth.
@@ -71,8 +71,11 @@ rb-page/
 │   ├── layout.tsx        Header / Footer / fonts
 │   └── globals.css       Tailwind + CSS variables (design tokens)
 ├── components/           Header, Footer, PageHeader, cards, embeds
+│   ├── MailingListForm.tsx  Subscribe/unsubscribe form (student-side mailer)
+│   └── ComposeLinks.tsx    Shared mailto/Gmail compose buttons
 ├── data/                 Single source of truth (JSON, edit by PR)
 ├── lib/data.ts           Typed accessors
+├── lib/mailto.ts         Pure URL builders for mailto: and Gmail compose links
 ├── types/index.ts        Member, Group, Subgroup, Resource, Meeting…
 ├── phase.md              Three-phase build plan
 ├── pages.md              Per-page spec + website/Discord split
@@ -103,16 +106,27 @@ Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `
 
 `data/lab.json` is the only file you should need to touch:
 
-| field                   | what to put in                                        |
-| ----------------------- | ----------------------------------------------------- |
-| `discordInviteUrl`      | Permanent Discord invite (the "Discord →" button)     |
-| `calendarEmbedUrl`      | Google Calendar `embed` URL (Schedule page)           |
-| `formUrls.join`         | Google Form embed URL for the Join / Manage page      |
-| `formUrls.contact`      | Google Form embed URL for the multi-category Contact  |
+| field                   | what to put in                                             |
+| ----------------------- | ---------------------------------------------------------- |
+| `professor.email`       | Faculty lead email (pre-filled as To: in mailing requests) |
+| `discordInviteUrl`      | Permanent Discord invite (the "Discord →" button)          |
+| `calendarEmbedUrl`      | Google Calendar `embed` URL (Schedule page)                |
+| `formUrls.contact`      | Google Form embed URL for the multi-category Contact       |
 
-While any of these are empty, `FormEmbed` and `CalendarEmbed` render a styled placeholder card so the layout doesn't break. Swap in the URL and the iframe replaces the placeholder — no rebuild or code change needed.
+While `calendarEmbedUrl` or `formUrls.contact` are empty, `CalendarEmbed` / `FormEmbed` render a styled placeholder — no rebuild needed when you add the URL.
 
 `NOW_ISO` in `lib/data.ts` is already environment-aware — no manual edit needed.
+
+### Mailing list — how it works (student side)
+
+The Join page (`/join`) hosts a live subscribe/unsubscribe form. **The site never sends mail.** When a student submits:
+
+1. The page builds a pre-filled draft using `lib/mailto.ts`.
+2. Clicking **"Open in Gmail"** or **"Open in mail app"** opens the draft in the student's own email client.
+3. The draft is addressed `To: professor email` and `Bcc: all 4 admin emails` (from `data/admins.json`).
+4. The student reviews and hits Send — it arrives from their real `@ncsu.edu` address.
+
+Admin emails are read from `data/admins.json` automatically. To add or change recipients, update that file — no code changes needed.
 
 ---
 
@@ -145,6 +159,7 @@ The site has four docs that describe what *should* exist: `phase.md`, `pages.md`
 | Meeting cadence, mission, institution name    | `data/lab.json` and any restatement in `pages.md`                               |
 | New data field on Member / Resource / etc.    | `types/index.ts` + the matching component + a one-line note in `README.md` *Editing content* |
 | Mobile nav changes                            | `components/Header.tsx` + note in `README.md` if the pattern changes                        |
+| Mailing list recipients change               | `data/admins.json` (email field) and/or `data/lab.json` (professor.email) — no code change  |
 
 Rule of thumb: **if you'd answer a question differently after your change than before, find the doc that gave the old answer and update it.**
 
