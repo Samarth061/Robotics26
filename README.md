@@ -82,7 +82,9 @@ rb-page/
 │   ├── admin/email/      Gated group mailer (not in nav)
 │   ├── layout.tsx        Header / Footer / fonts
 │   └── globals.css       Tailwind + CSS variables (design tokens)
-├── components/           Header, Footer, PageHeader, cards, embeds, ComposeLinks
+├── components/           Header, Footer, PageHeader, cards, embeds
+│   ├── MailingListForm.tsx  Student-side subscribe/unsubscribe form
+│   └── ComposeLinks.tsx    Shared mailto/Gmail compose buttons (also used by /admin/email)
 ├── data/                 Single source of truth (JSON, edit by PR)
 ├── lib/data.ts           Typed accessors
 ├── lib/mailto.ts         Compose-link builders (mailto / Gmail)
@@ -123,13 +125,23 @@ Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `
 | ----------------------- | ----------------------------------------------------- |
 | `discordInviteUrl`      | Permanent Discord invite (the "Discord →" button)     |
 | `calendarEmbedUrl`      | Google Calendar `embed` URL (Schedule page)           |
-| `formUrls.join`         | Google Form embed URL for the Join / Manage page      |
 | `formUrls.contact`      | Google Form embed URL for the multi-category Contact  |
-| `professor.name` / `professor.email` | Faculty lead — used as the "From" for the `/admin/email` group-mailer |
+| `professor.name` / `professor.email` | Faculty lead — To: address on student mailing drafts and From: for `/admin/email` |
 
-While any of these are empty, `FormEmbed` and `CalendarEmbed` render a styled placeholder card so the layout doesn't break. Swap in the URL and the iframe replaces the placeholder — no rebuild or code change needed.
+While `calendarEmbedUrl` or `formUrls.contact` are empty, `CalendarEmbed` / `FormEmbed` render a styled placeholder — no rebuild needed when you add the URL. The Join page (`/join`) uses a live `mailto:` form — no URL needed there.
 
 `NOW_ISO` in `lib/data.ts` is already environment-aware — no manual edit needed.
+
+### Mailing list — how it works (student side)
+
+The Join page hosts a live subscribe/unsubscribe form. **The site never sends mail.** When a student submits:
+
+1. The page builds a pre-filled draft using `lib/mailto.ts`.
+2. Clicking **"Open in Gmail"** or **"Open in mail app"** opens the draft in the student’s own email client.
+3. The draft is addressed `To: professor email` and `Bcc: all 4 admin emails` (from `data/admins.json`).
+4. The student reviews and hits Send — it arrives from their real `@ncsu.edu` address.
+
+Admin emails are read from `data/admins.json` automatically. To add/change recipients, update that file — no code changes needed.
 
 ---
 
