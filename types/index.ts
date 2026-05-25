@@ -6,6 +6,10 @@ export interface Lab {
   mission: string;
   institution: string;
   meetingCadence: string;
+  professor: {
+    name: string;
+    email: string;
+  };
   discordInviteUrl: string;
   calendarEmbedUrl: string;
   formUrls: {

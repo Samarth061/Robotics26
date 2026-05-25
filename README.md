@@ -54,6 +54,27 @@ npm start            # serve the built site (after npm run build)
 
 Requires Node 20+.
 
+### Admin area credentials
+
+The gated `/admin/*` section (currently the professor group-mailer at `/admin/email`) is
+protected by HTTP Basic Auth in `proxy.ts` (Next.js 16's middleware convention). Copy
+`.env.example` to `.env.local` and set:
+
+```
+ADMIN_USER=...
+ADMIN_PASS=...
+```
+
+If either is unset, `/admin/*` returns `503` (locked), never public. Because this needs
+middleware, the admin area requires running as a Node server (`next start` / Vercel) — it
+does not work under a static export.
+
+**Sending mechanism.** No mail is sent server-side. `lib/mailto.ts` (pure URL builders) and
+`components/ComposeLinks.tsx` (the Gmail / mail-app / copy buttons) are the shared compose
+primitives — they open a pre-filled draft in the sender's own client so the message comes
+from a real `@ncsu.edu` account. Any future mailer (e.g. mail-to-admins, wherever it lands)
+should reuse these rather than re-implement; pass it a recipient array.
+
 ---
 
 ## Repo layout
@@ -109,6 +130,7 @@ Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `
 | `calendarEmbedUrl`      | Google Calendar `embed` URL (Schedule page)           |
 | `formUrls.join`         | Google Form embed URL for the Join / Manage page      |
 | `formUrls.contact`      | Google Form embed URL for the multi-category Contact  |
+| `professor.name` / `professor.email` | Faculty lead — used as the "From" for the `/admin/email` group-mailer |
 
 While any of these are empty, `FormEmbed` and `CalendarEmbed` render a styled placeholder card so the layout doesn't break. Swap in the URL and the iframe replaces the placeholder — no rebuild or code change needed.
 
