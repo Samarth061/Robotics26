@@ -2,6 +2,11 @@
 
 Three phases. Ship Phase 1 before starting Phase 2.
 
+> **Note (out of phase).** A narrow, password-gated admin email tool (`/admin/email`) was
+> added ahead of the original phase boundaries — Phase 2/3 are being redefined, so this does
+> not belong to a fixed phase yet. Its auth is intentionally minimal (a single shared password
+> via HTTP Basic Auth), distinct from the full per-user auth planned for Phase 3. See `admin.md`.
+
 ---
 
 ## Phase 1 — Static functional draft
@@ -18,18 +23,19 @@ Goal: clean, professor-ready site, shareable in days.
 - Resources organized by interest area (mirrors the Groups taxonomy 1:1 — one section per subgroup)
 - Home: next-meeting card + Discord invite + Join / Contact CTAs
 - Schedule page: § 01 Google Calendar embed · § 02 Upcoming meetings from JSON (visible before calendar is live) · § 03 Past meetings archive
-- Join page: unsubscribe quick-action banner at the top; Google Form for all membership actions
+- Join page: mailing list subscribe/unsubscribe via a live `MailingListForm` — opens a pre-filled draft in the student's own email (To: professor, Bcc: admins); unsubscribe quick-action banner at top
 - Contact page: admin name, role, email (clickable mailto), Discord handle
 - Mobile hamburger nav — all six nav links in a slide-down menu on small screens
-- Google Form / Airtable for: mailing list subscribe-unsubscribe, AI/Mech/subgroup join, contact admins
 
 **Tech**
 - Next.js + Tailwind
 - JSON files for member/group/resource data (no DB)
-- Google Forms or Airtable for all submissions
+- Student mailing: `mailto:` / Gmail compose via `lib/mailto.ts` + `components/ComposeLinks.tsx` (same layer as `/admin/email`)
+- Recipients driven by `data/lab.json → professor.email` and `data/admins.json → email[]` — no hardcoded addresses in code
 
 **Out of scope**
-- Auth, admin dashboard, profile editing, custom mailing-list backend, chat
+- Member-facing auth, admin dashboard, profile editing, custom mailing-list backend, chat
+  (the lone exception is the shared-password gate over `/admin/email` — see the note above)
 
 ---
 
