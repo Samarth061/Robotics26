@@ -12,6 +12,7 @@
   "calendarEmbedUrl": "",
   "formUrls": {
     "join": "",
-    "contact": ""
+    "contact": "",
+    "submitResource": "https://docs.google.com/forms/d/e/1FAIpQLScz90aUH6383zAQchDTNfb-WKp1nfc69RQvFI_bkhQz-n-A1Q/viewform"
   }
 }

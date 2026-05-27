@@ -2,11 +2,14 @@ import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { ResourceCard } from "@/components/ResourceCard";
 import { Button } from "@/components/Button";
-import { groups, subgroupsByGroup, resourcesForSubgroup, resources } from "@/lib/data";
+import { lab, groups, subgroupsByGroup, resourcesForSubgroup, resourcesGeneral, resources } from "@/lib/data";
 
 export const metadata = { title: "Resources" };
 
 export default function ResourcesPage() {
+  const submitUrl = lab.formUrls.submitResource;
+  const submitHref = submitUrl || "/contact";
+  const general = resourcesGeneral();
   return (
     <>
       <PageHeader
@@ -27,8 +30,31 @@ export default function ResourcesPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-mute max-w-[60ch]">
             ⌬ Search and filtering arrives in Phase 2. For now, browse by subgroup.
           </p>
-          <Button href="/contact" variant="outline">Submit a resource →</Button>
+          <Button href={submitHref} variant="outline" external={Boolean(submitUrl)}>
+            Submit a resource →
+          </Button>
         </div>
+
+        {general.length > 0 && (
+          <section className="mb-20">
+            <div className="flex items-baseline justify-between gap-4 mb-8">
+              <div className="flex items-baseline gap-4">
+                <span className="kicker">General</span>
+                <h2 className="font-display text-[32px] md:text-[40px] leading-tight tracking-[-0.01em]">
+                  Lab-wide
+                </h2>
+              </div>
+              <span className="kicker">
+                {general.length} {general.length === 1 ? "entry" : "entries"}
+              </span>
+            </div>
+            <div>
+              {general.map((r) => (
+                <ResourceCard key={r.id} resource={r} />
+              ))}
+            </div>
+          </section>
+        )}
 
         {groups.map((g, gi) => (
           <section key={g.slug} className="mb-20">
@@ -60,7 +86,18 @@ export default function ResourcesPage() {
                     {items.length === 0 ? (
                       <p className="py-6 text-[13.5px] text-mute italic">
                         No resources yet for this subgroup —{" "}
-                        <Link href="/contact" className="link-underline">recommend one</Link>.
+                        {submitUrl ? (
+                          <a
+                            href={submitUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="link-underline"
+                          >
+                            recommend one
+                          </a>
+                        ) : (
+                          <Link href="/contact" className="link-underline">recommend one</Link>
+                        )}.
                       </p>
                     ) : (
                       <div>

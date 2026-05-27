@@ -126,9 +126,10 @@ Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `
 | `discordInviteUrl`      | Permanent Discord invite (the "Discord →" button)     |
 | `calendarEmbedUrl`      | Google Calendar `embed` URL (Schedule page)           |
 | `formUrls.contact`      | Google Form embed URL for the multi-category Contact  |
+| `formUrls.submitResource` | Google Form URL the `/resources` "Submit a resource →" CTA links out to (see `resources-submission.md`) |
 | `professor.name` / `professor.email` | Faculty lead — To: address on student mailing drafts and From: for `/admin/email` |
 
-While `calendarEmbedUrl` or `formUrls.contact` are empty, `CalendarEmbed` / `FormEmbed` render a styled placeholder — no rebuild needed when you add the URL. The Join page (`/join`) uses a live `mailto:` form — no URL needed there.
+While `calendarEmbedUrl` or `formUrls.contact` are empty, `CalendarEmbed` / `FormEmbed` render a styled placeholder — no rebuild needed when you add the URL. While `formUrls.submitResource` is empty, the Resources CTA falls back to linking the Contact page. The Join page (`/join`) uses a live `mailto:` form — no URL needed there.
 
 `NOW_ISO` in `lib/data.ts` is already environment-aware — no manual edit needed.
 
