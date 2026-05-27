@@ -45,7 +45,7 @@ Goal: a site members actually come back to.
 
 **Add**
 - Full Projects section — status cards (Idea / Active / Completed / Paused), help-wanted labels, GitHub & demo links. (Phase 1 has only a basic project list on subgroup pages.)
-- Standalone resource submission form (replaces the "Submit a resource" route through the contact form)
+- ~~Standalone resource submission form~~ — **built early (out of phase).** A Google Form + routing Apps Script + `npm run import:resources` publish flow now lives outside the original phase boundary. It is link-out + trust-based (no backend; "approve" = a git commit), distinct from the per-user-auth submission tooling still planned for Phase 3. See `resources-submission.md`.
 - Paper presentation archive
 - Beginner onboarding page
 - Search / filter across Members, Resources, Projects, Subgroups

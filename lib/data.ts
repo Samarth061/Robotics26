@@ -50,6 +50,26 @@ export function resourcesForSubgroup(slug: string): Resource[] {
     .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
 }
 
+/** Lab-wide resources not tied to any subgroup (the form's "General" option). */
+export function resourcesGeneral(): Resource[] {
+  return resources
+    .filter((r) => !r.subgroupSlug)
+    .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
+}
+
+/**
+ * Email of the admin responsible for a subgroup's resources. Returns the member
+ * tagged with this subgroup in `subgroupAdminOf`, else the "Resources & curation"
+ * admin as the fallback. Reserved for future per-subgroup submission routing — no
+ * members carry `subgroupAdminOf` yet. See resources-submission.md.
+ */
+export function adminEmailForSubgroup(slug: string): string | undefined {
+  const lead = members.find((m) => m.subgroupAdminOf?.includes(slug));
+  if (lead?.email) return lead.email;
+  const curation = admins.find((a) => a.role === "Resources & curation");
+  return curation?.email;
+}
+
 // In production the cutoff tracks real time; in dev it stays fixed so test
 // data splits predictably. Remove the ternary once you no longer need the
 // dev override.

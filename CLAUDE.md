@@ -15,8 +15,9 @@ When the task touches structure, content, or design decisions, read these before
 3. **`webflow.html`** — visual sitemap. Open in a browser to see how pages connect; has a light/dark toggle.
 4. **`README.md`** — how to run, where to drop real Google Form / Calendar URLs, repo layout.
 5. **`admin.md`** — only when the task touches the gated `/admin/*` area: the Basic Auth gate (`proxy.ts`), env vars, Vercel deploy, the group mailer, and the reusable compose layer.
+6. **`resources-submission.md`** — only when the task touches the resource submission flow: the Google Form, the routing Apps Script, the `npm run import:resources` script, and the "approve = commit" publishing model.
 
-If the task is a one-line content edit (e.g. add a member), you can skip 2–5 and go straight to `data/*.json`.
+If the task is a one-line content edit (e.g. add a member), you can skip 2–6 and go straight to `data/*.json`.
 
 ## Current stage
 
@@ -25,6 +26,8 @@ If the task is a one-line content edit (e.g. add a member), you can skip 2–5 a
 - **Phase 3 — not started.** Adds Supabase (auth + Postgres), member self-serve profile, admin dashboard, Discord role sync.
 
 - **Admin area (out of phase).** A gated group mailer lives at `/admin/email`, behind a shared-password Basic Auth gate (`proxy.ts`, `ADMIN_USER`/`ADMIN_PASS`). It is not linked in nav and is built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx` compose layer. This is a deliberate narrow exception to the "no auth in Phase 1" rule — full per-user auth and an admin dashboard remain unbuilt. See `admin.md`.
+
+- **Resource submission (pulled forward from Phase 2).** A submit flow now exists: a `/resources` CTA links out to a Google Form; an admin reviews and publishes by running `npm run import:resources <csv>` (exported from the responses Sheet) and committing the new `data/resources.json` entries. No backend — "approve" = a git commit. See `resources-submission.md`.
 
 Before building a new feature, check `phase.md` to confirm which phase it belongs to. Do not silently pull Phase 2/3 work into the codebase — flag it to the user and ask.
 

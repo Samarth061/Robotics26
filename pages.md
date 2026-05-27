@@ -48,13 +48,15 @@ Every subgroup page uses the same layout:
 - Join / manage button
 
 ### Resources — organized library
-Mirrors the Groups taxonomy **1:1** — one resources section per subgroup, all nine Mechatronics subgroups and both AI subgroups represented.
+Mirrors the Groups taxonomy **1:1** — one resources section per subgroup, all nine Mechatronics subgroups and both AI subgroups represented. Resources not tied to a subgroup render in a **General · Lab-wide** section at the top (`Resource.subgroupSlug` is optional).
 
 Each resource card:
 - Title · Type (Paper / Video / Project / Tutorial / Dataset) · Link
 - Short description · Tags
 - Recommended by · Date added
 - "Beginner friendly" flag
+
+**Submitting a resource.** A "Submit a resource →" CTA links out to a Google Form (URL in `data/lab.json → formUrls.submitResource`). Submissions land in a Google Sheet and notify admins; an admin publishes an approved one by running `npm run import:resources <csv>` and committing the result. Full flow — form spec, routing Apps Script, import script, "approve = commit" model — lives in `resources-submission.md`.
 
 ### Schedule — meetings and presentations
 **Embed Google Calendar.** Do not hand-roll an events system.
@@ -85,7 +87,7 @@ Other membership actions (join a group, switch groups, request Discord access) a
 Single contact form with a category dropdown:
 - Join the group
 - Update my group / subgroup
-- Submit a resource
+- Submit a resource *(now has its own Google Form — see Resources; this category remains as a fallback)*
 - Submit a project
 - Ask an admin question
 - Report a website issue

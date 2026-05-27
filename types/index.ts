@@ -15,6 +15,7 @@ export interface Lab {
   formUrls: {
     join: string;
     contact: string;
+    submitResource: string;
   };
 }
 
@@ -50,6 +51,12 @@ export interface Member {
   };
   isAdmin?: boolean;
   adminRole?: string;
+  /**
+   * Subgroup slugs this member is the admin/lead for. UI-invisible; reserved for
+   * routing resource-submission notifications to the right subgroup admin once
+   * Discord subgroup admins are named. Unused until then. See resources-submission.md.
+   */
+  subgroupAdminOf?: string[];
 }
 
 export type ResourceType = "Paper" | "Video" | "Project" | "Tutorial" | "Dataset";
@@ -63,7 +70,8 @@ export interface Resource {
   tags: string[];
   recommendedBy: string;
   dateAdded: string;
-  subgroupSlug: string;
+  /** Subgroup this resource belongs to. Omitted for general / lab-wide resources. */
+  subgroupSlug?: string;
   beginnerFriendly?: boolean;
 }
 
