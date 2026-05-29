@@ -1,11 +1,17 @@
 # Admin area
 
-Reference for the gated `/admin/*` section of the site. Today it holds one tool — the
-**group mailer** at `/admin/email`. This doc covers how it's protected, how to run and deploy
-it, how the mailer works, and the shared pieces any future mailer should reuse.
+Reference for the gated `/admin/*` section of the site. Its landing page is `/admin` — a
+small dashboard that lists the available tools. Today there is one: the **group mailer** at
+`/admin/email`. This doc covers how it's protected, how to run and deploy it, how the mailer
+works, and the shared pieces any future mailer should reuse.
 
-The admin area is **not linked from the site nav**. It is reachable only by typing the URL,
-and only after passing the auth gate below.
+The admin area is **not linked from the site nav**. The only in-site entry point is a
+discreet, muted **"Admin" link in the footer bottom bar** (`components/Footer.tsx`, styled
+like the `©` line) that points to the `/admin` landing page. That link is intentionally
+visible-but-quiet: the Basic Auth gate below — not secrecy — is what protects the area, so a
+findable link is safe and keeps access simple for the faculty lead. To add a future tool,
+append a tile to the `tools` array in `app/admin/page.tsx`. The area is still reachable by
+typing the URL directly, but no one needs to.
 
 ---
 
