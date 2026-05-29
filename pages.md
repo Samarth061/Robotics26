@@ -94,14 +94,20 @@ Single contact form with a category dropdown:
 
 Also list: admin name · email (shown as clickable mailto link) · Discord handle. All four are equal admins — no per-category routing yet, so every submission reaches all of them.
 
-### Admin — Group mailer (gated, not in public nav)
-`/admin/email`. Behind HTTP Basic Auth (`proxy.ts`, `ADMIN_USER` / `ADMIN_PASS`) — not
-linked from the header. Lets the faculty lead pick an audience (entire org · a group · a
-single subgroup) and open a **pre-filled draft** in their own mail app or Gmail, recipients
-in Bcc. The site sends nothing itself; the message goes out from the sender's real `@ncsu.edu`
-account. Built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx` primitives, so
-any future mailer (e.g. mail-to-admins) can reuse the same compose buttons. Full details —
-auth model, deploy, security caveats — live in `admin.md`.
+### Admin (gated, not in public nav)
+`/admin` is the landing page for the gated admin area — a simple dashboard listing the
+available tools (today just the group mailer; future tools get added as tiles). The whole
+`/admin/*` subtree sits behind HTTP Basic Auth (`proxy.ts`, `ADMIN_USER` / `ADMIN_PASS`).
+It is **not** in the header nav; the only in-site entry point is a discreet, muted **"Admin"
+link in the footer bottom bar** (styled like the `©` line) pointing to `/admin`. Visibility
+is harmless — the password gate, not secrecy, is what protects the area.
+
+`/admin/email` — **Group mailer.** Lets the faculty lead pick an audience (entire org · a
+group · a single subgroup) and open a **pre-filled draft** in their own mail app or Gmail,
+recipients in Bcc. The site sends nothing itself; the message goes out from the sender's real
+`@ncsu.edu` account. Built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx`
+primitives, so any future mailer (e.g. mail-to-admins) can reuse the same compose buttons.
+Full details — auth model, deploy, security caveats — live in `admin.md`.
 
 ---
 
