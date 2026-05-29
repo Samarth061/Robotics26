@@ -1,21 +1,14 @@
 import { PageHeader } from "@/components/PageHeader";
-import { FormEmbed } from "@/components/FormEmbed";
+//import { FormEmbed } from "@/components/FormEmbed";
 import { Tag } from "@/components/Tag";
-import { lab, adminWithMember } from "@/lib/data";
-
-const CATEGORIES = [
-  "Join the group",
-  "Update my group / subgroup",
-  "Submit a resource",
-  "Submit a project",
-  "Ask an admin question",
-  "Report a website issue",
-];
+import { adminWithMember } from "@/lib/data";
+import { ContactForm } from "@/components/ContactForm";
 
 export const metadata = { title: "Contact / Admins" };
 
 export default function ContactPage() {
   const admins = adminWithMember();
+  const adminEmails = admins.map(a => a.admin.email).filter(Boolean) as string[];
 
   return (
     <>
@@ -35,24 +28,28 @@ export default function ContactPage() {
       <div className="mx-auto max-w-[1240px] px-6 md:px-10 py-12 md:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <div className="mb-6 flex items-baseline justify-between gap-4 hairline-b pb-3">
+            <div className="mb-6 flex items-baseline gap-4 hairline-b pb-3">
               <div className="flex items-baseline gap-4">
                 <span className="kicker">§ 01</span>
                 <h2 className="font-display text-[24px] md:text-[26px] tracking-tight">
                   Form
                 </h2>
               </div>
-              <span className="kicker">{CATEGORIES.length} categories</span>
+              {/* <span className="kicker">{CATEGORIES.length} categories</span> */}
             </div>
-
-            <FormEmbed
+            
+            
+            {/*<FormEmbed
               src={lab.formUrls.contact}
               title="Lab contact form"
               fallbackTitle="Contact form coming online."
               fallbackBody="The Google Form with a category dropdown will live here. While it's being set up, email any admin directly using the handles on the right."
-            />
+            />*/}
 
-            <p className="mt-5 kicker">Categories</p>
+            <ContactForm adminEmails={adminEmails} />
+            
+
+            {/* <p className="mt-5 kicker">Categories</p>
             <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
               {CATEGORIES.map((c, i) => (
                 <li
@@ -65,8 +62,8 @@ export default function ContactPage() {
                   <span>{c}</span>
                 </li>
               ))}
-            </ul>
-          </div>
+            </ul>*/}
+          </div> 
 
           <aside className="lg:col-span-5">
             <div className="mb-6 flex items-baseline justify-between gap-4 hairline-b pb-3">
