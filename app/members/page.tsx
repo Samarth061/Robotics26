@@ -18,7 +18,7 @@ export default function MembersPage() {
       <PageHeader
         eyebrow="N° 02 · Directory"
         number={`${members.length} active`}
-        title={<>Who's in <span className="italic">the lab</span>.</>}
+        title={<>Who&apos;s in <span className="italic">the lab</span>.</>}
         lead={
           <>
             Three buckets — AI, Mechatronics, and members active in both. Each

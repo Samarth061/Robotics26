@@ -59,14 +59,28 @@ Each resource card:
 **Submitting a resource.** A "Submit a resource →" CTA links out to a Google Form (URL in `data/lab.json → formUrls.submitResource`). Submissions land in a Google Sheet and notify admins; an admin publishes an approved one by running `npm run import:resources <csv>` and committing the result. Full flow — form spec, routing Apps Script, import script, "approve = commit" model — lives in `resources-submission.md`.
 
 ### Schedule — meetings and presentations
-**Embed Google Calendar.** Do not hand-roll an events system.
+Meetings are **stored in Supabase** and managed by the faculty lead from the gated
+`/admin/schedule` tool (add / edit / delete) — see `admin.md` + `supabase.md`. They used to live
+in `data/meetings.json`, which is now retired. The page renders dynamically so changes show
+immediately. The Google Calendar embed has been **dropped** (it was an unused placeholder); the
+page is now a focused "what's next + how to join" view.
 
-Three sections on the Schedule page:
-- **§ 01 Calendar** — Google Calendar embed (placeholder shown until URL is set in `data/lab.json`)
-- **§ 02 Upcoming meetings** — rendered from `data/meetings.json`; always visible even before the calendar is live
-- **§ 03 Past meetings archive** — rendered from `data/meetings.json`
+Layout (top → bottom), reusing the existing visual language:
+- **Next meeting (hero)** — the soonest meeting headlined with date/time, topic, presenter, and
+  **how to join** (Zoom button and/or meeting ID + passcode). If a meeting has no public join info,
+  a subtle fallback line points to Discord / Contact instead.
+- **§ 01 Upcoming** — the remaining upcoming meetings (split against the real current time in `lib/data.ts`).
+- **§ 02 Past meetings archive** — from Supabase.
 
-Per meeting row: date · presenter · paper/topic · subgroup · location or Zoom link
+Per meeting: date · presenter · topic · (subgroup, if any) · location · join affordance.
+
+**Meeting track.** Each meeting is **General (lab-wide, the default)**, **AI**, or **Mechatronics**;
+only AI/Mech meetings can name a subgroup. "General" is a *meeting-only* category (`MeetingTrack`),
+**not** a real group — it never appears in the Groups pages or the email mailer.
+
+**Join info is optional + public.** The site is public, so Zoom link / ID / passcode are shown
+only when the professor fills them in (blank = nothing exposed). Recurring meetings: the add form
+can repeat weekly or every-2-weeks for N times.
 
 Cadence: Friday 4:00 PM, biweekly.
 
@@ -107,7 +121,12 @@ group · a single subgroup) and open a **pre-filled draft** in their own mail ap
 recipients in Bcc. The site sends nothing itself; the message goes out from the sender's real
 `@ncsu.edu` account. Built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx`
 primitives, so any future mailer (e.g. mail-to-admins) can reuse the same compose buttons.
-Full details — auth model, deploy, security caveats — live in `admin.md`.
+
+`/admin/schedule` — **Meeting scheduler.** Add / edit / delete lab meetings; changes appear on
+the public Schedule page immediately. This is the first **Supabase**-backed feature (the meetings
+table is the source of truth, replacing `data/meetings.json`) and the first slice of the Phase 3
+backend pulled forward. Full details — auth model, deploy, security caveats, Supabase setup —
+live in `admin.md` and `supabase.md`.
 
 ---
 

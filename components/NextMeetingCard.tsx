@@ -1,24 +1,15 @@
 import type { Meeting } from "@/types";
 import { getSubgroup } from "@/lib/data";
+import { meetingDateParts } from "@/lib/datetime";
+import { MeetingJoin } from "./MeetingJoin";
 
-function fmt(iso: string) {
-  const d = new Date(iso);
-  const days = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
-  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-  const h = d.getHours();
-  const m = d.getMinutes();
-  const am = h < 12;
-  const h12 = ((h + 11) % 12) + 1;
-  return {
-    weekday: days[d.getDay()],
-    day: String(d.getDate()).padStart(2, "0"),
-    month: months[d.getMonth()],
-    year: d.getFullYear(),
-    time: `${h12}:${String(m).padStart(2,"0")} ${am ? "AM" : "PM"}`,
-  };
-}
-
-export function NextMeetingCard({ meeting }: { meeting?: Meeting }) {
+export function NextMeetingCard({
+  meeting,
+  hideScheduleLink = false,
+}: {
+  meeting?: Meeting;
+  hideScheduleLink?: boolean;
+}) {
   if (!meeting) {
     return (
       <div className="border border-rule bg-cream p-6">
@@ -29,7 +20,7 @@ export function NextMeetingCard({ meeting }: { meeting?: Meeting }) {
     );
   }
 
-  const f = fmt(meeting.date);
+  const f = meetingDateParts(meeting.date);
   const sub = meeting.subgroupSlug ? getSubgroup(meeting.subgroupSlug) : undefined;
 
   return (
@@ -63,6 +54,10 @@ export function NextMeetingCard({ meeting }: { meeting?: Meeting }) {
             {sub ? <>Subgroup · <span className="text-ink">{sub.name}</span><br /></> : null}
             Location · <span className="text-ink">{meeting.location}</span>
           </p>
+          <div className="mt-4">
+            <MeetingJoin meeting={meeting} variant="block" />
+          </div>
+
           <div className="mt-4 flex items-center gap-4">
             {meeting.paperUrl ? (
               <a
@@ -74,12 +69,14 @@ export function NextMeetingCard({ meeting }: { meeting?: Meeting }) {
                 paper →
               </a>
             ) : null}
-            <a
-              href="/schedule"
-              className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute link-underline"
-            >
-              full schedule
-            </a>
+            {!hideScheduleLink ? (
+              <a
+                href="/schedule"
+                className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute link-underline"
+              >
+                full schedule
+              </a>
+            ) : null}
           </div>
         </div>
       </div>

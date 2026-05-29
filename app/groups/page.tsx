@@ -10,7 +10,7 @@ export default function GroupsPage() {
       <PageHeader
         eyebrow="N° 03 · Groups"
         number={`${groups.length} tracks · ${subgroups.length} subgroups`}
-        title={<>What we're <span className="italic">working on</span>.</>}
+        title={<>What we&apos;re <span className="italic">working on</span>.</>}
         lead={
           <>
             Two umbrella groups — AI and Mechatronics — each split into focused

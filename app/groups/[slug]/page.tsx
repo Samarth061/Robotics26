@@ -132,7 +132,7 @@ export default async function SubgroupDetailPage({
             Daily chat, debugging, polls, and quick announcements happen in{" "}
             <span className="font-mono text-ink">{sg.discordChannel}</span>. The
             website is the source of truth for membership, resources, and
-            schedule — Discord is the source of truth for what's happening today.
+            schedule — Discord is the source of truth for what&apos;s happening today.
           </p>
         </section>
       </div>
