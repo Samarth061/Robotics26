@@ -79,7 +79,7 @@ export function EmailComposer({
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder="Optional — you can also write it in your mail app"
+            placeholder="Optional. You can also write it in your mail app"
             className={`mt-2 ${inputClass}`}
           />
         </label>
@@ -90,7 +90,7 @@ export function EmailComposer({
             value={body}
             onChange={(e) => setBody(e.target.value)}
             rows={6}
-            placeholder="Optional opening text — pre-fills the message body"
+            placeholder="Optional opening text that pre-fills the message body"
             className={`mt-2 ${inputClass} resize-y`}
           />
         </label>

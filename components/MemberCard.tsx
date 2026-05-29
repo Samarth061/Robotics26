@@ -11,7 +11,9 @@ export function MemberCard({ member }: { member: Member }) {
     .toUpperCase();
 
   const statusLabel =
-    member.status === "graduated"
+    member.status === "faculty"
+      ? "Faculty"
+      : member.status === "graduated"
       ? "Graduated"
       : member.status === "high-school"
       ? "High School"

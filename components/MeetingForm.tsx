@@ -109,7 +109,7 @@ export function MeetingForm({
             disabled={!isTrack}
             className={`mt-2 ${inputClass} disabled:opacity-50`}
           >
-            <option value="">— none —</option>
+            <option value="">(none)</option>
             {subsForGroup.map((s) => (
               <option key={s.slug} value={s.slug}>
                 {s.name}
@@ -123,7 +123,7 @@ export function MeetingForm({
       <fieldset className="border border-rule p-4 space-y-5">
         <legend className="kicker px-1">How to join</legend>
         <p className="text-[12px] text-mute leading-relaxed -mt-1">
-          Shown publicly on the Schedule page — leave a field blank to keep it
+          Shown publicly on the Schedule page. Leave a field blank to keep it
           off the site.
         </p>
 

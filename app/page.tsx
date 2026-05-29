@@ -29,7 +29,7 @@ export default async function HomePage() {
               <h1 className="mt-6 font-display text-[clamp(56px,9vw,128px)] leading-[0.92] tracking-[-0.025em]">
                 The <span className="italic" style={{ fontVariationSettings: '"opsz" 144, "SOFT" 100' }}>Robotics</span>
                 <br />
-                Lab.
+                Club.
               </h1>
 
               <p className="mt-8 max-w-[44ch] text-[18px] md:text-[20px] leading-relaxed text-mute">
@@ -37,7 +37,7 @@ export default async function HomePage() {
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-3">
-                <Button href="/join" variant="primary">Join the lab</Button>
+                <Button href="/join" variant="primary">Join the club</Button>
                 <Button
                   href={lab.discordInviteUrl || "/contact"}
                   variant="outline"
@@ -96,10 +96,10 @@ export default async function HomePage() {
               <p className="font-display text-[28px] md:text-[34px] leading-[1.15] tracking-tight">
                 A reading group and a build space, run together.
                 {" "}
-                <span className="text-mute">Biweekly paper presentations on Fridays at 4:00 PM. Open lab nights for project work. One Discord, two tracks, no homework.</span>
+                <span className="text-mute">Paper presentations and open build sessions on Fridays; meeting times vary. One Discord, two tracks, no homework.</span>
               </p>
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-[14px]">
-                <FactBlock label="Cadence" value="Fri 4 PM · biweekly" />
+                <FactBlock label="Cadence" value="Fridays · times vary" />
                 <FactBlock label="Format"   value="Paper + discussion" />
                 <FactBlock label="Where"    value="EB-II 1230" />
               </div>

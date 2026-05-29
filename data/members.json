@@ -1,5 +1,14 @@
 [
   {
+    "slug": "khaled-abdel-harfoush",
+    "name": "Dr. Khaled Abdel Harfoush",
+    "email": "kaharfou@ncsu.edu",
+    "status": "faculty",
+    "groups": [],
+    "subgroups": [],
+    "interests": []
+  },
+  {
     "slug": "samarth-shah",
     "name": "Samarth Shah",
     "email": "sdshah5@ncsu.edu",
@@ -164,5 +173,13 @@
     "groups": ["ai", "mechatronics"],
     "subgroups": ["llms-transformers", "space-mouse"],
     "interests": ["NLP", "HID design"]
+  },
+  {
+    "slug": "arnav-mejari",
+    "name": "Arnav Mejari",
+    "email": "amejari@ncsu.edu",
+    "groups": ["ai"],
+    "subgroups": [],
+    "interests": []
   }
 ]

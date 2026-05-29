@@ -1,7 +1,6 @@
-import { PageHeader } from "@/components/PageHeader";
 import { NextMeetingCard } from "@/components/NextMeetingCard";
 import { MeetingRow } from "@/components/MeetingRow";
-import { lab, pastMeetings, upcomingMeetings } from "@/lib/data";
+import { pastMeetings, upcomingMeetings } from "@/lib/data";
 
 export const metadata = { title: "Schedule" };
 
@@ -19,18 +18,16 @@ export default async function SchedulePage() {
 
   return (
     <>
-      <PageHeader
-        eyebrow="N° 05 · Schedule"
-        number={lab.meetingCadence}
-        title={<><span className="italic">Friday</span> 4 PM.</>}
-        lead={
-          <>
-            Paper presentations and demos, biweekly. Here&apos;s what&apos;s next
-            and how to join — then everything coming up, and everything
-            we&apos;ve already covered.
-          </>
-        }
-      />
+      <div className="mx-auto max-w-[1240px] px-6 md:px-10 pt-12 md:pt-16 pb-8 hairline-b stagger">
+        <p className="kicker">N° 05 · Schedule</p>
+        <h1 className="mt-3 font-display text-[26px] md:text-[30px] tracking-tight">
+          Schedule
+        </h1>
+        <p className="mt-2 text-[15px] text-mute leading-relaxed max-w-[60ch]">
+          Meeting times vary; here&apos;s what&apos;s next, what&apos;s coming up,
+          and what we&apos;ve already covered.
+        </p>
+      </div>
 
       <div className="mx-auto max-w-[1240px] px-6 md:px-10 py-12 md:py-16 space-y-20">
 
@@ -54,8 +51,8 @@ export default async function SchedulePage() {
           {rest.length === 0 ? (
             <p className="text-mute text-[14px]">
               {next
-                ? "Nothing else on the calendar yet — check back soon."
-                : "No upcoming meetings logged yet — check back soon."}
+                ? "Nothing else on the calendar yet. Check back soon."
+                : "No upcoming meetings logged yet. Check back soon."}
             </p>
           ) : (
             <div>
@@ -64,10 +61,6 @@ export default async function SchedulePage() {
               ))}
             </div>
           )}
-
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-mute">
-            ⌬ Managed from <span className="text-ink">/admin/schedule</span> — changes appear here automatically.
-          </p>
         </section>
 
         {/* § 02 — Past meetings archive */}
@@ -91,10 +84,6 @@ export default async function SchedulePage() {
               ))}
             </div>
           )}
-
-          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-mute">
-            ⌬ Slides and recording archive land in Phase 2.
-          </p>
         </section>
       </div>
     </>

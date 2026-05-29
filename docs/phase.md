@@ -1,4 +1,4 @@
-# Build Plan — Robotics Lab Website
+# Build Plan — Robotics Club Website
 
 Three phases. Ship Phase 1 before starting Phase 2.
 

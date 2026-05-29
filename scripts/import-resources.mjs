@@ -10,7 +10,7 @@
  *     npm run import:resources ~/Downloads/responses.csv
  *
  * Only rows whose "Approved?" column is yes/true are imported. The admin then
- * reviews `git diff data/resources.json` and commits. See resources-submission.md.
+ * reviews `git diff data/resources.json` and commits. See docs/resources-submission.md.
  */
 
 import { readFileSync, writeFileSync } from "node:fs";

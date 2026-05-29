@@ -83,7 +83,7 @@ server-side API (Resend, SES, …) cannot do, since it can't authenticate as `nc
 
 ## The meeting scheduler — `/admin/schedule`
 
-Lets the faculty lead **add, edit, and delete lab meetings** from the website. Changes show on
+Lets the faculty lead **add, edit, and delete club meetings** from the website. Changes show on
 the public `/schedule` page (and the home next-meeting card) immediately — no code edit, no
 redeploy.
 
@@ -98,7 +98,7 @@ How it fits together:
 - **`/admin/schedule`** (`app/admin/schedule/page.tsx`) — an "Add meeting" form plus a list of
   upcoming and past meetings, each with **Edit** (`/admin/schedule/[id]`) and **Delete**.
 - **`components/MeetingForm.tsx`** — the reused add/edit form: presenter, topic, date & time,
-  **group** (defaults to **General / lab-wide**; AI or Mechatronics optionally narrow to a
+  **group** (defaults to **General / club-wide**; AI or Mechatronics optionally narrow to a
   subgroup), a **How to join** section (location + Zoom link + Zoom meeting ID + passcode — all
   optional and **shown publicly**, so the form says so), and paper URL. When *creating*, a
   **Repeat** control (none / weekly / every-2-weeks × N times) generates that many independent

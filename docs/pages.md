@@ -1,4 +1,4 @@
-# Page Spec — Robotics Lab Website
+# Page Spec — Robotics Club Website
 
 ## Core principle
 
@@ -17,7 +17,7 @@ Quick intro and routing.
 - Lab/club name + one-line mission
 - The two tracks: AI · Mechatronics
 - **Next meeting card** (date, presenter, topic, link)
-- Three CTAs: Join the lab · Discord invite · Contact admins
+- Three CTAs: Join the club · Discord invite · Contact admins
 
 One landing page for both internal members and new visitors. Functional, not flashy.
 
@@ -48,7 +48,12 @@ Every subgroup page uses the same layout:
 - Join / manage button
 
 ### Resources — organized library
-Mirrors the Groups taxonomy **1:1** — one resources section per subgroup, all nine Mechatronics subgroups and both AI subgroups represented. Resources not tied to a subgroup render in a **General · Lab-wide** section at the top (`Resource.subgroupSlug` is optional).
+> **Currently hidden from nav (deployment).** The page and its data are complete, but the
+> "Resources" links in the header and footer are commented out — the club isn't publishing this
+> section yet. The `/resources` route still resolves directly; re-enable by uncommenting the nav
+> entries in `components/Header.tsx` and `components/Footer.tsx`.
+
+Mirrors the Groups taxonomy **1:1** — one resources section per subgroup, all nine Mechatronics subgroups and both AI subgroups represented. Resources not tied to a subgroup render in a **General · Club-wide** section at the top (`Resource.subgroupSlug` is optional).
 
 Each resource card:
 - Title · Type (Paper / Video / Project / Tutorial / Dataset) · Link
@@ -74,7 +79,7 @@ Layout (top → bottom), reusing the existing visual language:
 
 Per meeting: date · presenter · topic · (subgroup, if any) · location · join affordance.
 
-**Meeting track.** Each meeting is **General (lab-wide, the default)**, **AI**, or **Mechatronics**;
+**Meeting track.** Each meeting is **General (club-wide, the default)**, **AI**, or **Mechatronics**;
 only AI/Mech meetings can name a subgroup. "General" is a *meeting-only* category (`MeetingTrack`),
 **not** a real group — it never appears in the Groups pages or the email mailer.
 
@@ -122,7 +127,7 @@ recipients in Bcc. The site sends nothing itself; the message goes out from the 
 `@ncsu.edu` account. Built on the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx`
 primitives, so any future mailer (e.g. mail-to-admins) can reuse the same compose buttons.
 
-`/admin/schedule` — **Meeting scheduler.** Add / edit / delete lab meetings; changes appear on
+`/admin/schedule` — **Meeting scheduler.** Add / edit / delete club meetings; changes appear on
 the public Schedule page immediately. This is the first **Supabase**-backed feature (the meetings
 table is the source of truth, replacing `data/meetings.json`) and the first slice of the Phase 3
 backend pulled forward. Full details — auth model, deploy, security caveats, Supabase setup —

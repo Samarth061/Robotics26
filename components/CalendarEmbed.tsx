@@ -13,7 +13,7 @@ export function CalendarEmbed({ src, upcoming = [] }: CalendarEmbedProps) {
       <div className="border border-rule bg-paper">
         <iframe
           src={src}
-          title="Lab meeting calendar"
+          title="Meeting calendar"
           width="100%"
           height={720}
           frameBorder={0}

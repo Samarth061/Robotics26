@@ -18,7 +18,7 @@ export default function ResourcesPage() {
         title={<>The <span className="italic">reading</span> list.</>}
         lead={
           <>
-            Papers, projects, tutorials, and datasets that the lab actually
+            Papers, projects, tutorials, and datasets that the club actually
             uses. Organized by subgroup. New here? Look for the{" "}
             <span className="text-red">Beginner</span> tags.
           </>
@@ -28,7 +28,7 @@ export default function ResourcesPage() {
       <div className="mx-auto max-w-[1240px] px-6 md:px-10 py-12 md:py-16">
         <div className="mb-12 flex items-center justify-between flex-wrap gap-4">
           <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-mute max-w-[60ch]">
-            ⌬ Search and filtering arrives in Phase 2. For now, browse by subgroup.
+            ⌬ Browse resources by subgroup.
           </p>
           <Button href={submitHref} variant="outline" external={Boolean(submitUrl)}>
             Submit a resource →
@@ -41,7 +41,7 @@ export default function ResourcesPage() {
               <div className="flex items-baseline gap-4">
                 <span className="kicker">General</span>
                 <h2 className="font-display text-[32px] md:text-[40px] leading-tight tracking-[-0.01em]">
-                  Lab-wide
+                  Club-wide
                 </h2>
               </div>
               <span className="kicker">
@@ -85,7 +85,7 @@ export default function ResourcesPage() {
                     </div>
                     {items.length === 0 ? (
                       <p className="py-6 text-[13.5px] text-mute italic">
-                        No resources yet for this subgroup —{" "}
+                        No resources yet for this subgroup:{" "}
                         {submitUrl ? (
                           <a
                             href={submitUrl}

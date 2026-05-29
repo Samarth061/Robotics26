@@ -4,7 +4,7 @@ import { getMeeting, subgroups } from "@/lib/data";
 import { MeetingForm } from "@/components/MeetingForm";
 
 export const metadata = {
-  title: "Admin — Edit meeting",
+  title: "Admin · Edit meeting",
   robots: { index: false, follow: false },
 };
 

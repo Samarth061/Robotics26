@@ -1,9 +1,9 @@
 {
-  "name": "NC State Robotics Lab",
-  "shortName": "Robotics Lab",
+  "name": "NC State Robotics Club",
+  "shortName": "Robotics Club",
   "mission": "Bridging artificial intelligence and mechatronics research through papers, projects, and biweekly meetings.",
   "institution": "NC State University · Raleigh, NC",
-  "meetingCadence": "Fridays, 4:00 PM · biweekly",
+  "meetingCadence": "Fridays · times vary",
   "professor": {
     "name": "Khaled Abdel Harfoush",
     "email": "kaharfou@ncsu.edu"

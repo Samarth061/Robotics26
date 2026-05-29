@@ -40,6 +40,15 @@ export function membersInBothGroups(): Member[] {
   return members.filter((m) => m.groups.length > 1);
 }
 
+/**
+ * Faculty (status "faculty") — rendered in their own section at the top of the
+ * Members page. They carry empty `groups`, so they never appear in the AI /
+ * Mechatronics / both buckets or in the group/subgroup mailer audiences.
+ */
+export function faculty(): Member[] {
+  return members.filter((m) => m.status === "faculty");
+}
+
 export function membersInSubgroup(slug: string): Member[] {
   return members.filter((m) => m.subgroups.includes(slug));
 }
@@ -61,7 +70,7 @@ export function resourcesGeneral(): Resource[] {
  * Email of the admin responsible for a subgroup's resources. Returns the member
  * tagged with this subgroup in `subgroupAdminOf`, else falls back to the first
  * admin. Reserved for future per-subgroup submission routing — no members carry
- * `subgroupAdminOf` yet. See resources-submission.md.
+ * `subgroupAdminOf` yet. See docs/resources-submission.md.
  */
 export function adminEmailForSubgroup(slug: string): string | undefined {
   const lead = members.find((m) => m.subgroupAdminOf?.includes(slug));
@@ -70,7 +79,7 @@ export function adminEmailForSubgroup(slug: string): string | undefined {
 }
 
 // DB row (snake_case columns) → app Meeting (camelCase, null → undefined).
-// Column shape and RLS are defined in supabase.md.
+// Column shape and RLS are defined in docs/supabase.md.
 interface MeetingRow {
   id: string;
   date: string;

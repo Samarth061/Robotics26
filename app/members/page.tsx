@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { MemberCard } from "@/components/MemberCard";
 import {
   members,
+  faculty,
   membersInGroup,
   membersInBothGroups,
 } from "@/lib/data";
@@ -9,6 +10,7 @@ import {
 export const metadata = { title: "Members" };
 
 export default function MembersPage() {
+  const fac = faculty();
   const ai = membersInGroup("ai");
   const mech = membersInGroup("mechatronics");
   const both = membersInBothGroups();
@@ -17,20 +19,30 @@ export default function MembersPage() {
     <>
       <PageHeader
         eyebrow="N° 02 · Directory"
-        number={`${members.length} active`}
-        title={<>Who&apos;s in <span className="italic">the lab</span>.</>}
+        number={`${members.length} listed`}
+        title={<>Who&apos;s in <span className="italic">the club</span>.</>}
         lead={
           <>
-            Three buckets — AI, Mechatronics, and members active in both. Each
-            person appears once. Emails are kept internal; reach anyone through
-            the contact form.
+            Faculty first, then AI, Mechatronics, and members active in both.
+            Each person appears once. Reach anyone by their listed email or
+            through the contact form.
           </>
         }
       />
 
       <div className="mx-auto max-w-[1240px] px-6 md:px-10 py-12 md:py-16 space-y-20">
+        {fac.length > 0 && (
+          <Section
+            number="01"
+            name="Faculty"
+            subtitle={`${fac.length} ${fac.length === 1 ? "advisor" : "faculty"}`}
+          >
+            {fac.map((m) => <MemberCard key={m.slug} member={m} />)}
+          </Section>
+        )}
+
         <Section
-          number="01"
+          number="02"
           name="AI Group"
           subtitle={`${ai.length} ${ai.length === 1 ? "member" : "members"}`}
         >
@@ -38,7 +50,7 @@ export default function MembersPage() {
         </Section>
 
         <Section
-          number="02"
+          number="03"
           name="Mechatronics Group"
           subtitle={`${mech.length} ${mech.length === 1 ? "member" : "members"}`}
         >
@@ -46,17 +58,12 @@ export default function MembersPage() {
         </Section>
 
         <Section
-          number="03"
+          number="04"
           name="Members in both groups"
           subtitle={`${both.length} cross-listed`}
         >
           {both.map((m) => <MemberCard key={m.slug} member={m} />)}
         </Section>
-
-        <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-mute max-w-[60ch]">
-          ⌬ Group assignments are placeholder for the Phase 1 draft. Admins to confirm
-          before the site goes public.
-        </p>
       </div>
     </>
   );

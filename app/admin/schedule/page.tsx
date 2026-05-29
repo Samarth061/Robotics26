@@ -5,7 +5,7 @@ import { deleteMeeting } from "./actions";
 import type { Meeting } from "@/types";
 
 export const metadata = {
-  title: "Admin — Meeting scheduler",
+  title: "Admin · Meeting scheduler",
   robots: { index: false, follow: false },
 };
 

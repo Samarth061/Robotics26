@@ -47,7 +47,7 @@ export interface Member {
   name: string;
   email?: string;
   photo?: string;
-  status?: "active" | "graduated" | "high-school";
+  status?: "active" | "graduated" | "high-school" | "faculty";
   groups: GroupSlug[];
   subgroups: string[];
   interests: string[];
@@ -61,7 +61,7 @@ export interface Member {
   /**
    * Subgroup slugs this member is the admin/lead for. UI-invisible; reserved for
    * routing resource-submission notifications to the right subgroup admin once
-   * Discord subgroup admins are named. Unused until then. See resources-submission.md.
+   * Discord subgroup admins are named. Unused until then. See docs/resources-submission.md.
    */
   subgroupAdminOf?: string[];
 }
