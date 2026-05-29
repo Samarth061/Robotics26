@@ -1,5 +1,12 @@
 export type GroupSlug = "ai" | "mechatronics";
 
+/**
+ * Track a meeting belongs to. Superset of GroupSlug with a meeting-only
+ * "general" (lab-wide) option. Intentionally NOT a real Group — membership,
+ * the /groups pages, and the email mailer stay keyed on GroupSlug only.
+ */
+export type MeetingTrack = GroupSlug | "general";
+
 export interface Lab {
   name: string;
   shortName: string;
@@ -83,7 +90,10 @@ export interface Meeting {
   paperUrl?: string;
   location: string;
   zoomUrl?: string;
-  parentGroup: GroupSlug;
+  /** Optional Zoom meeting ID + passcode, for joining without the link. */
+  zoomMeetingId?: string;
+  zoomPasscode?: string;
+  parentGroup: MeetingTrack;
   subgroupSlug?: string;
   slidesUrl?: string;
   recordingUrl?: string;

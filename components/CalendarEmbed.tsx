@@ -1,11 +1,13 @@
-import { upcomingMeetings } from "@/lib/data";
+import type { Meeting } from "@/types";
 import { MeetingRow } from "./MeetingRow";
 
 interface CalendarEmbedProps {
   src?: string;
+  /** Upcoming meetings, passed in by the page (computed once, async upstream). */
+  upcoming?: Meeting[];
 }
 
-export function CalendarEmbed({ src }: CalendarEmbedProps) {
+export function CalendarEmbed({ src, upcoming = [] }: CalendarEmbedProps) {
   if (src) {
     return (
       <div className="border border-rule bg-paper">
@@ -22,8 +24,6 @@ export function CalendarEmbed({ src }: CalendarEmbedProps) {
       </div>
     );
   }
-
-  const upcoming = upcomingMeetings();
 
   return (
     <div className="border border-rule bg-paper">

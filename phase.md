@@ -6,6 +6,13 @@ Three phases. Ship Phase 1 before starting Phase 2.
 > added ahead of the original phase boundaries — Phase 2/3 are being redefined, so this does
 > not belong to a fixed phase yet. Its auth is intentionally minimal (a single shared password
 > via HTTP Basic Auth), distinct from the full per-user auth planned for Phase 3. See `admin.md`.
+>
+> **Note (Phase 3 backend started early).** The **Supabase** backend has been stood up ahead of
+> schedule for one feature: an admin **meeting scheduler** (`/admin/schedule`, add/edit/delete)
+> whose data lives in a Supabase `meetings` table — now the source of truth, replacing
+> `data/meetings.json`. This pulls forward part of Phase 3's "admin add … meetings". Supabase
+> **Auth** is *not* adopted yet; `/admin/*` still uses the shared-password gate. See `supabase.md`
+> and `admin.md`.
 
 ---
 
@@ -62,6 +69,8 @@ Goal: members and admins manage everything themselves.
 
 **Backend**
 - Supabase (recommended) — or Firebase, or Postgres behind Next.js API routes
+  - **Started:** a Supabase project + `meetings` table now back the admin meeting scheduler
+    (`/admin/schedule`). See `supabase.md`. Auth + the rest of the tables remain to be built.
 
 **Member accounts**
 - Log in · edit profile (photo, website, GitHub, LinkedIn) · join/leave AI & Mech · subscribe to subgroups · update interests · manage mailing list

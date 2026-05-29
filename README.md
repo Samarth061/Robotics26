@@ -40,7 +40,8 @@ Adds: Supabase (Postgres + auth + storage), member profiles, admin dashboard, ma
 | The visual sitemap                    | `webflow.html`                   |
 | What field a JSON file expects        | `types/index.ts`                 |
 | The data accessors (used by every page) | `lib/data.ts`                  |
-| The admin area (auth, deploy, mailer) | `admin.md`                       |
+| The admin area (auth, deploy, mailer, scheduler) | `admin.md`            |
+| The Supabase backend (meetings: setup, schema, RLS, env) | `supabase.md`    |
 
 ---
 
@@ -57,13 +58,38 @@ Requires Node 20+.
 
 ### Admin area
 
-There is a gated `/admin/*` section (currently the group mailer at `/admin/email`), protected
-by HTTP Basic Auth in `proxy.ts` and run from `ADMIN_USER` / `ADMIN_PASS` env vars. To use it
-locally, copy `.env.example` to `.env.local` and set those two values, then `npm run dev`.
+There is a gated `/admin/*` section, protected by HTTP Basic Auth in `proxy.ts` and run from
+`ADMIN_USER` / `ADMIN_PASS` env vars. It holds two tools: the **group mailer** (`/admin/email`)
+and the **meeting scheduler** (`/admin/schedule`). To use it locally, copy `.env.example` to
+`.env.local`, set the credentials, then `npm run dev`. The discreet entry point is a muted
+"Admin" link in the site footer → `/admin`.
 
-See **`admin.md`** for the full picture: the auth model, Vercel deploy steps, how the mailer
-resolves audiences, and the reusable `lib/mailto.ts` + `components/ComposeLinks.tsx` compose
-layer that any future mailer should build on.
+See **`admin.md`** for the full picture: the auth model, Vercel deploy steps, the mailer's
+audience resolution + reusable compose layer, and the meeting scheduler.
+
+### Supabase (meetings backend)
+
+Meetings are stored in **Supabase** (the first slice of the Phase 3 backend), not in JSON. The
+`/admin/schedule` tool reads and writes them. You need three server-side env vars:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...   # reads (RLS-bound, safe to expose)
+SUPABASE_SECRET_KEY=sb_secret_...                        # writes (admin actions) — never NEXT_PUBLIC_
+```
+
+(Uses Supabase's current key system — `sb_publishable_…` / `sb_secret_…` — and the plain
+`@supabase/supabase-js` client, not `@supabase/ssr` since there's no user-session auth.)
+
+One-time: create the project + `meetings` table + RLS, set the env vars, then migrate the
+existing meetings and remove the stale JSON:
+
+```bash
+npm run seed:meetings        # imports data/meetings.json into Supabase (idempotent)
+# verify in the Supabase table editor, then delete data/meetings.json
+```
+
+Full step-by-step (SQL, RLS policy, Vercel env, security model) is in **`supabase.md`**.
 
 ---
 
@@ -79,19 +105,25 @@ rb-page/
 │   ├── schedule/         Calendar embed + upcoming + past meetings
 │   ├── join/             Form-backed Join / Manage
 │   ├── contact/          Form-backed Contact / Admins
-│   ├── admin/email/      Gated group mailer (not in nav)
+│   ├── admin/            Gated tools (not in nav) — landing page + tools
+│   │   ├── email/        Group mailer
+│   │   └── schedule/     Meeting scheduler (Supabase CRUD: page, [id] edit, actions)
 │   ├── layout.tsx        Header / Footer / fonts
 │   └── globals.css       Tailwind + CSS variables (design tokens)
 ├── components/           Header, Footer, PageHeader, cards, embeds
 │   ├── MailingListForm.tsx  Student-side subscribe/unsubscribe form
+│   ├── MeetingForm.tsx      Admin add/edit meeting form (/admin/schedule)
 │   └── ComposeLinks.tsx    Shared mailto/Gmail compose buttons (also used by /admin/email)
-├── data/                 Single source of truth (JSON, edit by PR)
-├── lib/data.ts           Typed accessors
+├── data/                 JSON source of truth (members, groups, resources…); meetings are in Supabase
+├── lib/data.ts           Typed accessors (meeting accessors are async — read Supabase)
 ├── lib/mailto.ts         Compose-link builders (mailto / Gmail)
+├── lib/supabase.ts       Supabase clients — server-only (read = anon, write = service-role)
 ├── proxy.ts              Basic Auth gate over /admin/*
+├── scripts/seed-meetings.mjs  One-time meetings.json → Supabase migration
 ├── types/index.ts        Member, Group, Subgroup, Resource, Meeting…
 ├── .env.example          Admin credentials template (copy to .env.local)
-├── admin.md              Admin area: auth, deploy, mailer, compose layer
+├── admin.md              Admin area: auth, deploy, mailer, scheduler
+├── supabase.md           Supabase backend: setup, schema, RLS, env, security
 ├── phase.md              Three-phase build plan
 ├── pages.md              Per-page spec + website/Discord split
 └── webflow.html          Visual sitemap (open in browser)
@@ -110,7 +142,13 @@ Append a record to `data/members.json`. Required fields: `slug` (kebab-case), `n
 Append to `data/resources.json`. Set `subgroupSlug` to a valid slug — it then auto-appears on `/resources` (subgroup-grouped, newest first) **and** on `/groups/[that-slug]`. Flip `beginnerFriendly: true` to render the red "Beginner" tag.
 
 ### Add or move a meeting
-`data/meetings.json`. The list auto-splits into three Schedule page sections: § 01 Google Calendar embed · § 02 Upcoming (from JSON) · § 03 Past archive. The cutoff is controlled by `NOW_ISO` in `lib/data.ts`. **`NOW_ISO` is already environment-aware** — it uses `new Date()` automatically in production and keeps the fixed dev date locally. No manual edit needed before going live.
+Meetings now live in **Supabase**, not JSON. Add / edit / delete them from the gated
+**`/admin/schedule`** tool — changes show on `/schedule` immediately. Each meeting has a track
+(General / AI / Mechatronics), optional subgroup, and optional public join info (Zoom link and/or
+meeting ID + passcode); the add form can repeat a meeting weekly or every two weeks. The Schedule
+page leads with the next meeting + how to join, then Upcoming, then the Past archive, split by the
+real current time in `lib/data.ts` (`Date.now()`, same in dev and prod). Backend setup is in
+`supabase.md`; the tool itself in `admin.md`.
 
 ### Rename a subgroup
 Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `data/members.json` records). The `slug` is used in URLs (`/groups/<slug>`) — if you change a slug, prior links break, so prefer renaming the `name` only.
@@ -123,15 +161,14 @@ Edit `data/subgroups.json` (and the matching `subgroups` field in any affected `
 
 | field                   | what to put in                                        |
 | ----------------------- | ----------------------------------------------------- |
-| `discordInviteUrl`      | Permanent Discord invite (the "Discord →" button)     |
-| `calendarEmbedUrl`      | Google Calendar `embed` URL (Schedule page)           |
+| `discordInviteUrl`      | Permanent Discord invite (the "Discord →" button; also the join-info fallback on meetings) |
 | `formUrls.contact`      | Google Form embed URL for the multi-category Contact  |
 | `formUrls.submitResource` | Google Form URL the `/resources` "Submit a resource →" CTA links out to (see `resources-submission.md`) |
 | `professor.name` / `professor.email` | Faculty lead — To: address on student mailing drafts and From: for `/admin/email` |
 
-While `calendarEmbedUrl` or `formUrls.contact` are empty, `CalendarEmbed` / `FormEmbed` render a styled placeholder — no rebuild needed when you add the URL. While `formUrls.submitResource` is empty, the Resources CTA falls back to linking the Contact page. The Join page (`/join`) uses a live `mailto:` form — no URL needed there.
+While `formUrls.contact` is empty, `FormEmbed` renders a styled placeholder — no rebuild needed when you add the URL. While `formUrls.submitResource` is empty, the Resources CTA falls back to linking the Contact page. The Join page (`/join`) uses a live `mailto:` form — no URL needed there. (`calendarEmbedUrl` is no longer rendered — the Schedule page was reworked to a next-meeting + upcoming + past view; `components/CalendarEmbed.tsx` is retained but unused.)
 
-`NOW_ISO` in `lib/data.ts` is already environment-aware — no manual edit needed.
+The upcoming/past split in `lib/data.ts` uses the real current time — no manual edit needed.
 
 ### Mailing list — how it works (student side)
 
@@ -176,6 +213,8 @@ The site has four docs that describe what *should* exist: `phase.md`, `pages.md`
 | New data field on Member / Resource / etc.    | `types/index.ts` + the matching component + a one-line note in `README.md` *Editing content* |
 | Mobile nav changes                            | `components/Header.tsx` + note in `README.md` if the pattern changes                        |
 | Admin area: auth gate, env vars, compose layer | `admin.md` (+ the `README.md` pointer); reflect a new gated page in `webflow.html` |
+| Supabase: schema, RLS, env, a new table/feature | `supabase.md` (+ the `README.md` pointer) |
+| Where meetings live (now Supabase, not JSON)  | `admin.md` / `supabase.md`; the `/admin/schedule` tool, not `data/*.json` |
 
 Rule of thumb: **if you'd answer a question differently after your change than before, find the doc that gave the old answer and update it.**
 
@@ -195,4 +234,4 @@ The one deliberate exception is the **gated group mailer** (`/admin/email`): a s
 - [ ] Match canonical subgroup names from `pages.md`.
 - [ ] If you're adding a feature, confirm with the lab coordinator that it belongs in the current phase before opening a PR.
 - [ ] **Update the planning docs in the same commit** if your change affects something they describe (see *Keep the planning docs in sync* above).
-- [ ] `npm run build` must pass.
+- [ ] `npm run build` and `npm run lint` must pass. (Lint uses ESLint flat config in `eslint.config.mjs` — Next 16 removed the built-in `next lint`.)

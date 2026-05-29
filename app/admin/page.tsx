@@ -13,6 +13,11 @@ const tools = [
     name: "Group mailer",
     desc: "Email the whole org, a group, or a subgroup — opens a pre-filled draft in your own mail app.",
   },
+  {
+    href: "/admin/schedule",
+    name: "Meeting scheduler",
+    desc: "Add, edit, or remove lab meetings — changes show on the public Schedule page right away.",
+  },
 ];
 
 export default function AdminPage() {

@@ -3,8 +3,11 @@ import { Button } from "@/components/Button";
 import { NextMeetingCard } from "@/components/NextMeetingCard";
 import { lab, groups, subgroupsByGroup, nextMeeting, members } from "@/lib/data";
 
-export default function HomePage() {
-  const meeting = nextMeeting();
+// The next-meeting card reads live from Supabase, so render per request.
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const meeting = await nextMeeting();
   const ai = groups.find((g) => g.slug === "ai")!;
   const mech = groups.find((g) => g.slug === "mechatronics")!;
   const aiSubs = subgroupsByGroup("ai");

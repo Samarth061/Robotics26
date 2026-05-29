@@ -3,11 +3,12 @@ import groupsJson from "@/data/groups.json";
 import subgroupsJson from "@/data/subgroups.json";
 import membersJson from "@/data/members.json";
 import resourcesJson from "@/data/resources.json";
-import meetingsJson from "@/data/meetings.json";
 import adminsJson from "@/data/admins.json";
 
+import { cache } from "react";
+import { supabaseRead } from "@/lib/supabase";
 import type {
-  Lab, Group, Subgroup, Member, Resource, Meeting, Admin, GroupSlug,
+  Lab, Group, Subgroup, Member, Resource, Meeting, Admin, GroupSlug, MeetingTrack,
 } from "@/types";
 
 export const lab = labJson as Lab;
@@ -15,7 +16,6 @@ export const groups = groupsJson as Group[];
 export const subgroups = subgroupsJson as Subgroup[];
 export const members = membersJson as Member[];
 export const resources = resourcesJson as Resource[];
-export const meetings = meetingsJson as Meeting[];
 export const admins = adminsJson as Admin[];
 
 export function getGroup(slug: GroupSlug): Group {
@@ -69,30 +69,98 @@ export function adminEmailForSubgroup(slug: string): string | undefined {
   return admins[0]?.email;
 }
 
-// In production the cutoff tracks real time; in dev it stays fixed so test
-// data splits predictably. Remove the ternary once you no longer need the
-// dev override.
-const NOW_ISO =
-  process.env.NODE_ENV === "production"
-    ? new Date().toISOString()
-    : "2026-05-21T12:00:00-04:00";
+// DB row (snake_case columns) → app Meeting (camelCase, null → undefined).
+// Column shape and RLS are defined in supabase.md.
+interface MeetingRow {
+  id: string;
+  date: string;
+  presenter: string;
+  topic: string;
+  location: string;
+  parent_group: MeetingTrack;
+  paper_url: string | null;
+  zoom_url: string | null;
+  zoom_meeting_id: string | null;
+  zoom_passcode: string | null;
+  subgroup_slug: string | null;
+  slides_url: string | null;
+  recording_url: string | null;
+}
 
-export function upcomingMeetings(): Meeting[] {
-  const now = new Date(NOW_ISO).getTime();
-  return meetings
+function rowToMeeting(r: MeetingRow): Meeting {
+  return {
+    id: r.id,
+    date: r.date,
+    presenter: r.presenter,
+    topic: r.topic,
+    location: r.location,
+    parentGroup: r.parent_group,
+    paperUrl: r.paper_url ?? undefined,
+    zoomUrl: r.zoom_url ?? undefined,
+    zoomMeetingId: r.zoom_meeting_id ?? undefined,
+    zoomPasscode: r.zoom_passcode ?? undefined,
+    subgroupSlug: r.subgroup_slug ?? undefined,
+    slidesUrl: r.slides_url ?? undefined,
+    recordingUrl: r.recording_url ?? undefined,
+  };
+}
+
+// Single source of truth for meetings = the Supabase `meetings` table (migrated
+// from the old data/meetings.json). Fetch all once; the dataset is small, so
+// upcoming/past/next just filter in JS against the current time.
+// Wrapped in React cache() so multiple accessors within a single request/render
+// (e.g. /schedule calls both upcomingMeetings + pastMeetings) share ONE query
+// instead of issuing duplicate SELECTs. The cache is per-request, not global —
+// it does not stale across requests, so force-dynamic pages stay fresh.
+export const allMeetings = cache(async (): Promise<Meeting[]> => {
+  // Degrade gracefully: the public home + schedule pages render dynamically and
+  // call this, so a Supabase outage (incl. the free-tier 7-day idle pause) or a
+  // missing/bad env var must NOT 500 the landing page. Log and return [] — the
+  // pages then show "no meetings" instead of crashing.
+  try {
+    const { data, error } = await supabaseRead().from("meetings").select("*");
+    if (error) throw error;
+    return (data ?? []).map((r) => rowToMeeting(r as MeetingRow));
+  } catch (err) {
+    console.error("[meetings] Supabase read failed, returning empty list:", err);
+    return [];
+  }
+});
+
+// Split upcoming vs past against the real current time, read per call (not a
+// module-level constant) so a long-running server never drifts.
+export async function upcomingMeetings(): Promise<Meeting[]> {
+  const now = Date.now();
+  return (await allMeetings())
     .filter((m) => new Date(m.date).getTime() >= now)
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
-export function pastMeetings(): Meeting[] {
-  const now = new Date(NOW_ISO).getTime();
-  return meetings
+export async function pastMeetings(): Promise<Meeting[]> {
+  const now = Date.now();
+  return (await allMeetings())
     .filter((m) => new Date(m.date).getTime() < now)
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export function nextMeeting(): Meeting | undefined {
-  return upcomingMeetings()[0];
+export async function nextMeeting(): Promise<Meeting | undefined> {
+  return (await upcomingMeetings())[0];
+}
+
+/** Single meeting by id — for the admin edit page. */
+export async function getMeeting(id: string): Promise<Meeting | undefined> {
+  try {
+    const { data, error } = await supabaseRead()
+      .from("meetings")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+    if (error) throw error;
+    return data ? rowToMeeting(data as MeetingRow) : undefined;
+  } catch (err) {
+    console.error(`[meetings] Supabase read failed for ${id}:`, err);
+    return undefined;
+  }
 }
 
 export function getMember(slug: string): Member | undefined {

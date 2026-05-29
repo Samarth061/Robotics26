@@ -1,9 +1,10 @@
 # Admin area
 
 Reference for the gated `/admin/*` section of the site. Its landing page is `/admin` — a
-small dashboard that lists the available tools. Today there is one: the **group mailer** at
-`/admin/email`. This doc covers how it's protected, how to run and deploy it, how the mailer
-works, and the shared pieces any future mailer should reuse.
+small dashboard that lists the available tools. Today there are two: the **group mailer** at
+`/admin/email` and the **meeting scheduler** at `/admin/schedule`. This doc covers how the area
+is protected, how to run and deploy it, how each tool works, and the shared pieces future tools
+should reuse.
 
 The admin area is **not linked from the site nav**. The only in-site entry point is a
 discreet, muted **"Admin" link in the footer bottom bar** (`components/Footer.tsx`, styled
@@ -79,6 +80,41 @@ account, so the message genuinely originates from a real `@ncsu.edu` address —
 server-side API (Resend, SES, …) cannot do, since it can't authenticate as `ncsu.edu`.
 
 ---
+
+## The meeting scheduler — `/admin/schedule`
+
+Lets the faculty lead **add, edit, and delete lab meetings** from the website. Changes show on
+the public `/schedule` page (and the home next-meeting card) immediately — no code edit, no
+redeploy.
+
+Unlike the mailer (which sends nothing and writes nothing), this tool **persists data**. It is
+backed by **Supabase** — the first slice of the Phase 3 backend. Meetings used to live in
+`data/meetings.json`; they now live in a Supabase `meetings` table, which is the single source
+of truth. Full backend setup (project, table SQL, RLS, env vars, seed script) is in
+**`supabase.md`** — read that to stand the database up.
+
+How it fits together:
+
+- **`/admin/schedule`** (`app/admin/schedule/page.tsx`) — an "Add meeting" form plus a list of
+  upcoming and past meetings, each with **Edit** (`/admin/schedule/[id]`) and **Delete**.
+- **`components/MeetingForm.tsx`** — the reused add/edit form: presenter, topic, date & time,
+  **group** (defaults to **General / lab-wide**; AI or Mechatronics optionally narrow to a
+  subgroup), a **How to join** section (location + Zoom link + Zoom meeting ID + passcode — all
+  optional and **shown publicly**, so the form says so), and paper URL. When *creating*, a
+  **Repeat** control (none / weekly / every-2-weeks × N times) generates that many independent
+  meetings (kept at the same wall-clock time across DST); it's hidden when editing.
+- **`app/admin/schedule/actions.ts`** — `saveMeeting` (insert or update) and `deleteMeeting`
+  server actions. They validate input, write via the **secret-key** Supabase client
+  (`supabaseWrite()` in `lib/supabase.ts`), and `revalidatePath` `/schedule`, `/`, and
+  `/admin/schedule`. They run under `/admin/schedule`, so the Basic Auth gate fronts them — **and**
+  each action independently re-checks the Basic Auth header (`assertAdmin()`) before writing, since
+  the secret key bypasses RLS and Next.js server actions are effectively public POST endpoints.
+- The public pages read with the **publishable-key** client (`supabaseRead()`); RLS allows public
+  SELECT. Read failures degrade gracefully (the accessors return an empty list and log), so a
+  Supabase outage never 500s the public Schedule page or home card.
+
+A `datetime-local` value is interpreted as NC State wall-clock time (America/New_York) and stored
+with that zone's explicit offset (e.g. `…T16:00:00-04:00`), matching the original data format.
 
 ## Reusable compose layer
 

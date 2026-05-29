@@ -1,24 +1,10 @@
 import type { Meeting } from "@/types";
 import { getSubgroup } from "@/lib/data";
-
-function formatLong(iso: string): { day: string; month: string; year: string; time: string } {
-  const d = new Date(iso);
-  const months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
-  const hours = d.getHours();
-  const mins = d.getMinutes();
-  const am = hours < 12;
-  const h12 = ((hours + 11) % 12) + 1;
-  const time = `${h12}:${String(mins).padStart(2,"0")} ${am ? "AM" : "PM"}`;
-  return {
-    day: String(d.getDate()).padStart(2, "0"),
-    month: months[d.getMonth()],
-    year: String(d.getFullYear()),
-    time,
-  };
-}
+import { meetingDateParts } from "@/lib/datetime";
+import { MeetingJoin } from "./MeetingJoin";
 
 export function MeetingRow({ meeting }: { meeting: Meeting }) {
-  const { day, month, year, time } = formatLong(meeting.date);
+  const { day, month, year, time } = meetingDateParts(meeting.date);
   const sub = meeting.subgroupSlug ? getSubgroup(meeting.subgroupSlug) : undefined;
 
   return (
@@ -47,11 +33,7 @@ export function MeetingRow({ meeting }: { meeting: Meeting }) {
             paper
           </a>
         ) : null}
-        {meeting.zoomUrl ? (
-          <a href={meeting.zoomUrl} target="_blank" rel="noopener noreferrer" className="font-mono text-[11px] uppercase tracking-[0.1em] text-mute link-underline">
-            zoom
-          </a>
-        ) : null}
+        <MeetingJoin meeting={meeting} variant="inline" />
       </div>
     </div>
   );

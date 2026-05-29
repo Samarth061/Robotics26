@@ -6,19 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "import:resources": "node scripts/import-resources.mjs"
+    "lint": "eslint .",
+    "import:resources": "node scripts/import-resources.mjs",
+    "seed:meetings": "node scripts/seed-meetings.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
     "next": "^16.2.6",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.6",
     "tailwindcss": "^4.0.0",
     "typescript": "^5"
   }
