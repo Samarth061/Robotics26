@@ -30,7 +30,11 @@ export const metadata: Metadata = {
     template: `%s · ${lab.shortName}`,
   },
   description: lab.mission,
+  icons: { icon: "/Robotics_Logo.svg" },
 };
+
+// Runs before paint (no flash): apply the saved theme, else the device setting.
+const themeInit = `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -40,8 +44,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${fraunces.variable} ${geist.variable} ${jetBrainsMono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
       <body className="antialiased">
         <Header shortName={lab.shortName} />
         <main>{children}</main>

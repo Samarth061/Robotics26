@@ -12,7 +12,7 @@ import type { Member } from "@/types";
 import { EmailComposer, type Audience } from "./EmailComposer";
 
 export const metadata = {
-  title: "Admin — Group mailer",
+  title: "Admin · Group mailer",
   robots: { index: false, follow: false },
 };
 
@@ -35,8 +35,9 @@ export default function AdminEmailPage() {
     {
       id: "org",
       kind: "Org",
-      label: "Entire org — all members",
-      people: peopleOf(members),
+      label: "Entire org (all members)",
+      // Exclude faculty: the professor is the draft's From/To, not a Bcc recipient.
+      people: peopleOf(members.filter((m) => m.status !== "faculty")),
     },
     // membersInGroup() excludes dual-group members by design, so add them back
     // explicitly — a "AI Group" blast should reach everyone in AI.
@@ -67,7 +68,7 @@ export default function AdminEmailPage() {
         lead={
           <>
             Pick an audience and open a pre-filled draft in your own mail app or
-            Gmail. Nothing is sent from this site — you send it from your NC
+            Gmail. Nothing is sent from this site. You send it from your NC
             State address, with recipients hidden in Bcc.
           </>
         }

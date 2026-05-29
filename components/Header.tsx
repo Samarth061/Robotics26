@@ -4,11 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Wordmark } from "./Wordmark";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV = [
   { href: "/members",  label: "Members" },
   { href: "/groups",   label: "Groups" },
-  { href: "/resources",label: "Resources" },
+  // Hidden until the Resources area launches (route + data kept).
+  // { href: "/resources",label: "Resources" },
   { href: "/schedule", label: "Schedule" },
   { href: "/join",     label: "Join" },
   { href: "/contact",  label: "Contact" },
@@ -24,6 +26,7 @@ export function Header({ shortName }: { shortName: string }) {
         <div className="flex h-[64px] items-center justify-between">
           <Wordmark shortName={shortName} />
 
+          <div className="flex items-center gap-2 md:gap-5">
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-7">
             {NAV.map((item) => {
@@ -44,6 +47,8 @@ export function Header({ shortName }: { shortName: string }) {
               );
             })}
           </nav>
+
+          <ThemeToggle />
 
           {/* Mobile: hamburger button */}
           <button
@@ -68,6 +73,7 @@ export function Header({ shortName }: { shortName: string }) {
               }`}
             />
           </button>
+          </div>
         </div>
       </div>
 

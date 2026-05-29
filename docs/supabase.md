@@ -77,7 +77,7 @@ alter table public.meetings
   check (parent_group in ('general', 'ai', 'mechatronics'));
 ```
 
-`general` is a lab-wide meeting track — it's a meeting-only category (see `MeetingTrack` in
+`general` is a club-wide meeting track — it's a meeting-only category (see `MeetingTrack` in
 `types/index.ts`), **not** a real group, so it does not appear in `data/groups.json`, the
 `/groups` pages, or the email mailer's audiences.
 

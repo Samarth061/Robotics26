@@ -13,7 +13,7 @@ export default function GroupsPage() {
         title={<>What we&apos;re <span className="italic">working on</span>.</>}
         lead={
           <>
-            Two umbrella groups — AI and Mechatronics — each split into focused
+            Two umbrella groups, AI and Mechatronics, each split into focused
             subgroups. Pick the subgroup that matches your interest, or join
             both umbrellas if you want breadth.
           </>

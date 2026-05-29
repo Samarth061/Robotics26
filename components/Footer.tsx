@@ -24,7 +24,8 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-[14px]">
               <li><Link href="/members" className="link-underline">Members</Link></li>
               <li><Link href="/groups" className="link-underline">Groups</Link></li>
-              <li><Link href="/resources" className="link-underline">Resources</Link></li>
+              {/* Resources hidden until the Resources area launches (route + data kept). */}
+              {/* <li><Link href="/resources" className="link-underline">Resources</Link></li> */}
               <li><Link href="/schedule" className="link-underline">Schedule</Link></li>
               <li><Link href="/join" className="link-underline">Join / Manage</Link></li>
               <li><Link href="/contact" className="link-underline">Contact</Link></li>
@@ -45,7 +46,7 @@ export function Footer() {
 
         <div className="mt-12 pt-6 hairline-t flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
-            EST. FY 2026 — Draft / Phase 1
+            EST. FY 2026
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
             <Link href="/admin" className="transition-colors duration-200 hover:text-red">

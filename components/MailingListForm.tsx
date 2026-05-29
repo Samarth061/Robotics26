@@ -25,15 +25,15 @@ export function MailingListForm({ professorEmail, adminEmails }: Props) {
     group === "ai"   ? "AI Group" :
                        "Mechatronics Group";
 
-  const subject = `[Robotics Lab] ${action === "subscribe" ? "Subscribe" : "Unsubscribe"} request — ${name.trim() || "?"}`;
+  const subject = `[Robotics Club] ${action === "subscribe" ? "Subscribe" : "Unsubscribe"} request: ${name.trim() || "?"}`;
 
   const bodyLines = [
     `Action : ${action === "subscribe" ? "Subscribe to mailing list" : "Unsubscribe from mailing list"}`,
-    `Name   : ${name.trim()  || "—"}`,
-    `Email  : ${email.trim() || "—"}`,
+    `Name   : ${name.trim()  || "(none)"}`,
+    `Email  : ${email.trim() || "(none)"}`,
     action === "subscribe" ? `Group  : ${groupLabel}` : null,
     note.trim() ? `\nNote:\n${note.trim()}` : null,
-    `\n— Submitted via the Robotics Lab website`,
+    `\nSubmitted via the Robotics Club website`,
   ].filter(Boolean).join("\n");
 
   const inputClass =
@@ -131,14 +131,14 @@ export function MailingListForm({ professorEmail, adminEmails }: Props) {
       <div className="p-4 border border-rule bg-cream text-[13px] text-mute leading-relaxed">
         <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-ink">How this works · </span>
         Clicking &ldquo;Open in Gmail&rdquo; or &ldquo;Open in mail app&rdquo; below will open a
-        pre-filled draft in <em>your own</em> email. You review it and hit send —
-        it goes directly to the lab admins and professor from your address.
+        pre-filled draft in <em>your own</em> email. You review it and hit send,
+        and it goes directly to the club admins and professor from your address.
       </div>
 
       {/* Compose buttons */}
       <div>
         <p className="kicker mb-3">
-          {ready ? "Ready — open your email to send" : "Fill in your name and email first"}
+          {ready ? "Ready. Open your email to send" : "Fill in your name and email first"}
         </p>
         {ready ? (
           <ComposeLinks

@@ -24,12 +24,12 @@ export function ContactForm({ adminEmails }: Props) {
 
   const ready = fullName.trim().length > 0 && email.trim().length > 0 && category && message.trim().length > 0;
 
-  const subject = `[Robotics Lab Contact] ${category} — ${fullName.trim()}`;
+  const subject = `[Robotics Club Contact] ${category}: ${fullName.trim()}`;
   const body = [
     `Category : ${category}`,
     `From     : ${fullName.trim()} <${email.trim()}>`,
     `\nMessage:\n${message.trim()}`,
-    `\n— Submitted via the Robotics Lab website Contact Form`,
+    `\nSubmitted via the Robotics Club website Contact Form`,
   ].join("\n");
 
   const inputClass = "w-full px-3 py-2.5 border border-rule bg-paper font-mono text-[13px] text-ink placeholder:text-mute-light focus:outline-none focus:border-rule-strong transition-colors";
@@ -94,7 +94,7 @@ export function ContactForm({ adminEmails }: Props) {
 
       <div className="p-4 border border-rule bg-cream text-[13px] text-mute leading-relaxed rounded-md">
         <span className="font-mono text-[10.5px] uppercase tracking-[0.1em] text-ink font-bold">How this works · </span>
-        Clicking &ldquo;Open in Gmail&rdquo; or &ldquo;Open in mail app&rdquo; will open a pre-filled draft in your own email. You review and send it directly from your inbox to the lab admins.
+        Clicking &ldquo;Open in Gmail&rdquo; or &ldquo;Open in mail app&rdquo; will open a pre-filled draft in your own email. You review and send it directly from your inbox to the club admins.
       </div>
 
       <div>

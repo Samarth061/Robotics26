@@ -17,6 +17,28 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", monospace;
 }
 
+/* Dark theme. Overrides the @theme color tokens above; every color utility
+   (bg-paper, text-ink, border-rule, etc.) and `var(--color-*)` reference
+   resolves through these, so the whole site themes from this one block, with no
+   per-component dark styles. Toggled by the `dark` class on <html> (set by the
+   layout init script and ThemeToggle). */
+:root {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+  --color-ink: #f2f1ee;
+  --color-paper: #0f0f10;
+  --color-cream: #1a1a1c;
+  --color-rule: #2a2a2d;
+  --color-rule-strong: #3d3d41;
+  --color-mute: #a3a19c;
+  --color-mute-light: #6f6e6a;
+  --color-red: #ff5a5a;
+  --color-red-deep: #ff8080;
+  --color-red-tint: #2a1413;
+}
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -47,6 +69,12 @@
     mix-blend-mode: multiply;
   }
 
+  /* On dark, multiply hides the grain — switch to a faint screen highlight. */
+  html.dark body::before {
+    mix-blend-mode: screen;
+    opacity: 0.02;
+  }
+
   main, header, footer {
     position: relative;
     z-index: 1;
@@ -68,6 +96,11 @@
 
   .hairline-b { border-bottom: 1px solid var(--color-rule); }
   .hairline-t { border-top: 1px solid var(--color-rule); }
+
+  /* Theme-toggle icon visibility, keyed off the html.dark class. */
+  .theme-when-dark { display: none; }
+  html.dark .theme-when-light { display: none; }
+  html.dark .theme-when-dark { display: inline-flex; }
 
   /* Hero entrance — single page-load stagger */
   .stagger > * { opacity: 0; transform: translateY(8px); animation: rise 600ms cubic-bezier(.2,.7,.2,1) forwards; }

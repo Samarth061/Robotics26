@@ -77,9 +77,9 @@ export default function ContactPage() {
             </ul>
 
             <p className="mt-8 text-[14px] text-mute leading-relaxed">
-              For urgent issues — broken hardware, schedule conflicts day-of —
+              For urgent issues (broken hardware or a day-of schedule conflict),
               ping <span className="font-mono text-ink">#help</span> on Discord.
-              The website is the source of truth; Discord is where the lab
+              The website is the source of truth; Discord is where the club
               actually lives day-to-day.
             </p>
           </aside>

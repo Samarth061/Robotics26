@@ -42,14 +42,14 @@ the form link can submit, and anyone with repo access can commit.
 - **CTA**: `/resources` "Submit a resource →" links out (new tab) to the form URL in
   `data/lab.json → formUrls.submitResource`. Falls back to `/contact` if that field is blank.
 - **General resources**: `Resource.subgroupSlug` is optional. Resources without it render in a
-  "General · Lab-wide" section at the top of `/resources` (`resourcesGeneral()` in `lib/data.ts`).
+  "General · Club-wide" section at the top of `/resources` (`resourcesGeneral()` in `lib/data.ts`).
 - **Member tag (data model only, unused)**: `Member.subgroupAdminOf?: string[]` + the
   `adminEmailForSubgroup(slug)` helper in `lib/data.ts`. No members carry values yet — the shape
   ships now so per-subgroup routing has a documented home later.
 - **Import script**: `scripts/import-resources.mjs`, run via `npm run import:resources <csv>`.
 
 ### Google Form
-Title: **Submit a Resource — NC State Robotics Lab**. Settings: *Collect email addresses =
+Title: **Submit a Resource — NC State Robotics Club**. Settings: *Collect email addresses =
 Verified* (forces NCSU sign-in), allow multiple submissions. Live URL is in `data/lab.json`.
 
 Questions — the titles must stay **exactly** as below; the import script matches columns by title:
@@ -59,7 +59,7 @@ Questions — the titles must stay **exactly** as below; the import script match
 | 1 | `Your name` | Short answer | ✓ | `recommendedBy` |
 | 2 | `Resource title` | Short answer | ✓ | `title` |
 | 3 | `Resource type` | Choice: Paper / Video / Project / Tutorial / Dataset | ✓ | `type` |
-| 4 | `Where does this resource belong?` | Choice: the 11 subgroup names + "General (lab-wide / not subgroup-specific)" | ✓ | `subgroupSlug` (or none) |
+| 4 | `Where does this resource belong?` | Choice: the 11 subgroup names + "General (club-wide / not subgroup-specific)" | ✓ | `subgroupSlug` (or none) |
 | 5 | `Link (shareable URL)` | Short answer, URL validation | ✓ | `url` |
 | 6 | `Short description` | Paragraph | ✓ | `description` |
 | 7 | `Tags` | Short answer, comma-separated | | `tags` |
@@ -125,7 +125,7 @@ function onResourceSubmit(e) {
 
 ## FUTURE — not built yet
 
-- **Own the files**: once the lab has a shared Workspace account, switch Q5 to a Form
+- **Own the files**: once the club has a shared Workspace account, switch Q5 to a Form
   **file-upload** question so PDFs/images land in *our* Drive folder (no link-rot), instead of
   asking submitters to host and link.
 - **Per-subgroup routing**: when Discord subgroups get admins, set `Member.subgroupAdminOf` in

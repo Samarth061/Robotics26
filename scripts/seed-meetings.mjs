@@ -2,7 +2,7 @@
 /**
  * seed-meetings.mjs — one-time migration of data/meetings.json into Supabase.
  *
- * Run LOCALLY once, after creating the `meetings` table (see supabase.md):
+ * Run LOCALLY once, after creating the `meetings` table (see docs/supabase.md):
  *
  *     npm run seed:meetings
  *
@@ -39,7 +39,7 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const secretKey = process.env.SUPABASE_SECRET_KEY;
 if (!url || !secretKey) {
   console.error(
-    "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY in .env.local — see supabase.md.",
+    "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SECRET_KEY in .env.local — see docs/supabase.md.",
   );
   process.exit(1);
 }

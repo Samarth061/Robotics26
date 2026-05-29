@@ -1,5 +1,4 @@
 import { PageHeader } from "@/components/PageHeader";
-import { Tag } from "@/components/Tag";
 import { MailingListForm } from "@/components/MailingListForm";
 import { lab, admins } from "@/lib/data";
 
@@ -26,9 +25,9 @@ export default function JoinPage() {
         title={<>Join. <span className="italic">Or change your mind.</span></>}
         lead={
           <>
-            Fill in the form below and your request goes directly to the lab
-            admins and professor from your own email address — no third-party
-            service, nothing sent from this site.
+            Fill in the form below and your request goes directly to the club
+            admins and professor from your own email address. No third-party
+            service is involved, and nothing is sent from this site.
           </>
         }
       />
@@ -98,15 +97,10 @@ export default function JoinPage() {
               <div className="p-5 bg-cream border border-rule">
                 <p className="kicker">What happens next</p>
                 <p className="mt-3 text-[14px] text-mute leading-relaxed">
-                  Your email goes directly to {lab.professor.name} and all lab
+                  Your email goes directly to {lab.professor.name} and all club
                   admins. They&apos;ll update your mailing list status within a
                   few days.
                 </p>
-              </div>
-
-              <div className="flex items-center gap-2 flex-wrap">
-                <Tag variant="default">Phase 1 · mailto</Tag>
-                <Tag variant="subtle">Phase 3 · Self-serve</Tag>
               </div>
             </div>
           </aside>

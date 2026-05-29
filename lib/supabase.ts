@@ -20,7 +20,7 @@ function required(name: string): string {
   const value = process.env[name];
   if (!value) {
     throw new Error(
-      `Missing ${name}. Supabase is not configured — see supabase.md.`,
+      `Missing ${name}. Supabase is not configured — see docs/supabase.md.`,
     );
   }
   return value;

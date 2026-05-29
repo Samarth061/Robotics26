@@ -60,7 +60,7 @@ export default async function SubgroupDetailPage({
         <section>
           <SectionHeader number="01" name="Members" count={subMembers.length} />
           {subMembers.length === 0 ? (
-            <p className="text-mute text-[14px]">No members listed yet. Be the first — head to <Link href="/join" className="link-underline">Join</Link>.</p>
+            <p className="text-mute text-[14px]">No members listed yet. Be the first; head to <Link href="/join" className="link-underline">Join</Link>.</p>
           ) : (
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8">
               {subMembers.map((m) => (
@@ -120,9 +120,6 @@ export default async function SubgroupDetailPage({
               </li>
             ))}
           </ul>
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.1em] text-mute">
-            ⌬ Full project status, help-wanted labels, and GitHub links arrive in Phase 2.
-          </p>
         </section>
 
         {/* Discord */}
@@ -132,7 +129,7 @@ export default async function SubgroupDetailPage({
             Daily chat, debugging, polls, and quick announcements happen in{" "}
             <span className="font-mono text-ink">{sg.discordChannel}</span>. The
             website is the source of truth for membership, resources, and
-            schedule — Discord is the source of truth for what&apos;s happening today.
+            schedule. Discord is the source of truth for what&apos;s happening today.
           </p>
         </section>
       </div>
