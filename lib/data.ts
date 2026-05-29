@@ -59,15 +59,14 @@ export function resourcesGeneral(): Resource[] {
 
 /**
  * Email of the admin responsible for a subgroup's resources. Returns the member
- * tagged with this subgroup in `subgroupAdminOf`, else the "Resources & curation"
- * admin as the fallback. Reserved for future per-subgroup submission routing — no
- * members carry `subgroupAdminOf` yet. See resources-submission.md.
+ * tagged with this subgroup in `subgroupAdminOf`, else falls back to the first
+ * admin. Reserved for future per-subgroup submission routing — no members carry
+ * `subgroupAdminOf` yet. See resources-submission.md.
  */
 export function adminEmailForSubgroup(slug: string): string | undefined {
   const lead = members.find((m) => m.subgroupAdminOf?.includes(slug));
   if (lead?.email) return lead.email;
-  const curation = admins.find((a) => a.role === "Resources & curation");
-  return curation?.email;
+  return admins[0]?.email;
 }
 
 // In production the cutoff tracks real time; in dev it stays fixed so test

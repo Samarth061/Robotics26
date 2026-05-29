@@ -45,7 +45,7 @@ export function MemberCard({ member }: { member: Member }) {
           </h3>
           <div className="flex items-center gap-2 flex-wrap">
             {member.isAdmin ? (
-              <Tag variant="accent">Admin · {member.adminRole}</Tag>
+              <Tag variant="accent">{member.adminRole ? `Admin · ${member.adminRole}` : "Admin"}</Tag>
             ) : null}
             {statusLabel ? (
               <Tag variant="subtle">{statusLabel}</Tag>

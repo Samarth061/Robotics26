@@ -35,11 +35,8 @@ export function Footer() {
             <p className="kicker">Admins</p>
             <ul className="mt-4 space-y-2 text-[14px]">
               {admins.map(({ admin, member }) => (
-                <li key={admin.memberSlug} className="flex items-baseline justify-between gap-4">
+                <li key={admin.memberSlug}>
                   <span className="font-display text-[15px]">{member.name}</span>
-                  <span className="font-mono text-[11px] text-mute uppercase tracking-[0.08em] truncate">
-                    {admin.role}
-                  </span>
                 </li>
               ))}
             </ul>

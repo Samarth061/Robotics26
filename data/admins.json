@@ -1,6 +1,6 @@
 [
-  { "memberSlug": "samarth-shah",      "role": "Lab coordinator",       "email": "sdshah5@ncsu.edu",   "discordHandle": "@samarth" },
-  { "memberSlug": "vaishvi-patel",     "role": "Programs & onboarding", "email": "vpatel34@ncsu.edu",  "discordHandle": "@vaishvi" },
-  { "memberSlug": "praneetha-koppala", "role": "Resources & curation",  "email": "pkoppal@ncsu.edu",   "discordHandle": "@praneetha" },
-  { "memberSlug": "edward-feng",       "role": "Schedule & meetings",   "email": "sfeng9@ncsu.edu",    "discordHandle": "@edward" }
+  { "memberSlug": "samarth-shah",      "role": "Admin", "email": "sdshah5@ncsu.edu",   "discordHandle": "@samarth" },
+  { "memberSlug": "vaishvi-patel",     "role": "Admin", "email": "vpatel34@ncsu.edu",  "discordHandle": "@vaishvi" },
+  { "memberSlug": "praneetha-koppala", "role": "Admin", "email": "pkoppal@ncsu.edu",   "discordHandle": "@praneetha" },
+  { "memberSlug": "edward-feng",       "role": "Admin", "email": "sfeng9@ncsu.edu",    "discordHandle": "@edward" }
 ]

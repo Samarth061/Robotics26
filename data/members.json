@@ -6,8 +6,7 @@
     "groups": ["ai", "mechatronics"],
     "subgroups": ["llms-transformers", "robotic-arm-6dof"],
     "interests": ["LLMs", "ROS 2", "Manipulation"],
-    "isAdmin": true,
-    "adminRole": "Lab coordinator"
+    "isAdmin": true
   },
   {
     "slug": "vaishvi-patel",
@@ -16,8 +15,7 @@
     "groups": ["ai", "mechatronics"],
     "subgroups": ["vision-language-models", "drone"],
     "interests": ["VLMs", "Perception", "Flight controls"],
-    "isAdmin": true,
-    "adminRole": "Programs & onboarding"
+    "isAdmin": true
   },
   {
     "slug": "praneetha-koppala",
@@ -26,8 +24,7 @@
     "groups": ["ai", "mechatronics"],
     "subgroups": ["vision-language-models", "antenna-arrays"],
     "interests": ["Multimodal models", "RF / DSP"],
-    "isAdmin": true,
-    "adminRole": "Resources & curation"
+    "isAdmin": true
   },
   {
     "slug": "edward-feng",
@@ -36,8 +33,7 @@
     "groups": ["ai", "mechatronics"],
     "subgroups": ["vision-language-models", "localization"],
     "interests": ["VLMs", "UWB", "Sensor fusion"],
-    "isAdmin": true,
-    "adminRole": "Schedule & meetings"
+    "isAdmin": true
   },
   {
     "slug": "archit-kulkarni",
