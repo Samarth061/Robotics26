@@ -82,10 +82,10 @@ The `ROUTING` map is a stub for future per-subgroup routing.
 // Notified on every submission. (Per-subgroup routing comes later via ROUTING.)
 const RECIPIENTS = [
   "kaharfou@ncsu.edu",  // Prof. Harfoush
-  "sdshah5@ncsu.edu",   // Samarth — Lab coordinator
-  "vpatel34@ncsu.edu",  // Vaishvi — Programs & onboarding
-  "pkoppal@ncsu.edu",   // Praneetha — Resources & curation
-  "sfeng9@ncsu.edu",    // Edward — Schedule & meetings
+  "sdshah5@ncsu.edu",   // Samarth
+  "vpatel34@ncsu.edu",  // Vaishvi
+  "pkoppal@ncsu.edu",   // Praneetha
+  "sfeng9@ncsu.edu",    // Edward
 ];
 const ROUTING = {};  // future: "<Q4 subgroup option>": "<that admin's email>"
 

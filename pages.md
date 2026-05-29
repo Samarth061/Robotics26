@@ -92,7 +92,7 @@ Single contact form with a category dropdown:
 - Ask an admin question
 - Report a website issue
 
-Also list: admin name · role · email (shown as clickable mailto link) · Discord handle.
+Also list: admin name · email (shown as clickable mailto link) · Discord handle. All four are equal admins — no per-category routing yet, so every submission reaches all of them.
 
 ### Admin — Group mailer (gated, not in public nav)
 `/admin/email`. Behind HTTP Basic Auth (`proxy.ts`, `ADMIN_USER` / `ADMIN_PASS`) — not
