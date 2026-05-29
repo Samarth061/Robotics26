@@ -48,7 +48,7 @@ export function Footer() {
             EST. FY 2026 — Draft / Phase 1
           </p>
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
-            <Link href="/admin" className="transition-colors duration-200 hover:text-red">
+            <Link href="/admin" prefetch={false} className="transition-colors duration-200 hover:text-red">
               Admin
             </Link>
             {" · "}© {year} {lab.name}
