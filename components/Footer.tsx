@@ -24,8 +24,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-[14px]">
               <li><Link href="/members" className="link-underline">Members</Link></li>
               <li><Link href="/groups" className="link-underline">Groups</Link></li>
-              {/* Resources hidden until the Resources area launches (route + data kept). */}
-              {/* <li><Link href="/resources" className="link-underline">Resources</Link></li> */}
+              <li><Link href="/resources" className="link-underline">Resources</Link></li>
               <li><Link href="/schedule" className="link-underline">Schedule</Link></li>
               <li><Link href="/join" className="link-underline">Join / Manage</Link></li>
               <li><Link href="/contact" className="link-underline">Contact</Link></li>

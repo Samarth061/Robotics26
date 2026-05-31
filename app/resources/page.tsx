@@ -1,20 +1,43 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/PageHeader";
 import { ResourceCard } from "@/components/ResourceCard";
-import { Button } from "@/components/Button";
-import { lab, groups, subgroupsByGroup, resourcesForSubgroup, resourcesGeneral, resources } from "@/lib/data";
+import {
+  groups,
+  subgroupsByGroup,
+  allResources,
+  allResourcesForSubgroup,
+  allResourcesGeneral,
+} from "@/lib/data";
 
 export const metadata = { title: "Resources" };
 
-export default function ResourcesPage() {
-  const submitUrl = lab.formUrls.submitResource;
-  const submitHref = submitUrl || "/contact";
-  const general = resourcesGeneral();
+// Reads live from Supabase; render per request so admin changes show instantly.
+export const dynamic = "force-dynamic";
+
+export default async function ResourcesPage() {
+  // Fetch everything up-front — allResources() is cached per-request so
+  // allResourcesForSubgroup / allResourcesGeneral share the same query.
+  const all = await allResources();
+  const general = await allResourcesGeneral();
+
+  // Pre-fetch per-subgroup slices for every group so JSX stays sync.
+  const groupSections = await Promise.all(
+    groups.map(async (g, gi) => {
+      const subgroupItems = await Promise.all(
+        subgroupsByGroup(g.slug).map(async (sg) => ({
+          sg,
+          items: await allResourcesForSubgroup(sg.slug),
+        })),
+      );
+      return { g, gi, subgroupItems };
+    }),
+  );
+
   return (
     <>
       <PageHeader
         eyebrow="N° 04 · Library"
-        number={`${resources.length} curated`}
+        number={`${all.length} curated`}
         title={<>The <span className="italic">reading</span> list.</>}
         lead={
           <>
@@ -26,13 +49,14 @@ export default function ResourcesPage() {
       />
 
       <div className="mx-auto max-w-[1240px] px-6 md:px-10 py-12 md:py-16">
-        <div className="mb-12 flex items-center justify-between flex-wrap gap-4">
+        <div className="mb-12">
           <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-mute max-w-[60ch]">
             ⌬ Browse resources by subgroup.
           </p>
-          <Button href={submitHref} variant="outline" external={Boolean(submitUrl)}>
+          {/* Submit a resource button hidden — admins add resources directly via /admin/resources. */}
+          {/* <Button href={submitHref} variant="outline" external={Boolean(submitUrl)}>
             Submit a resource →
-          </Button>
+          </Button> */}
         </div>
 
         {general.length > 0 && (
@@ -56,7 +80,7 @@ export default function ResourcesPage() {
           </section>
         )}
 
-        {groups.map((g, gi) => (
+        {groupSections.map(({ g, gi, subgroupItems }) => (
           <section key={g.slug} className="mb-20">
             <div className="flex items-baseline justify-between gap-4 mb-8">
               <div className="flex items-baseline gap-4">
@@ -68,47 +92,32 @@ export default function ResourcesPage() {
             </div>
 
             <div className="space-y-12">
-              {subgroupsByGroup(g.slug).map((sg) => {
-                const items = resourcesForSubgroup(sg.slug);
-                return (
-                  <div key={sg.slug}>
-                    <div className="flex items-baseline justify-between gap-4 mb-1.5 hairline-b pb-2">
-                      <Link
-                        href={`/groups/${sg.slug}`}
-                        className="font-display text-[20px] md:text-[22px] tracking-tight link-underline"
-                      >
-                        {sg.name}
-                      </Link>
-                      <span className="kicker">
-                        {items.length} {items.length === 1 ? "entry" : "entries"}
-                      </span>
-                    </div>
-                    {items.length === 0 ? (
-                      <p className="py-6 text-[13.5px] text-mute italic">
-                        No resources yet for this subgroup:{" "}
-                        {submitUrl ? (
-                          <a
-                            href={submitUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="link-underline"
-                          >
-                            recommend one
-                          </a>
-                        ) : (
-                          <Link href="/contact" className="link-underline">recommend one</Link>
-                        )}.
-                      </p>
-                    ) : (
-                      <div>
-                        {items.map((r) => (
-                          <ResourceCard key={r.id} resource={r} />
-                        ))}
-                      </div>
-                    )}
+              {subgroupItems.map(({ sg, items }) => (
+                <div key={sg.slug}>
+                  <div className="flex items-baseline justify-between gap-4 mb-1.5 hairline-b pb-2">
+                    <Link
+                      href={`/groups/${sg.slug}`}
+                      className="font-display text-[20px] md:text-[22px] tracking-tight link-underline"
+                    >
+                      {sg.name}
+                    </Link>
+                    <span className="kicker">
+                      {items.length} {items.length === 1 ? "entry" : "entries"}
+                    </span>
                   </div>
-                );
-              })}
+                  {items.length === 0 ? (
+                    <p className="py-6 text-[13.5px] text-mute italic">
+                      No resources yet for this subgroup — check back soon.
+                    </p>
+                  ) : (
+                    <div>
+                      {items.map((r) => (
+                        <ResourceCard key={r.id} resource={r} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </section>
         ))}

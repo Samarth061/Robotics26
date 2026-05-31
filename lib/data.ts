@@ -8,7 +8,7 @@ import adminsJson from "@/data/admins.json";
 import { cache } from "react";
 import { supabaseRead } from "@/lib/supabase";
 import type {
-  Lab, Group, Subgroup, Member, Resource, Meeting, Admin, GroupSlug, MeetingTrack,
+  Lab, Group, Subgroup, Member, Resource, Meeting, Admin, GroupSlug, MeetingTrack, ResourceType,
 } from "@/types";
 
 export const lab = labJson as Lab;
@@ -64,6 +64,76 @@ export function resourcesGeneral(): Resource[] {
   return resources
     .filter((r) => !r.subgroupSlug)
     .sort((a, b) => b.dateAdded.localeCompare(a.dateAdded));
+}
+
+// ── Live Supabase resource helpers ─────────────────────────────────────────
+// Mirrors the allMeetings() pattern: cached per-request fetch with graceful
+// degrade on error, so a Supabase outage cannot 500 the public Resources page.
+
+interface ResourceRow {
+  id: string;
+  title: string;
+  type: string;
+  url: string;
+  description: string;
+  tags: string[];
+  recommended_by: string;
+  date_added: string;
+  subgroup_slug: string | null;
+  beginner_friendly: boolean;
+}
+
+function rowToResource(r: ResourceRow): Resource {
+  return {
+    id: r.id,
+    title: r.title,
+    type: r.type as ResourceType,
+    url: r.url,
+    description: r.description,
+    tags: r.tags ?? [],
+    recommendedBy: r.recommended_by,
+    dateAdded: r.date_added,
+    subgroupSlug: r.subgroup_slug ?? undefined,
+    beginnerFriendly: r.beginner_friendly ?? false,
+  };
+}
+
+export const allResources = cache(async (): Promise<Resource[]> => {
+  try {
+    const { data, error } = await supabaseRead()
+      .from("resources")
+      .select("*")
+      .order("date_added", { ascending: false });
+    if (error) throw error;
+    return (data ?? []).map((r) => rowToResource(r as ResourceRow));
+  } catch (err) {
+    console.error("[resources] Supabase read failed, returning empty list:", err);
+    return [];
+  }
+});
+
+export async function allResourcesForSubgroup(slug: string): Promise<Resource[]> {
+  return (await allResources()).filter((r) => r.subgroupSlug === slug);
+}
+
+export async function allResourcesGeneral(): Promise<Resource[]> {
+  return (await allResources()).filter((r) => !r.subgroupSlug);
+}
+
+/** Single resource by id — for the admin edit page. */
+export async function getResource(id: string): Promise<Resource | undefined> {
+  try {
+    const { data, error } = await supabaseRead()
+      .from("resources")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+    if (error) throw error;
+    return data ? rowToResource(data as ResourceRow) : undefined;
+  } catch (err) {
+    console.error(`[resources] Supabase read failed for ${id}:`, err);
+    return undefined;
+  }
 }
 
 /**

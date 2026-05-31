@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "import:resources": "node scripts/import-resources.mjs",
     "seed:meetings": "node scripts/seed-meetings.mjs",
+    "seed:resources": "node scripts/seed-resources.mjs",
     "reset:meetings": "node scripts/reset-meetings.mjs"
   },
   "dependencies": {

@@ -9,8 +9,7 @@ import { ThemeToggle } from "./ThemeToggle";
 const NAV = [
   { href: "/members",  label: "Members" },
   { href: "/groups",   label: "Groups" },
-  // Hidden until the Resources area launches (route + data kept).
-  // { href: "/resources",label: "Resources" },
+  { href: "/resources", label: "Resources" },
   { href: "/schedule", label: "Schedule" },
   { href: "/join",     label: "Join" },
   { href: "/contact",  label: "Contact" },

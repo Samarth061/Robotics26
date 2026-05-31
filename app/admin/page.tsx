@@ -18,6 +18,11 @@ const tools = [
     name: "Meeting scheduler",
     desc: "Add, edit, or remove club meetings. Changes show on the public Schedule page right away.",
   },
+  {
+    href: "/admin/resources",
+    name: "Resource manager",
+    desc: "Add, edit, or remove papers, videos, tutorials, and datasets. Changes show on the public Resources page right away.",
+  },
 ];
 
 export default function AdminPage() {

@@ -1,9 +1,6 @@
 # Supabase backend
 
-The first slice of the **Phase 3 backend**. Today it stores exactly one thing — **meetings**,
-which power the public Schedule page and the home next-meeting card, and which the faculty lead
-manages from the gated `/admin/schedule` tool. Everything else (members, groups, subgroups,
-resources) still lives in `data/*.json`; only meetings have moved.
+The backend stores two things: **meetings** (public Schedule page + home next-meeting card, managed from `/admin/schedule`) and **resources** (public Resources page, managed from `/admin/resources`). Both are managed from the gated `/admin/*` tools and written via server actions using the secret key.
 
 Why a database at all: the site is static-first and on Vercel the filesystem is read-only at
 runtime, so an admin form **cannot** write `data/meetings.json` and have it persist. "Add a
@@ -104,22 +101,57 @@ inert; deleting it just removes the stale copy. It stays in git history.)
 
 ---
 
+### 5. Create the `resources` table + RLS
+In the Supabase **SQL Editor**, run:
+
+```sql
+create table public.resources (
+  id                text primary key default gen_random_uuid()::text,
+  title             text not null,
+  type              text not null check (type in ('Paper','Video','Project','Tutorial','Dataset')),
+  url               text not null,
+  description       text not null default '',
+  tags              text[] not null default '{}',
+  recommended_by    text not null default '',
+  date_added        date not null default current_date,
+  subgroup_slug     text,
+  beginner_friendly boolean not null default false,
+  created_at        timestamptz not null default now()
+);
+
+-- Public reads; writes only via the gated /admin/resources server actions
+-- using the secret key (which bypasses RLS).
+alter table public.resources enable row level security;
+
+create policy "public read resources"
+  on public.resources for select
+  to anon
+  using (true);
+```
+
+Columns are snake_case; mapped to the camelCase `Resource` type in `lib/data.ts` (`rowToResource`).
+
+### 6. Seed existing resources, then retire the JSON
+```bash
+npm run seed:resources       # upserts data/resources.json rows into Supabase (idempotent)
+```
+Verify in the Supabase table editor, then **delete `data/resources.json`** — Supabase is the
+source of truth from then on.
+
 ## How the code uses it
 
 - **`lib/supabase.ts`** (`server-only`) — two client factories. `supabaseRead()` (publishable
   key) for page reads, `supabaseWrite()` (secret key) for the admin write actions. Missing env
-  vars throw immediately (fail-closed), mirroring the `proxy.ts` ethos. We use the plain
-  `@supabase/supabase-js` client — **not** `@supabase/ssr`, since there is no user-session/cookie
-  auth to manage (the `/admin` gate is Basic Auth in `proxy.ts`).
-- **`lib/data.ts`** — `allMeetings()`, `upcomingMeetings()`, `pastMeetings()`, `nextMeeting()`,
-  `getMeeting(id)` read from Supabase (the upcoming/past split uses the real current time,
-  `Date.now()`). These are now **async** — callers `await` them.
-- **Pages that read meetings** (`/schedule`, `/` home, `/admin/schedule`) set
-  `export const dynamic = "force-dynamic"` so they render per request and reflect changes
-  immediately — no ISR/revalidation race. (Acceptable: this is a low-traffic internal site.)
-- **Writes** live only in `app/admin/schedule/actions.ts` (`saveMeeting`, `deleteMeeting`),
-  reached through the Basic-Auth-gated `/admin/schedule` route. They use `supabaseWrite()` (secret
-  key) and call `revalidatePath` for `/schedule`, `/`, and `/admin/schedule` after every change.
+  vars throw immediately (fail-closed), mirroring the `proxy.ts` ethos.
+- **`lib/data.ts`** — meetings: `allMeetings()`, `upcomingMeetings()`, `pastMeetings()`,
+  `nextMeeting()`, `getMeeting(id)`. Resources: `allResources()`, `allResourcesForSubgroup(slug)`,
+  `allResourcesGeneral()`, `getResource(id)`. All DB-backed and async; wrapped in React `cache()`
+  so multiple page sections share one query per request.
+- **Pages that read from Supabase** set `export const dynamic = "force-dynamic"` so they render
+  per request and reflect changes immediately — no ISR/revalidation race.
+- **Writes** live only in the respective `actions.ts` files under `/admin/schedule` and
+  `/admin/resources`. They use `supabaseWrite()` (secret key) and call `revalidatePath` for the
+  relevant public + admin paths after every change.
 
 ## Security notes
 - The secret key (`SUPABASE_SECRET_KEY`) is server-only. `lib/supabase.ts` imports `server-only`,
@@ -135,6 +167,6 @@ inert; deleting it just removes the stale copy. It stays in git history.)
   header inside the action (`assertAdmin()` in `actions.ts`): the secret key bypasses RLS and
   Next.js server actions are effectively public POST endpoints, so writes don't trust the path gate
   alone.
-- Public reads degrade gracefully: `allMeetings()` / `getMeeting()` catch errors, log, and return
-  empty rather than throwing — so a Supabase outage or the free-tier idle-pause can't 500 the
-  public Schedule page or home next-meeting card.
+- Public reads degrade gracefully: `allMeetings()`, `allResources()`, and the single-row getters
+  catch errors, log, and return empty/undefined rather than throwing — so a Supabase outage or the
+  free-tier idle-pause can't 500 any public page.
