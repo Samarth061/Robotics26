@@ -1,25 +1,30 @@
 import { PageHeader } from "@/components/PageHeader";
 import { MemberCard } from "@/components/MemberCard";
 import {
-  members,
-  faculty,
-  membersInGroup,
-  membersInBothGroups,
+  allMembers,
+  allFaculty,
+  allMembersInGroup,
+  allMembersInBothGroups,
 } from "@/lib/data";
 
 export const metadata = { title: "Members" };
 
-export default function MembersPage() {
-  const fac = faculty();
-  const ai = membersInGroup("ai");
-  const mech = membersInGroup("mechatronics");
-  const both = membersInBothGroups();
+// Reads live from Supabase; render per request so admin changes show instantly.
+export const dynamic = "force-dynamic";
+
+export default async function MembersPage() {
+  // allMembers() is cached per-request — the four derived queries share one DB call.
+  const all = await allMembers();
+  const fac = await allFaculty();
+  const ai = await allMembersInGroup("ai");
+  const mech = await allMembersInGroup("mechatronics");
+  const both = await allMembersInBothGroups();
 
   return (
     <>
       <PageHeader
         eyebrow="N° 02 · Directory"
-        number={`${members.length} listed`}
+        number={`${all.length} listed`}
         title={<>Who&apos;s in <span className="italic">the club</span>.</>}
         lead={
           <>
@@ -37,7 +42,9 @@ export default function MembersPage() {
             name="Faculty"
             subtitle={`${fac.length} ${fac.length === 1 ? "advisor" : "faculty"}`}
           >
-            {fac.map((m) => <MemberCard key={m.slug} member={m} />)}
+            {fac.map((m) => (
+              <MemberCard key={m.slug} member={m} />
+            ))}
           </Section>
         )}
 
@@ -46,7 +53,9 @@ export default function MembersPage() {
           name="AI Group"
           subtitle={`${ai.length} ${ai.length === 1 ? "member" : "members"}`}
         >
-          {ai.map((m) => <MemberCard key={m.slug} member={m} />)}
+          {ai.map((m) => (
+            <MemberCard key={m.slug} member={m} />
+          ))}
         </Section>
 
         <Section
@@ -54,7 +63,9 @@ export default function MembersPage() {
           name="Mechatronics Group"
           subtitle={`${mech.length} ${mech.length === 1 ? "member" : "members"}`}
         >
-          {mech.map((m) => <MemberCard key={m.slug} member={m} />)}
+          {mech.map((m) => (
+            <MemberCard key={m.slug} member={m} />
+          ))}
         </Section>
 
         <Section
@@ -62,7 +73,9 @@ export default function MembersPage() {
           name="Members in both groups"
           subtitle={`${both.length} cross-listed`}
         >
-          {both.map((m) => <MemberCard key={m.slug} member={m} />)}
+          {both.map((m) => (
+            <MemberCard key={m.slug} member={m} />
+          ))}
         </Section>
       </div>
     </>

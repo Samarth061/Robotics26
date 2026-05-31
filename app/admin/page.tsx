@@ -23,6 +23,11 @@ const tools = [
     name: "Resource manager",
     desc: "Add, edit, or remove papers, videos, tutorials, and datasets. Changes show on the public Resources page right away.",
   },
+  {
+    href: "/admin/members",
+    name: "Member manager",
+    desc: "Add, edit, or remove club members. Changes show on the public Members page right away.",
+  },
 ];
 
 export default function AdminPage() {

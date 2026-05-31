@@ -53,6 +53,96 @@ export function membersInSubgroup(slug: string): Member[] {
   return members.filter((m) => m.subgroups.includes(slug));
 }
 
+// ── Live Supabase member helpers ─────────────────────────────────────────
+// Same cached-fetch + graceful-degrade pattern as allResources / allMeetings.
+
+interface MemberRow {
+  slug: string;
+  name: string;
+  email: string | null;
+  photo: string | null;
+  status: string | null;
+  groups: string[];
+  subgroups: string[];
+  interests: string[];
+  is_admin: boolean;
+  admin_role: string | null;
+  link_website: string | null;
+  link_linkedin: string | null;
+  link_github: string | null;
+}
+
+function rowToMember(r: MemberRow): Member {
+  return {
+    slug: r.slug,
+    name: r.name,
+    email: r.email ?? undefined,
+    photo: r.photo ?? undefined,
+    status: (r.status ?? undefined) as Member["status"],
+    groups: (r.groups ?? []) as GroupSlug[],
+    subgroups: r.subgroups ?? [],
+    interests: r.interests ?? [],
+    isAdmin: r.is_admin ?? false,
+    adminRole: r.admin_role ?? undefined,
+    links:
+      r.link_website || r.link_linkedin || r.link_github
+        ? {
+            website: r.link_website ?? undefined,
+            linkedin: r.link_linkedin ?? undefined,
+            github: r.link_github ?? undefined,
+          }
+        : undefined,
+  };
+}
+
+export const allMembers = cache(async (): Promise<Member[]> => {
+  try {
+    const { data, error } = await supabaseRead()
+      .from("members")
+      .select("*")
+      .order("name", { ascending: true });
+    if (error) throw error;
+    return (data ?? []).map((r) => rowToMember(r as MemberRow));
+  } catch (err) {
+    console.error("[members] Supabase read failed, returning empty list:", err);
+    return [];
+  }
+});
+
+export async function allFaculty(): Promise<Member[]> {
+  return (await allMembers()).filter((m) => m.status === "faculty");
+}
+
+export async function allMembersInGroup(slug: GroupSlug): Promise<Member[]> {
+  return (await allMembers()).filter(
+    (m) => m.groups.length === 1 && m.groups[0] === slug,
+  );
+}
+
+export async function allMembersInBothGroups(): Promise<Member[]> {
+  return (await allMembers()).filter((m) => m.groups.length > 1);
+}
+
+export async function allMembersInSubgroup(slug: string): Promise<Member[]> {
+  return (await allMembers()).filter((m) => m.subgroups.includes(slug));
+}
+
+/** Single member by slug — for the admin edit page. */
+export async function getMemberBySlug(slug: string): Promise<Member | undefined> {
+  try {
+    const { data, error } = await supabaseRead()
+      .from("members")
+      .select("*")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (error) throw error;
+    return data ? rowToMember(data as MemberRow) : undefined;
+  } catch (err) {
+    console.error(`[members] Supabase read failed for ${slug}:`, err);
+    return undefined;
+  }
+}
+
 export function resourcesForSubgroup(slug: string): Resource[] {
   return resources
     .filter((r) => r.subgroupSlug === slug)

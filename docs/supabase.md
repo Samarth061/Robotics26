@@ -138,6 +138,42 @@ npm run seed:resources       # upserts data/resources.json rows into Supabase (i
 Verify in the Supabase table editor, then **delete `data/resources.json`** — Supabase is the
 source of truth from then on.
 
+### 7. Create the `members` table + RLS
+In the Supabase **SQL Editor**, run:
+
+```sql
+create table public.members (
+  slug              text primary key,
+  name              text not null,
+  email             text,
+  photo             text,
+  status            text check (status in ('active','graduated','high-school','faculty')),
+  groups            text[] not null default '{}',
+  subgroups         text[] not null default '{}',
+  interests         text[] not null default '{}',
+  is_admin          boolean not null default false,
+  admin_role        text,
+  link_website      text,
+  link_linkedin     text,
+  link_github       text,
+  created_at        timestamptz not null default now()
+);
+
+alter table public.members enable row level security;
+
+create policy "public read members"
+  on public.members for select
+  to anon
+  using (true);
+```
+
+### 8. Seed existing members, then retire the JSON
+```bash
+npm run seed:members       # upserts data/members.json rows into Supabase (idempotent)
+```
+Verify in the Supabase table editor, then **delete `data/members.json`** — Supabase is the
+source of truth from then on.
+
 ## How the code uses it
 
 - **`lib/supabase.ts`** (`server-only`) — two client factories. `supabaseRead()` (publishable

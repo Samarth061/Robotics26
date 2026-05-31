@@ -10,6 +10,7 @@
     "import:resources": "node scripts/import-resources.mjs",
     "seed:meetings": "node scripts/seed-meetings.mjs",
     "seed:resources": "node scripts/seed-resources.mjs",
+    "seed:members": "node scripts/seed-members.mjs",
     "reset:meetings": "node scripts/reset-meetings.mjs"
   },
   "dependencies": {
