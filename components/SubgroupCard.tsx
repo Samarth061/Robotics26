@@ -1,10 +1,17 @@
 import Link from "next/link";
 import type { Subgroup } from "@/types";
-import { membersInSubgroup, resourcesForSubgroup } from "@/lib/data";
 
-export function SubgroupCard({ subgroup, index }: { subgroup: Subgroup; index: number }) {
-  const memberCount = membersInSubgroup(subgroup.slug).length;
-  const resourceCount = resourcesForSubgroup(subgroup.slug).length;
+export function SubgroupCard({
+  subgroup,
+  index,
+  memberCount,
+  resourceCount,
+}: {
+  subgroup: Subgroup;
+  index: number;
+  memberCount: number;
+  resourceCount: number;
+}) {
   const num = String(index + 1).padStart(2, "0");
 
   return (

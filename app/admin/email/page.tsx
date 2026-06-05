@@ -3,10 +3,10 @@ import {
   lab,
   groups,
   subgroups,
-  members,
-  membersInGroup,
-  membersInBothGroups,
-  membersInSubgroup,
+  allMembers,
+  allMembersInGroup,
+  allMembersInBothGroups,
+  allMembersInSubgroup,
 } from "@/lib/data";
 import type { Member } from "@/types";
 import { EmailComposer, type Audience } from "./EmailComposer";
@@ -15,6 +15,10 @@ export const metadata = {
   title: "Admin · Group mailer",
   robots: { index: false, follow: false },
 };
+
+// Force dynamic so the page always fetches fresh member data from Supabase
+// instead of being baked into the static build.
+export const dynamic = "force-dynamic";
 
 // Collapse members to {name, email}, dropping those without an email and
 // de-duplicating by address (dual-group members appear in two source lists).
@@ -30,28 +34,41 @@ function peopleOf(list: Member[]): { name: string; email: string }[] {
   return out;
 }
 
-export default function AdminEmailPage() {
+export default async function AdminEmailPage() {
+  // Fetch all member data live from Supabase so members added via the admin
+  // panel are included in every audience — the static members.json is only a
+  // fallback seed and won't reflect newly-added members.
+  const [allM, bothGroups, ...groupMembers] = await Promise.all([
+    allMembers(),
+    allMembersInBothGroups(),
+    ...groups.map((g) => allMembersInGroup(g.slug)),
+  ]);
+
+  const subgroupMembers = await Promise.all(
+    subgroups.map((s) => allMembersInSubgroup(s.slug))
+  );
+
   const audiences: Audience[] = [
     {
       id: "org",
       kind: "Org",
       label: "Entire org (all members)",
       // Exclude faculty: the professor is the draft's From/To, not a Bcc recipient.
-      people: peopleOf(members.filter((m) => m.status !== "faculty")),
+      people: peopleOf(allM.filter((m) => m.status !== "faculty")),
     },
     // membersInGroup() excludes dual-group members by design, so add them back
-    // explicitly — a "AI Group" blast should reach everyone in AI.
-    ...groups.map<Audience>((g) => ({
+    // explicitly — an "AI Group" blast should reach everyone in AI.
+    ...groups.map<Audience>((g, i) => ({
       id: `group:${g.slug}`,
       kind: "Group",
       label: g.name,
-      people: peopleOf([...membersInGroup(g.slug), ...membersInBothGroups()]),
+      people: peopleOf([...groupMembers[i], ...bothGroups]),
     })),
-    ...subgroups.map<Audience>((s) => ({
+    ...subgroups.map<Audience>((s, i) => ({
       id: `subgroup:${s.slug}`,
       kind: "Subgroup",
       label: s.name,
-      people: peopleOf(membersInSubgroup(s.slug)),
+      people: peopleOf(subgroupMembers[i]),
     })),
   ];
 

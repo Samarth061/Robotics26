@@ -1,10 +1,32 @@
 import { PageHeader } from "@/components/PageHeader";
 import { SubgroupCard } from "@/components/SubgroupCard";
-import { groups, subgroupsByGroup, subgroups } from "@/lib/data";
+import {
+  groups,
+  subgroupsByGroup,
+  subgroups,
+  allMembersInSubgroup,
+  allResourcesForSubgroup,
+} from "@/lib/data";
 
 export const metadata = { title: "Groups & Subgroups" };
 
-export default function GroupsPage() {
+// Force dynamic so member counts reflect newly-added Supabase members.
+export const dynamic = "force-dynamic";
+
+export default async function GroupsPage() {
+  // Pre-fetch counts for every subgroup in one pass.
+  const counts = Object.fromEntries(
+    await Promise.all(
+      subgroups.map(async (s) => {
+        const [members, resources] = await Promise.all([
+          allMembersInSubgroup(s.slug),
+          allResourcesForSubgroup(s.slug),
+        ]);
+        return [s.slug, { memberCount: members.length, resourceCount: resources.length }];
+      })
+    )
+  );
+
   return (
     <>
       <PageHeader
@@ -41,7 +63,13 @@ export default function GroupsPage() {
 
                 <div className="hairline-t">
                   {subs.map((s, i) => (
-                    <SubgroupCard key={s.slug} subgroup={s} index={i} />
+                    <SubgroupCard
+                      key={s.slug}
+                      subgroup={s}
+                      index={i}
+                      memberCount={counts[s.slug]?.memberCount ?? 0}
+                      resourceCount={counts[s.slug]?.resourceCount ?? 0}
+                    />
                   ))}
                 </div>
               </div>

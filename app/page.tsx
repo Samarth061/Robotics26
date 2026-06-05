@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Button } from "@/components/Button";
 import { NextMeetingCard } from "@/components/NextMeetingCard";
-import { lab, groups, subgroupsByGroup, nextMeeting, members } from "@/lib/data";
+import { lab, groups, subgroupsByGroup, nextMeeting, allMembers } from "@/lib/data";
 
 // The next-meeting card reads live from Supabase, so render per request.
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const meeting = await nextMeeting();
+  const [meeting, allM] = await Promise.all([nextMeeting(), allMembers()]);
+  const memberCount = allM.length;
   const ai = groups.find((g) => g.slug === "ai")!;
   const mech = groups.find((g) => g.slug === "mechatronics")!;
   const aiSubs = subgroupsByGroup("ai");
@@ -49,7 +50,7 @@ export default async function HomePage() {
               </div>
 
               <p className="mt-10 font-mono text-[11px] uppercase tracking-[0.14em] text-mute">
-                ⌬ Two tracks · {members.length} members · {aiSubs.length + mechSubs.length} subgroups
+                ⌬ Two tracks · {memberCount} members · {aiSubs.length + mechSubs.length} subgroups
               </p>
             </div>
 

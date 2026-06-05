@@ -5,16 +5,14 @@ import { Button } from "@/components/Button";
 import { ResourceCard } from "@/components/ResourceCard";
 import { Tag } from "@/components/Tag";
 import {
-  subgroups,
   getSubgroup,
-  membersInSubgroup,
-  resourcesForSubgroup,
+  allMembersInSubgroup,
+  allResourcesForSubgroup,
   getGroup,
 } from "@/lib/data";
 
-export function generateStaticParams() {
-  return subgroups.map((s) => ({ slug: s.slug }));
-}
+// Force dynamic so newly-added members (from Supabase) appear immediately.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -36,8 +34,10 @@ export default async function SubgroupDetailPage({
   if (!sg) notFound();
 
   const group = getGroup(sg.parentGroup);
-  const subMembers = membersInSubgroup(sg.slug);
-  const subResources = resourcesForSubgroup(sg.slug);
+  const [subMembers, subResources] = await Promise.all([
+    allMembersInSubgroup(sg.slug),
+    allResourcesForSubgroup(sg.slug),
+  ]);
 
   return (
     <>
