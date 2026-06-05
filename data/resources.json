@@ -54,7 +54,7 @@
     "tags": ["CAD", "G-code", "tutorial"],
     "recommendedBy": "Arturo Serdan",
     "dateAdded": "2026-01-30",
-    "subgroupSlug": "cnc",
+    "subgroupSlug": "robotic-arm-6dof",
     "beginnerFriendly": true
   },
   {
@@ -101,7 +101,7 @@
     "tags": ["UWB", "hardware", "datasheet"],
     "recommendedBy": "Keta Suthar",
     "dateAdded": "2026-03-21",
-    "subgroupSlug": "localization"
+    "subgroupSlug": "antenna-arrays"
   },
   {
     "id": "r-010",
@@ -157,6 +157,6 @@
     "tags": ["autonomous-driving", "ROS 2", "stack"],
     "recommendedBy": "Emmanuel Ojo",
     "dateAdded": "2026-04-25",
-    "subgroupSlug": "go-kart"
+    "subgroupSlug": "rc-car"
   }
 ]

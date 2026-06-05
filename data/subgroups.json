@@ -21,16 +21,6 @@
     ]
   },
   {
-    "slug": "cnc",
-    "parentGroup": "mechatronics",
-    "name": "CNC",
-    "description": "Tool-path generation, machining tolerances, and producing precision parts for the rest of the lab.",
-    "discordChannel": "#mech-cnc",
-    "projects": [
-      { "name": "Aluminum mounting plates", "blurb": "Standard mounts for the Robotic Arm and Drone subgroups." }
-    ]
-  },
-  {
     "slug": "space-mouse",
     "parentGroup": "mechatronics",
     "name": "Space Mouse",
@@ -43,11 +33,12 @@
   {
     "slug": "rc-car",
     "parentGroup": "mechatronics",
-    "name": "RC Car",
-    "description": "1/10-scale autonomous platform for testing perception and controls on a small, safe vehicle.",
+    "name": "RC Car / Go-Kart",
+    "description": "1/10-scale autonomous platform (F1Tenth) for fast perception-and-controls iteration, plus a full-size drive-by-wire kart for autonomous-driving experiments at higher speeds.",
     "discordChannel": "#mech-rccar",
     "projects": [
-      { "name": "F1Tenth lap timing", "blurb": "Closed-loop time-trial runs in the lab hallway." }
+      { "name": "F1Tenth lap timing", "blurb": "Closed-loop time-trial runs in the lab hallway." },
+      { "name": "Steering actuator", "blurb": "Designing the steer-by-wire assembly and CAN bus electronics for the kart." }
     ]
   },
   {
@@ -71,43 +62,26 @@
     ]
   },
   {
-    "slug": "go-kart",
-    "parentGroup": "mechatronics",
-    "name": "Go-Kart",
-    "description": "Drive-by-wire conversion of a recreational kart for autonomous-driving experiments at higher speeds.",
-    "discordChannel": "#mech-gokart",
-    "projects": [
-      { "name": "Steering actuator", "blurb": "Designing the steer-by-wire assembly and CAN bus electronics." }
-    ]
-  },
-  {
     "slug": "robotic-arm-6dof",
     "parentGroup": "mechatronics",
-    "name": "Robotic Arm 6DoF",
-    "description": "Six-degree-of-freedom manipulator — kinematics, motion planning, and gripper design.",
+    "name": "Robotic Arm 6DoF / CNC",
+    "description": "Six-degree-of-freedom manipulator — kinematics, motion planning, and gripper design — alongside CNC machining for tool-path generation and precision part fabrication.",
     "discordChannel": "#mech-arm",
     "projects": [
-      { "name": "Pick and place demo", "blurb": "ROS 2 + MoveIt pipeline for sorting small objects on a table." }
+      { "name": "Pick and place demo", "blurb": "ROS 2 + MoveIt pipeline for sorting small objects on a table." },
+      { "name": "Aluminum mounting plates", "blurb": "CNC-machined standard mounts for the Robotic Arm and Drone subgroups." }
     ]
   },
   {
     "slug": "antenna-arrays",
     "parentGroup": "mechatronics",
-    "name": "Antenna Arrays for Obstacle Detection",
-    "description": "RF beamforming and array signal processing as an alternative to lidar for short-range obstacle sensing.",
+    "name": "Antenna Arrays for Obstacle Detection + Localization",
+    "description": "RF beamforming and array signal processing for short-range obstacle sensing, combined with indoor positioning using UWB anchor grids — sensor fusion, calibration, and live tracking.",
     "discordChannel": "#mech-antennas",
     "projects": [
-      { "name": "MUSIC angle-of-arrival", "blurb": "Lab-bench DoA estimation with a 4-element ULA." }
-    ]
-  },
-  {
-    "slug": "localization",
-    "parentGroup": "mechatronics",
-    "name": "Localization",
-    "description": "Indoor positioning from multiple laser and radio beams — sensor fusion, calibration, and live tracking.",
-    "discordChannel": "#mech-localization",
-    "projects": [
+      { "name": "MUSIC angle-of-arrival", "blurb": "Lab-bench DoA estimation with a 4-element ULA." },
       { "name": "UWB anchor grid", "blurb": "Eight-anchor ultra-wideband setup in the lab for centimeter-accuracy tracking." }
     ]
   }
 ]
+
